@@ -670,7 +670,7 @@ let listings = [];
 
 async function loadData() {
   try {
-    const res = await fetch('/data/listings.json?v=12');
+    const res = await fetch('/data/listings.json?v=13');
     listings = await res.json();
     populateHeroTopPicks();
     populateCities();
@@ -701,6 +701,12 @@ const CITY_PHOTOS = {
   palma:    'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=800&auto=format&fit=crop&q=80',
 };
 
+function cardBg(l) {
+  if (l.photo_url && l.photo_url.indexOf('unsplash') === -1) {
+    return 'background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.55) 100%), url(' + JSON.stringify(l.photo_url) + '); background-size: cover; background-position: center;';
+  }
+  return cityCardImage(l.city);
+}
 function cityCardImage(c) {
   const photo = CITY_PHOTOS[c];
   if (photo) {
@@ -765,7 +771,7 @@ function populateCities() {
   })).sort((a,b) => b.count - a.count);
 
   document.getElementById('citiesGrid').innerHTML = cities.map(c => `
-    <div class="city-card" onclick="window.location='/search.html?city=${c.city}'" style="${cityCardBg(c.city)}">
+    <div class="city-card" onclick="window.location='/cities/${c.city}.html'" style="${cityCardBg(c.city)}">
       <div class="city-card-content">
         <div class="city-card-emoji">${cityEmoji(c.city)}</div>
         <div class="city-card-name">${c.display}</div>
@@ -798,7 +804,7 @@ function buildPropertyCard(l) {
 
   return `
   <div class="property-card">
-    <div class="card-image" style="${l.photo_url && !l.photo_url.includes('unsplash') ? 'background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.55) 100%), url(\'' + l.photo_url + '\'); background-size: cover; background-position: center;' : cityCardImage(l.city)}">
+    <div class="card-image" style="${cardBg(l)}">
       <div class="card-image-city">
         ${yieldStr !== '—' ? `<span class="badge badge-yield">${yieldStr}</span>` : ''}
         ${score >= 70 ? `<span class="badge badge-score">Top pick</span>` : ''}

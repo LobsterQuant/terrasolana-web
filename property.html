@@ -324,11 +324,11 @@
       .prop-spec { font-size: 12px; padding: 4px 10px; }
     }
   </style>
-  <meta property="og:image" content="https://terrasolana.com/og-image.jpg">
+  <meta id="ogImage" property="og:image" content="https://terrasolana.com/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://terrasolana.com/og-image.jpg">
+  <meta id="twitterImage" name="twitter:image" content="https://terrasolana.com/og-image.jpg">
 </head>
 <body>
 
@@ -551,6 +551,10 @@ function render(listing, allListings) {
   document.getElementById('metaDesc').setAttribute('content', descStr);
   document.getElementById('ogTitle').setAttribute('content', titleStr);
   document.getElementById('ogDesc').setAttribute('content', descStr);
+  if (listing.photo_url) {
+    document.getElementById('ogImage').setAttribute('content', listing.photo_url);
+    document.getElementById('twitterImage').setAttribute('content', listing.photo_url);
+  }
   document.getElementById('canonical').setAttribute('href', `https://terrasolana.com/property/${makeSlug(listing)}`);
 
   const html = `
@@ -732,7 +736,7 @@ async function init() {
   const listingId = slugToId(slug);
 
   try {
-    const data = await fetch('/data/listings.json?v=11').then(r => r.json());
+    const data = await fetch('/data/listings.json?v=13').then(r => r.json());
     const listing = data.find(l => l.id === listingId);
     if (!listing) { renderNotFound(slug); return; }
     render(listing, data);
