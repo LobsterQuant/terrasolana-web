@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly Newsletter — Terrasolana</title>
+  <meta name="description" content="Get Spain's best investment properties every Monday. Curated picks with yield data, opportunity scores, and market intelligence.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/shared.css">
+  <style>
+    body { padding-top: var(--nav-height); }
+    .nl-hero {
+      padding: 80px 48px;
+      background: linear-gradient(135deg, #2D3A2E 0%, #1C2A1E 100%);
+      text-align: center;
+    }
+    .nl-hero h1 { font-family: var(--font-serif); font-size: clamp(32px,5vw,52px); font-weight: 800; color: #fff; margin-bottom: 16px; }
+    .nl-hero p  { color: rgba(255,255,255,0.65); font-size: 18px; max-width: 480px; margin: 0 auto 36px; line-height: 1.6; }
+    .nl-form {
+      display: flex; max-width: 440px; margin: 0 auto; gap: 10px;
+    }
+    .nl-form input { flex: 1; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: #fff; }
+    .nl-form input::placeholder { color: rgba(255,255,255,0.4); }
+    .nl-form input:focus { border-color: rgba(255,255,255,0.6); }
+    .nl-trust { display:flex; gap:32px; justify-content:center; margin-top:28px; }
+    .nl-trust-item { font-size:13px; color:rgba(255,255,255,0.5); display:flex; align-items:center; gap:6px; }
+
+    .nl-content { max-width: 800px; margin: 0 auto; padding: 64px 48px; }
+    .nl-what h2 { font-family: var(--font-serif); font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .nl-what p  { color: var(--ink-3); line-height: 1.7; margin-bottom: 16px; }
+    .nl-sample  { background: var(--bg-muted); border-radius: 14px; padding: 32px; margin-top: 40px; }
+    .nl-sample-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 16px; }
+    .nl-sample h3 { font-family: var(--font-serif); font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .nl-pick-row { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .nl-pick-row:last-child { border-bottom: none; }
+    .nl-pick-icon { width: 48px; height: 48px; background: var(--bg-card); border-radius: 10px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+    .nl-pick-body { flex: 1; }
+    .nl-pick-city { font-weight: 700; font-size: 15px; }
+    .nl-pick-price { color: var(--ink-3); font-size: 13px; margin-top: 2px; }
+    .nl-pick-yield { font-family: var(--font-mono); font-size: 17px; font-weight: 700; color: var(--sage); }
+
+    @media (max-width: 640px) {
+      .nl-hero { padding: 60px 20px; }
+      .nl-content { padding: 40px 20px; }
+      .nl-form { flex-direction: column; }
+      .nl-trust { flex-wrap: wrap; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <a href="/" class="nav-logo">
+    <div class="nav-logomark">☀</div>
+    <span class="nav-wordmark">Terra<span>solana</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/search.html">Search</a></li>
+    <li><a href="/index.html#cities">Cities</a></li>
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/newsletter.html" class="active">Newsletter</a></li>
+  </ul>
+  <a href="/search.html" class="btn-primary">Browse Properties →</a>
+  <button class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="nl-hero">
+  <p class="section-eyebrow" style="color:rgba(255,255,255,0.5)">Every Monday</p>
+  <h1>Spain's best yields,<br>in your inbox.</h1>
+  <p>Hand-picked investment properties with real yield data, opportunity scores, and market intel. No noise. Free forever.</p>
+  <form class="nl-form" action="https://formspree.io/f/REPLACE_ME" method="POST" onsubmit="return handleSubmit(event)">
+    <input type="email" name="email" placeholder="your@email.com" required>
+    <button type="submit" class="btn-primary">Join for free →</button>
+  </form>
+  <div class="nl-trust">
+    <div class="nl-trust-item">✓ Free, forever</div>
+    <div class="nl-trust-item">✓ No spam</div>
+    <div class="nl-trust-item">✓ Unsubscribe anytime</div>
+  </div>
+</div>
+
+<div class="nl-content">
+  <div class="nl-what">
+    <h2>What you get every Monday</h2>
+    <p>Each week we scan hundreds of new Spanish listings, run them through our scoring model, and surface the 5-10 that have the best combination of yield, pricing, and market signals.</p>
+    <p>You get the numbers. Not marketing copy. Not vague "great opportunity" language. Real yield calculations, real price-vs-median data, real days-on-market signals.</p>
+    <p>It takes 3 minutes to read and saves you hours of Idealista trawling.</p>
+  </div>
+
+  <div class="nl-sample">
+    <div class="nl-sample-label">Sample Issue — Week of 24 March 2026</div>
+    <h3>This week's top picks</h3>
+    <p style="color:var(--ink-3);font-size:14px;margin:8px 0 20px">5 properties with ≥7% gross yield, filtered for quality</p>
+
+    <div class="nl-pick-row">
+      <div class="nl-pick-icon">🏺</div>
+      <div class="nl-pick-body">
+        <div class="nl-pick-city">Almería — 3 bed, 104m²</div>
+        <div class="nl-pick-price">€80,000 · 47 days on market · 2 price drops</div>
+        <div style="font-size:13px;color:var(--ink-3);margin-top:4px">16% below neighbourhood median · Est. rent €900/mo</div>
+      </div>
+      <div class="nl-pick-yield">13.5%</div>
+    </div>
+
+    <div class="nl-pick-row">
+      <div class="nl-pick-icon">🏙</div>
+      <div class="nl-pick-body">
+        <div class="nl-pick-city">Madrid, Moscardó — 3 bed, 70m²</div>
+        <div class="nl-pick-price">€227,500 · Established rental zone</div>
+        <div style="font-size:13px;color:var(--ink-3);margin-top:4px">Score 70/100 · Est. rent €2,100/mo</div>
+      </div>
+      <div class="nl-pick-yield">11.1%</div>
+    </div>
+
+    <div class="nl-pick-row">
+      <div class="nl-pick-icon">🏙</div>
+      <div class="nl-pick-body">
+        <div class="nl-pick-city">Madrid, Acacias — 1 bed, 45m²</div>
+        <div class="nl-pick-price">€140,000 · 2 price drops · Motivated seller</div>
+        <div style="font-size:13px;color:var(--ink-3);margin-top:4px">12% below median · Est. rent €1,200/mo</div>
+      </div>
+      <div class="nl-pick-yield">10.3%</div>
+    </div>
+
+    <div style="margin-top:24px;text-align:center">
+      <p style="font-size:13px;color:var(--ink-4);margin-bottom:16px">Subscribe to get the full weekly picks with links and detailed analysis</p>
+      <form style="display:flex;gap:10px;max-width:360px;margin:0 auto" action="https://formspree.io/f/REPLACE_ME" method="POST" onsubmit="return handleSubmit(event)">
+        <input type="email" name="email" placeholder="your@email.com" required style="flex:1">
+        <button type="submit" class="btn-primary">Subscribe →</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">Terrasolana</div>
+      <p class="footer-brand-desc">Spain property intelligence for serious buyers.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Explore</div>
+      <ul class="footer-links">
+        <li><a href="/search.html">Search Properties</a></li>
+        <li><a href="/newsletter.html">Newsletter</a></li>
+        <li><a href="/about.html">About</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <ul class="footer-links">
+        <li><a href="/privacy.html">Privacy</a></li>
+        <li><a href="/terms.html">Terms</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Terrasolana. Not a licensed estate agent.</span>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
+});
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  fetch(form.action, { method:'POST', body: new FormData(form), headers:{'Accept':'application/json'} })
+    .then(r => {
+      if (r.ok) form.closest('.nl-form, form').innerHTML = '<p style="color:#fff;font-size:15px;font-weight:600;padding:10px 0">✓ You\'re on the list. First picks Monday.</p>';
+    });
+  return false;
+}
+</script>
+</body>
+</html>

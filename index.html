@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terrasolana — Spain Property Intelligence</title>
+  <meta name="description" content="Curated Spain property with real investment data. Find high-yield, quality-filtered homes in Valencia, Madrid, Málaga, Alicante and Almería. For serious buyers.">
+  <meta name="keywords" content="Spain property investment, buy property Spain, rental yield Spain, Valencia real estate, Madrid investment property">
+  <meta property="og:title" content="Terrasolana — Spain Property Intelligence">
+  <meta property="og:description" content="Curated Spain property with real investment data. Not a marketplace — a filter layer. Only quality listings, with yield metrics surfaced.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://terrasolana.com">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/shared.css">
+  <style>
+    /* ── Hero ────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: calc(var(--nav-height) + 60px) 48px 80px;
+      background: 
+        radial-gradient(ellipse 80% 60% at 70% 30%, rgba(212,98,42,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 20% 80%, rgba(201,151,58,0.06) 0%, transparent 50%),
+        var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px; height: 1.5px;
+      background: var(--accent);
+    }
+    .hero-h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .hero-h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--ink-3);
+      line-height: 1.65;
+      margin-bottom: 36px;
+      max-width: 460px;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .hero-trust {
+      margin-top: 44px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 36px;
+    }
+    .hero-trust-item { }
+    .hero-trust-num {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .hero-trust-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--ink-4);
+      margin-top: 4px;
+    }
+
+    /* ── Hero right panel ────────────────────────────── */
+    .hero-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
+    }
+    .hero-panel-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-4);
+      margin-bottom: 16px;
+    }
+    .hero-listing-row {
+      display: flex;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      gap: 14px;
+      cursor: pointer;
+      transition: background 150ms;
+      border-radius: 6px;
+      margin: 0 -8px;
+      padding: 12px 8px;
+    }
+    .hero-listing-row:hover { background: var(--bg-muted); }
+    .hero-listing-row:last-child { border-bottom: none; }
+    .hero-listing-icon {
+      width: 40px; height: 40px;
+      border-radius: 8px;
+      background: var(--bg-muted);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .hero-listing-details { flex: 1; min-width: 0; }
+    .hero-listing-city { font-size: 13px; font-weight: 600; color: var(--ink); }
+    .hero-listing-price { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+    .hero-listing-yield {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--sage);
+      white-space: nowrap;
+    }
+
+    /* ── Section wrappers ────────────────────────────── */
+    section { padding: 80px 48px; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+
+    /* ── How it works ────────────────────────────────── */
+    .how-it-works { background: var(--bg-muted); }
+    .steps-grid { 
+      display: grid; 
+      grid-template-columns: repeat(3, 1fr); 
+      gap: 32px; 
+      margin-top: 48px;
+    }
+    .step-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 28px;
+      position: relative;
+    }
+    .step-num {
+      font-family: var(--font-serif);
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--border);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .step-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+    .step-desc  { font-size: 14px; color: var(--ink-3); line-height: 1.6; }
+
+    /* ── Cities ──────────────────────────────────────── */
+    .cities-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    /* ── Featured picks ──────────────────────────────── */
+    .picks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    /* ── Intelligence section ────────────────────────── */
+    .intelligence-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      margin-top: 40px;
+    }
+    .intel-point {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .intel-icon {
+      width: 44px; height: 44px;
+      background: var(--accent-light);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .intel-point-title { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+    .intel-point-desc  { font-size: 14px; color: var(--ink-3); line-height: 1.6; }
+    .intel-sample-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+    }
+    .intel-metric-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .intel-metric-row:last-child { border-bottom: none; }
+    .intel-metric-key { color: var(--ink-3); }
+    .intel-metric-val { font-family: var(--font-mono); font-weight: 700; color: var(--ink); }
+    .intel-metric-val.green { color: var(--sage); }
+    .intel-metric-val.amber { color: var(--gold); }
+
+    /* ── Testimonials ────────────────────────────────── */
+    .testimonials { background: var(--bg-muted); }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .testimonial-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+    .testimonial-stars { color: var(--gold); font-size: 16px; margin-bottom: 14px; }
+    .testimonial-text  { font-size: 15px; line-height: 1.7; color: var(--ink-2); margin-bottom: 20px; font-style: italic; }
+    .testimonial-author { font-size: 13px; font-weight: 600; color: var(--ink); }
+    .testimonial-from   { font-size: 12px; color: var(--ink-4); margin-top: 2px; }
+
+    @media (max-width: 1024px) {
+      .hero-inner      { grid-template-columns: 1fr; gap: 40px; }
+      .hero-panel      { max-width: 480px; }
+      .cities-grid     { grid-template-columns: repeat(3, 1fr); }
+      .picks-grid      { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid      { grid-template-columns: 1fr; gap: 20px; }
+      .intelligence-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .hero  { padding: calc(var(--nav-height) + 40px) 20px 60px; }
+      section { padding: 60px 20px; }
+      .hero-trust { flex-wrap: wrap; gap: 24px; }
+      .cities-grid { grid-template-columns: 1fr 1fr; }
+      .picks-grid  { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────────────── -->
+<nav id="mainNav">
+  <a href="/" class="nav-logo">
+    <div class="nav-logomark">☀</div>
+    <span class="nav-wordmark">Terra<span>solana</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/search.html">Search</a></li>
+    <li><a href="/index.html#cities">Cities</a></li>
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/newsletter.html">Newsletter</a></li>
+  </ul>
+  <a href="/search.html" class="btn-primary">Browse Properties →</a>
+  <button class="mobile-nav-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <p class="hero-eyebrow">Spain Property Intelligence</p>
+      <h1 class="hero-h1">Find Spain's best<br><em>investment property.</em><br>Filtered for you.</h1>
+      <p class="hero-sub">
+        We scan thousands of Spanish listings, filter out the noise, and surface only the properties with real investment merit — with yield, pricing, and market data baked in.
+      </p>
+      <div class="hero-cta">
+        <a href="/search.html" class="btn-primary" style="font-size:15px;padding:13px 28px;">Browse Properties →</a>
+        <a href="/newsletter.html" class="btn-secondary" style="font-size:15px;padding:13px 28px;">Weekly Picks</a>
+      </div>
+      <div class="hero-trust">
+        <div class="hero-trust-item">
+          <div class="hero-trust-num">599</div>
+          <div class="hero-trust-label">Curated Listings</div>
+        </div>
+        <div class="hero-trust-item">
+          <div class="hero-trust-num">5</div>
+          <div class="hero-trust-label">Major Cities</div>
+        </div>
+        <div class="hero-trust-item">
+          <div class="hero-trust-num">13.5%</div>
+          <div class="hero-trust-label">Top Gross Yield</div>
+        </div>
+        <div class="hero-trust-item">
+          <div class="hero-trust-num">Free</div>
+          <div class="hero-trust-label">No Account Needed</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="hero-panel">
+        <div class="hero-panel-title">🔥 Top Picks This Week</div>
+        <div id="heroTopPicks">
+          <!-- populated by JS -->
+          <div class="hero-listing-row"><div class="skeleton" style="height:40px;width:40px;border-radius:8px;flex-shrink:0"></div><div style="flex:1"><div class="skeleton" style="height:14px;width:60%;margin-bottom:6px"></div><div class="skeleton" style="height:12px;width:40%"></div></div></div>
+          <div class="hero-listing-row"><div class="skeleton" style="height:40px;width:40px;border-radius:8px;flex-shrink:0"></div><div style="flex:1"><div class="skeleton" style="height:14px;width:55%;margin-bottom:6px"></div><div class="skeleton" style="height:12px;width:35%"></div></div></div>
+          <div class="hero-listing-row"><div class="skeleton" style="height:40px;width:40px;border-radius:8px;flex-shrink:0"></div><div style="flex:1"><div class="skeleton" style="height:14px;width:65%;margin-bottom:6px"></div><div class="skeleton" style="height:12px;width:45%"></div></div></div>
+        </div>
+        <a href="/search.html?yield=7" class="btn-primary" style="width:100%;justify-content:center;margin-top:16px;">
+          See all high-yield properties →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ──────────────────────────────────── -->
+<section class="how-it-works">
+  <div class="section-inner">
+    <p class="section-eyebrow">How Terrasolana Works</p>
+    <h2 class="section-title">We do the work.<br>You make the decision.</h2>
+    <p class="section-sub">Spain has hundreds of thousands of listings. Most aren't worth your time. We find the ones that are.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-title">We scan & score every listing</div>
+        <div class="step-desc">Our pipeline pulls from Idealista and Fotocasa daily. Every property is scored for yield, pricing vs. market median, days on market, and opportunity.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-title">You filter by what matters</div>
+        <div class="step-desc">Set your city, budget, minimum yield, and property type. See the real numbers — gross yield, estimated rent, price per m² vs. neighbourhood average.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-title">We connect you with a vetted agent</div>
+        <div class="step-desc">Found something interesting? We'll connect you with a trusted buyer's agent in Spain who speaks your language and knows the local market.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CITIES ────────────────────────────────────────── -->
+<section id="cities">
+  <div class="section-inner">
+    <p class="section-eyebrow">Where to Buy</p>
+    <h2 class="section-title">Five cities, all different.<br>One intelligence layer.</h2>
+    <p class="section-sub">From Almería's high-yield value plays to Málaga's lifestyle premium — we cover all of Spain's key markets for foreign buyers.</p>
+    <div class="cities-grid" id="citiesGrid">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURED PICKS ────────────────────────────────── -->
+<section style="background:var(--bg-muted)">
+  <div class="section-inner">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:8px">
+      <div>
+        <p class="section-eyebrow">Investment Picks</p>
+        <h2 class="section-title">High-yield properties<br>available right now.</h2>
+      </div>
+      <a href="/search.html?yield=6" class="btn-secondary">View all →</a>
+    </div>
+    <div class="picks-grid" id="featuredPicks">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ── INTELLIGENCE ──────────────────────────────────── -->
+<section>
+  <div class="section-inner">
+    <div class="intelligence-grid">
+      <div>
+        <p class="section-eyebrow">Data Intelligence</p>
+        <h2 class="section-title">More than a property search.</h2>
+        <p class="section-sub">Every listing comes with metrics that the portals hide — so you can make a real investment decision, not just a gut call.</p>
+        <div style="margin-top:36px">
+          <div class="intel-point">
+            <div class="intel-icon">📊</div>
+            <div>
+              <div class="intel-point-title">Gross & Net Yield</div>
+              <div class="intel-point-desc">Calculated from real local rental market data, not ballpark estimates. Compare across cities and neighbourhoods instantly.</div>
+            </div>
+          </div>
+          <div class="intel-point">
+            <div class="intel-icon">📍</div>
+            <div>
+              <div class="intel-point-title">Price vs. Market Median</div>
+              <div class="intel-point-desc">Know instantly if a listing is priced above or below the neighbourhood average. Spot underpriced properties before they move.</div>
+            </div>
+          </div>
+          <div class="intel-point">
+            <div class="intel-icon">⏱</div>
+            <div>
+              <div class="intel-point-title">Days on Market & Price Drops</div>
+              <div class="intel-point-desc">Listings with multiple price drops and high days-on-market signal motivated sellers — and negotiating room.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="intel-sample-card">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-4);font-weight:700;margin-bottom:16px">Sample Property — Madrid, Acacias</div>
+          <div style="font-family:var(--font-serif);font-size:26px;font-weight:700;color:var(--ink);margin-bottom:4px">€140,000</div>
+          <div style="font-size:13px;color:var(--ink-3);margin-bottom:20px">45 m² · 1 bed · 1 bath · Floor 3</div>
+          <div class="intel-metric-row">
+            <span class="intel-metric-key">Gross Yield</span>
+            <span class="intel-metric-val green">10.3%</span>
+          </div>
+          <div class="intel-metric-row">
+            <span class="intel-metric-key">Net Yield (est.)</span>
+            <span class="intel-metric-val green">7.1%</span>
+          </div>
+          <div class="intel-metric-row">
+            <span class="intel-metric-key">Estimated Monthly Rent</span>
+            <span class="intel-metric-val">€1,200</span>
+          </div>
+          <div class="intel-metric-row">
+            <span class="intel-metric-key">Price vs. Median</span>
+            <span class="intel-metric-val green">−12% below</span>
+          </div>
+          <div class="intel-metric-row">
+            <span class="intel-metric-key">Days on Market</span>
+            <span class="intel-metric-val amber">47 days</span>
+          </div>
+          <div class="intel-metric-row">
+            <span class="intel-metric-key">Price Drops</span>
+            <span class="intel-metric-val amber">2 drops</span>
+          </div>
+          <div class="intel-metric-row">
+            <span class="intel-metric-key">Opportunity Score</span>
+            <span class="intel-metric-val green">73 / 100</span>
+          </div>
+          <a href="/search.html" class="btn-primary" style="width:100%;justify-content:center;margin-top:20px">
+            Find properties like this →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ──────────────────────────────────── -->
+<section class="testimonials">
+  <div class="section-inner">
+    <p class="section-eyebrow">From Our Readers</p>
+    <h2 class="section-title">Serious buyers<br>making better decisions.</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Finally — a Spain property site that shows the numbers. I found a 9.5% yield flat in Almería I never would have found on Idealista. Bought it in 6 weeks."</p>
+        <div class="testimonial-author">Marcus V.</div>
+        <div class="testimonial-from">Netherlands · Almería buyer</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"The yield filter saved me weeks of work. I was comparing random Fotocasa listings with no idea what was overpriced. Terrasolana made it obvious which markets had real returns."</p>
+        <div class="testimonial-author">Sarah K.</div>
+        <div class="testimonial-from">UK · Valencia & Madrid buyer</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Connected me with a great local agent who handled everything. We're buying a 3-bed in Madrid at 9.6% yield. The price-vs-median data proved the seller had negotiating room."</p>
+        <div class="testimonial-author">Klaus B.</div>
+        <div class="testimonial-from">Germany · Madrid investor</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NEWSLETTER ────────────────────────────────────── -->
+<div class="newsletter-strip">
+  <h2>Spain's best yields, every week.</h2>
+  <p>Hand-picked investment properties with real data. Free. No spam.</p>
+  <form class="newsletter-form" action="https://formspree.io/f/REPLACE_ME" method="POST" onsubmit="return handleNewsletterSubmit(event)">
+    <input type="email" name="email" placeholder="your@email.com" required>
+    <button type="submit" class="btn-primary">Subscribe →</button>
+  </form>
+</div>
+
+<!-- ── FOOTER ────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">Terrasolana</div>
+      <p class="footer-brand-desc">Spain property intelligence for serious buyers. Curated listings with real investment data — yield, pricing, and market signals in one place.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Explore</div>
+      <ul class="footer-links">
+        <li><a href="/search.html">Search Properties</a></li>
+        <li><a href="/search.html?city=valencia">Valencia</a></li>
+        <li><a href="/search.html?city=madrid">Madrid</a></li>
+        <li><a href="/search.html?city=malaga">Málaga</a></li>
+        <li><a href="/search.html?city=almeria">Almería</a></li>
+        <li><a href="/search.html?city=alicante">Alicante</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/newsletter.html">Newsletter</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="/privacy.html">Privacy</a></li>
+        <li><a href="/terms.html">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Terrasolana. Not a licensed estate agent. Data sourced from public listings.</span>
+    <span>Data updated weekly · All prices in EUR</span>
+  </div>
+</footer>
+
+<!-- ── MODALS ─────────────────────────────────────────── -->
+<div class="modal-overlay" id="agentModal">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('agentModal')">×</button>
+    <p class="section-eyebrow">Connect with an Agent</p>
+    <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:700;margin-bottom:8px;margin-top:4px">Speak with a Spain specialist</h3>
+    <p style="font-size:14px;color:var(--ink-3);margin-bottom:24px;line-height:1.6">We'll connect you with a vetted, English-speaking buyer's agent who specialises in this city. No obligation.</p>
+    <form id="agentForm" action="https://formspree.io/f/REPLACE_ME" method="POST">
+      <input type="hidden" name="property_id" id="agentFormPropertyId">
+      <input type="hidden" name="property_city" id="agentFormCity">
+      <input type="hidden" name="property_price" id="agentFormPrice">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <label style="font-size:12px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:6px">Your Name</label>
+          <input type="text" name="name" placeholder="First name" required>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:6px">Email</label>
+          <input type="email" name="email" placeholder="you@email.com" required>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:6px">Timeline</label>
+          <select name="timeline">
+            <option>Ready to buy in 1-3 months</option>
+            <option>Researching (3-6 months)</option>
+            <option>Long-term planning (6+ months)</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:6px">Message (optional)</label>
+          <textarea name="message" rows="3" placeholder="Any specific requirements or questions..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;margin-top:4px">Connect me with an agent →</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+// ── Scroll nav shadow ──────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ── Load data and populate page ────────────────────────
+let listings = [];
+
+async function loadData() {
+  try {
+    const res = await fetch('/data/listings.json');
+    listings = await res.json();
+    populateHeroTopPicks();
+    populateCities();
+    populateFeaturedPicks();
+  } catch(e) {
+    console.error('Failed to load listings:', e);
+  }
+}
+
+function cityEmoji(city) {
+  const map = {
+    'valencia': '🌊', 'madrid': '🏙', 'malaga': '☀️',
+    'almeria': '🏺', 'alicante': '⛵'
+  };
+  return map[city] || '🏠';
+}
+
+function formatPrice(p) {
+  if (!p) return '—';
+  if (p >= 1000000) return `€${(p/1000000).toFixed(1)}M`;
+  return `€${Math.round(p/1000)}k`;
+}
+
+function yieldClass(y) {
+  if (!y) return 'yield-low';
+  if (y >= 7) return 'yield-high';
+  if (y >= 5) return 'yield-mid';
+  return 'yield-low';
+}
+
+function populateHeroTopPicks() {
+  const top = listings
+    .filter(l => l.gross_yield_pct >= 7)
+    .sort((a,b) => (b.opportunity_score||0) - (a.opportunity_score||0))
+    .slice(0, 5);
+
+  const container = document.getElementById('heroTopPicks');
+  if (!top.length) { container.innerHTML = '<p style="color:var(--ink-4);font-size:13px">Loading picks…</p>'; return; }
+
+  container.innerHTML = top.map(l => `
+    <div class="hero-listing-row" onclick="openAgentModal('${l.id}','${l.city}',${l.price_eur})">
+      <div class="hero-listing-icon">${cityEmoji(l.city)}</div>
+      <div class="hero-listing-details">
+        <div class="hero-listing-city">${l.city_display}${l.neighborhood ? ' · '+l.neighborhood : ''} · ${l.rooms||'?'}bed</div>
+        <div class="hero-listing-price">${formatPrice(l.price_eur)} · ${l.size_m2||'?'}m²</div>
+      </div>
+      <div class="hero-listing-yield">${l.gross_yield_pct ? l.gross_yield_pct.toFixed(1)+'%' : '—'}</div>
+    </div>
+  `).join('');
+}
+
+function populateCities() {
+  const cityData = {};
+  listings.forEach(l => {
+    if (!cityData[l.city]) cityData[l.city] = { count:0, yields:[], display: l.city_display };
+    cityData[l.city].count++;
+    if (l.gross_yield_pct) cityData[l.city].yields.push(l.gross_yield_pct);
+  });
+
+  const cities = Object.entries(cityData).map(([city, d]) => ({
+    city, ...d,
+    avg_yield: d.yields.length ? (d.yields.reduce((a,b)=>a+b,0)/d.yields.length).toFixed(1) : '—',
+    max_yield: d.yields.length ? Math.max(...d.yields).toFixed(1) : '—'
+  })).sort((a,b) => b.count - a.count);
+
+  document.getElementById('citiesGrid').innerHTML = cities.map(c => `
+    <div class="city-card" onclick="window.location='/search.html?city=${c.city}'">
+      <div class="city-card-emoji">${cityEmoji(c.city)}</div>
+      <div class="city-card-name">${c.display}</div>
+      <div class="city-card-count">${c.count} listings</div>
+      <div style="margin-top:16px">
+        <div class="city-card-yield">Up to ${c.max_yield}%</div>
+        <div class="city-card-yield-label">Max gross yield</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function buildPropertyCard(l) {
+  const yc = yieldClass(l.gross_yield_pct);
+  const yieldStr = l.gross_yield_pct ? l.gross_yield_pct.toFixed(1)+'%' : '—';
+  const rentStr = l.estimated_rent_eur ? `€${Math.round(l.estimated_rent_eur).toLocaleString()}/mo` : '—';
+  const score = l.opportunity_score || 0;
+  const dom = l.days_on_market || 0;
+
+  return `
+  <div class="property-card">
+    <div class="card-image">
+      <div class="card-image-placeholder">${cityEmoji(l.city)}</div>
+      <div class="card-image-city">
+        <span class="badge badge-yield">${yieldStr} yield</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div>
+        <div class="card-price">${formatPrice(l.price_eur)}</div>
+        <div class="card-address" style="margin-top:4px">${l.city_display}${l.neighborhood ? ', '+l.neighborhood : ''}</div>
+      </div>
+      <div class="card-specs">
+        ${l.rooms ? `<span class="card-spec">🛏 ${l.rooms} bed</span>` : ''}
+        ${l.bathrooms ? `<span class="card-spec">🚿 ${l.bathrooms} bath</span>` : ''}
+        ${l.size_m2 ? `<span class="card-spec">📐 ${l.size_m2}m²</span>` : ''}
+      </div>
+      <div class="card-metrics">
+        <div>
+          <div class="card-metric-label">Gross Yield</div>
+          <div class="card-metric-value ${yc}">${yieldStr}</div>
+        </div>
+        <div>
+          <div class="card-metric-label">Est. Rent</div>
+          <div class="card-metric-value">${rentStr}</div>
+        </div>
+        <div>
+          <div class="card-metric-label">Score</div>
+          <div class="card-metric-value ${score>=70?'yield-high':score>=55?'yield-mid':'yield-low'}">${score}/100</div>
+        </div>
+        <div>
+          <div class="card-metric-label">Days Listed</div>
+          <div class="card-metric-value">${dom || '—'}</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button class="btn-primary" onclick="openAgentModal('${l.id}','${l.city}',${l.price_eur})">Connect with agent</button>
+      ${l.url ? `<a href="${l.url}" target="_blank" rel="noopener" class="btn-ghost">Idealista →</a>` : ''}
+    </div>
+  </div>`;
+}
+
+function populateFeaturedPicks() {
+  const picks = listings
+    .filter(l => l.gross_yield_pct >= 6)
+    .sort((a,b) => (b.opportunity_score||0) - (a.opportunity_score||0))
+    .slice(0, 6);
+
+  document.getElementById('featuredPicks').innerHTML = picks.map(buildPropertyCard).join('');
+}
+
+// ── Agent modal ────────────────────────────────────────
+function openAgentModal(id, city, price) {
+  document.getElementById('agentFormPropertyId').value = id;
+  document.getElementById('agentFormCity').value = city;
+  document.getElementById('agentFormPrice').value = price;
+  document.getElementById('agentModal').classList.add('active');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
+document.getElementById('agentModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal('agentModal');
+});
+
+// ── Newsletter submit ──────────────────────────────────
+function handleNewsletterSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  }).then(r => {
+    if (r.ok) {
+      form.innerHTML = '<p style="color:#fff;font-size:16px;font-weight:600">✓ You\'re on the list. First picks coming Monday.</p>';
+    }
+  });
+  return false;
+}
+
+// ── Agent form submit ──────────────────────────────────
+document.getElementById('agentForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  fetch(this.action, {
+    method: 'POST',
+    body: new FormData(this),
+    headers: { 'Accept': 'application/json' }
+  }).then(r => {
+    if (r.ok) {
+      this.innerHTML = '<div style="text-align:center;padding:32px 0"><div style="font-size:40px;margin-bottom:12px">✓</div><h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;margin-bottom:8px">You\'re connected.</h3><p style="color:var(--ink-3);font-size:14px">A specialist will reach out within 24 hours.</p></div>';
+    }
+  });
+});
+
+loadData();
+</script>
+</body>
+</html>

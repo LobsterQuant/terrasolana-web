@@ -1,0 +1,52 @@
+[
+  {
+    "city": "almeria",
+    "display": "Almeria",
+    "count": 120,
+    "min_price": 80000,
+    "max_price": 1450000,
+    "avg_price": 413026,
+    "avg_yield": 3.7,
+    "max_yield": 13.5
+  },
+  {
+    "city": "valencia",
+    "display": "Valencia",
+    "count": 120,
+    "min_price": 225000,
+    "max_price": 3650000,
+    "avg_price": 886470,
+    "avg_yield": 2.5,
+    "max_yield": 7.7
+  },
+  {
+    "city": "alicante",
+    "display": "Alicante",
+    "count": 120,
+    "min_price": 209500,
+    "max_price": 5500000,
+    "avg_price": 1655924,
+    "avg_yield": 1.3,
+    "max_yield": 6.9
+  },
+  {
+    "city": "malaga",
+    "display": "Malaga",
+    "count": 120,
+    "min_price": 390000,
+    "max_price": 12750000,
+    "avg_price": 2464254,
+    "avg_yield": 1.5,
+    "max_yield": 4.6
+  },
+  {
+    "city": "madrid",
+    "display": "Madrid",
+    "count": 119,
+    "min_price": 140000,
+    "max_price": 15000000,
+    "avg_price": 1607493,
+    "avg_yield": 2.6,
+    "max_yield": 11.1
+  }
+]
