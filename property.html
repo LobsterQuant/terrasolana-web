@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>!function(){var t=localStorage.getItem("ts_theme")||((window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light");document.documentElement.setAttribute("data-theme",t)}()</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Dynamic meta filled by JS -->
+  <title id="pageTitle">Property — Terrasolana</title>
+  <meta id="metaDesc" name="description" content="Investment property in Spain with yield data, opportunity score, and agent intro.">
+  <meta id="ogTitle" property="og:title" content="Property — Terrasolana">
+  <meta id="ogDesc" property="og:description" content="Investment property in Spain with yield data.">
+  <meta property="og:site_name" content="Terrasolana">
+  <meta property="og:type" content="website">
+  <link rel="canonical" id="canonical" href="https://terrasolana.com/property/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/shared.css">
+  <style>
+    body { padding-top: var(--nav-height); }
+
+    /* ── Hero ──────────────────────────────────────────── */
+    .prop-hero {
+      position: relative;
+      height: 340px;
+      background: var(--bg-muted);
+      overflow: hidden;
+    }
+    .prop-hero-img {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+    }
+    .prop-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.65) 100%);
+    }
+    .prop-hero-badges {
+      position: absolute;
+      bottom: 24px;
+      left: 32px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Layout ────────────────────────────────────────── */
+    .prop-wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 32px 80px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 40px;
+      align-items: start;
+    }
+    .prop-main { padding-top: 36px; }
+    .prop-sidebar { padding-top: 36px; }
+
+    /* ── Breadcrumb ────────────────────────────────────── */
+    .prop-breadcrumb {
+      font-size: 13px;
+      color: var(--ink-3);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .prop-breadcrumb a { color: var(--accent); }
+    .prop-breadcrumb span { color: var(--ink-4); }
+
+    /* ── Title block ───────────────────────────────────── */
+    .prop-price {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .prop-address {
+      font-size: 16px;
+      color: var(--ink-3);
+      margin-bottom: 20px;
+    }
+    .prop-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .prop-spec {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink-2);
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 20px;
+    }
+
+    /* ── Metrics grid ──────────────────────────────────── */
+    .prop-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .prop-metric {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 16px;
+    }
+    .prop-metric-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-4);
+      margin-bottom: 6px;
+    }
+    .prop-metric-value {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .prop-metric-value.green { color: var(--sage); }
+    .prop-metric-value.gold  { color: var(--gold); }
+    .prop-metric-value.accent { color: var(--accent); }
+    .prop-metric-sub {
+      font-size: 12px;
+      color: var(--ink-4);
+      margin-top: 4px;
+    }
+
+    /* ── Features ──────────────────────────────────────── */
+    .prop-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .prop-feature {
+      font-size: 13px;
+      color: var(--ink-2);
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 6px;
+    }
+
+    /* ── Data table ────────────────────────────────────── */
+    .prop-data-table {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .prop-data-table h3 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--ink-3);
+      padding: 14px 20px;
+      background: var(--bg-muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .prop-data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .prop-data-row:last-child { border-bottom: none; }
+    .prop-data-key { color: var(--ink-3); }
+    .prop-data-val { font-weight: 600; color: var(--ink); font-family: var(--font-mono); font-size: 13px; }
+    .prop-data-val.green { color: var(--sage); }
+    .prop-data-val.orange { color: var(--accent); }
+
+    /* ── Sidebar ───────────────────────────────────────── */
+    .prop-cta-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      position: sticky;
+      top: calc(var(--nav-height) + 20px);
+      box-shadow: var(--shadow-md);
+    }
+    .prop-cta-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .prop-cta-heading {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .prop-cta-body {
+      font-size: 13px;
+      color: var(--ink-3);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .prop-cta-card .btn-primary {
+      width: 100%;
+      justify-content: center;
+      font-size: 15px;
+      padding: 13px;
+      margin-bottom: 10px;
+    }
+    .prop-cta-card .btn-secondary {
+      width: 100%;
+      justify-content: center;
+      font-size: 13px;
+      padding: 10px;
+    }
+    .prop-cta-trust {
+      font-size: 11px;
+      color: var(--ink-4);
+      text-align: center;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    /* ── Score badge ───────────────────────────────────── */
+    .score-ring {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-family: var(--font-mono);
+      margin: 0 auto 16px;
+    }
+    .score-ring.top    { background: var(--sage-light); border: 2px solid var(--sage); }
+    .score-ring.mid    { background: var(--gold-light);  border: 2px solid var(--gold); }
+    .score-ring.low    { background: var(--bg-muted);    border: 2px solid var(--border-dark); }
+    .score-ring-num    { font-size: 22px; font-weight: 700; line-height: 1; }
+    .score-ring-label  { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .score-ring.top .score-ring-num { color: var(--sage); }
+    .score-ring.top .score-ring-label { color: var(--sage); }
+    .score-ring.mid .score-ring-num  { color: var(--gold); }
+    .score-ring.mid .score-ring-label { color: var(--gold); }
+
+    /* ── Similar ───────────────────────────────────────── */
+    .similar-section { margin-top: 40px; }
+    .similar-section h2 {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .similar-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .similar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: box-shadow 150ms;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+    .similar-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .similar-img {
+      height: 120px;
+      background-size: cover;
+      background-position: center;
+    }
+    .similar-body { padding: 14px; }
+    .similar-price { font-weight: 700; font-size: 15px; color: var(--ink); }
+    .similar-addr  { font-size: 12px; color: var(--ink-3); margin: 3px 0 8px; }
+    .similar-yield { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--sage); }
+
+    /* ── Not found ─────────────────────────────────────── */
+    .prop-notfound {
+      max-width: 500px;
+      margin: 80px auto;
+      text-align: center;
+      padding: 40px 24px;
+    }
+
+    /* ── Mobile ────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .prop-wrap { grid-template-columns: 1fr; gap: 0; padding: 0 20px 60px; }
+      .prop-sidebar { padding-top: 0; }
+      .prop-cta-card { position: static; margin-bottom: 32px; }
+      .prop-metrics { grid-template-columns: repeat(2, 1fr); }
+      .similar-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 540px) {
+      .prop-hero { height: 240px; }
+      .prop-metrics { grid-template-columns: 1fr 1fr; }
+      .similar-grid { grid-template-columns: 1fr; }
+      .prop-breadcrumb { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <a href="/" class="nav-logo">
+    <div class="nav-logomark">☀</div>
+    <span class="nav-wordmark">Terra<span>solana</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/search.html">Search</a></li>
+    <li><a href="/index.html#cities">Cities</a></li>
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/faq.html">FAQ</a></li>
+    <li><a href="/newsletter.html">Newsletter</a></li>
+  </ul>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">☀️</button>
+  <a href="/search.html" class="btn-primary">Browse Properties →</a>
+  <button class="mobile-nav-toggle" aria-label="Menu" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div id="mobileNavOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199" onclick="toggleMobileNav()"></div>
+<div id="mobileNavMenu" style="display:none;position:fixed;top:var(--nav-height);left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);z-index:198;padding:16px 20px;flex-direction:column;gap:4px">
+  <a href="/search.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Search</a>
+  <a href="/index.html#cities" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Cities</a>
+  <a href="/about.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">About</a>
+  <a href="/faq.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">FAQ</a>
+  <a href="/newsletter.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Newsletter</a>
+</div>
+
+<!-- Content injected by JS -->
+<div id="propContent">
+  <div style="text-align:center;padding:120px 24px;color:var(--ink-3)">Loading…</div>
+</div>
+
+<!-- Agent modal (shared) -->
+<div class="modal-overlay" id="agentModal">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('agentModal')">×</button>
+    <p class="section-eyebrow">Connect with an Agent</p>
+    <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:700;margin-bottom:8px;margin-top:4px">Speak with a Spain specialist</h3>
+    <p style="font-size:14px;color:var(--ink-3);margin-bottom:24px;line-height:1.6">We'll connect you with a vetted, English-speaking buyer's agent who specialises in this city. No obligation.</p>
+    <div id="agentFormWrap">
+      <form id="agentForm" action="https://formspree.io/f/mreogjop" method="POST">
+        <input type="hidden" name="property_id"    id="agentFormPropertyId">
+        <input type="hidden" name="property_city"  id="agentFormCity">
+        <input type="hidden" name="property_price" id="agentFormPrice">
+        <div class="form-group">
+          <label class="form-label">Your name</label>
+          <input type="text" name="name" class="form-input" placeholder="Jane Smith" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email address</label>
+          <input type="email" name="email" class="form-input" placeholder="jane@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your nationality</label>
+          <input type="text" name="nationality" class="form-input" placeholder="British, Dutch, German…">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Budget range</label>
+          <select name="budget" class="form-input">
+            <option value="">Select…</option>
+            <option>Under €100k</option>
+            <option>€100k – €200k</option>
+            <option>€200k – €400k</option>
+            <option>€400k – €700k</option>
+            <option>Over €700k</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Purpose</label>
+          <select name="purpose" class="form-input">
+            <option value="">Select…</option>
+            <option>Investment / buy-to-let</option>
+            <option>Relocation / permanent home</option>
+            <option>Holiday home</option>
+            <option>Mixed use</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Timeline</label>
+          <select name="timeline" class="form-input">
+            <option value="">Select…</option>
+            <option>Ready to buy now</option>
+            <option>1–3 months</option>
+            <option>3–6 months</option>
+            <option>6–12 months</option>
+            <option>Just researching</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:12px;background:var(--bg-muted);border-radius:6px;border:1.5px solid var(--border)">
+          <input type="checkbox" id="agentConsent" name="consent" required style="width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:var(--accent);cursor:pointer">
+          <label for="agentConsent" style="font-size:12px;color:var(--ink-3);line-height:1.5;cursor:pointer">I agree to be contacted about Spanish property opportunities and accept the <a href="/privacy.html" target="_blank" style="color:var(--accent);text-decoration:underline">Privacy Policy</a>.</label>
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;margin-top:4px">Connect me with an agent →</button>
+      </form>
+    </div>
+    <div id="agentSuccessWrap" style="display:none;text-align:center;padding:40px 24px">
+      <div style="width:56px;height:56px;border-radius:50%;background:#EAF4EE;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:#2D6A4F;font-size:26px;font-weight:700">✓</div>
+      <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:700;color:#1C1917;margin-bottom:10px">Request sent!</h3>
+      <p style="color:#78716C;font-size:14px;line-height:1.6;max-width:280px;margin:0 auto 28px">We've received your details. Your agent will contact you within 24 hours.</p>
+      <button onclick="closeModal('agentModal')" style="display:inline-flex;align-items:center;justify-content:center;padding:12px 32px;background:#D4622A;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;width:100%;max-width:220px">Close</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">Terrasolana</div>
+      <p class="footer-brand-desc">Spain property intelligence for serious buyers.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Explore</div>
+      <ul class="footer-links">
+        <li><a href="/search.html">Search Properties</a></li>
+        <li><a href="/search.html?city=valencia">Valencia</a></li>
+        <li><a href="/search.html?city=madrid">Madrid</a></li>
+        <li><a href="/search.html?city=malaga">Málaga</a></li>
+        <li><a href="/search.html?city=almeria">Almería</a></li>
+        <li><a href="/search.html?city=alicante">Alicante</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/newsletter.html">Newsletter</a></li>
+        <li><a href="/methodology.html">Methodology</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="/privacy.html">Privacy</a></li>
+        <li><a href="/terms.html">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Terrasolana. Not a licensed estate agent. Data sourced from public listings.</span>
+    <span>Data updated weekly · All prices in EUR</span>
+  </div>
+</footer>
+
+<script>
+// ── City images (same as search/index) ─────────────────
+const CITY_IMAGES = {
+  madrid:   'https://images.unsplash.com/photo-1717703511674-58f919e0a6e1?w=1200&auto=format&fit=crop&q=80',
+  malaga:   'https://images.unsplash.com/photo-1612972735944-ed73dd220d21?w=1200&auto=format&fit=crop&q=80',
+  valencia: 'https://images.unsplash.com/photo-1649714729492-ae23e78e185d?w=1200&auto=format&fit=crop&q=80',
+  almeria:  'https://images.unsplash.com/photo-1718133117947-94a1fe2db0a0?w=1200&auto=format&fit=crop&q=80',
+  alicante: 'https://images.unsplash.com/photo-1663431442965-19498fc2e202?w=1200&auto=format&fit=crop&q=80',
+};
+
+function formatPrice(p) {
+  if (!p) return '—';
+  if (p >= 1000000) return '€' + (p/1000000).toFixed(2) + 'M';
+  return '€' + Math.round(p).toLocaleString('en-EU');
+}
+
+function yieldColor(y) {
+  if (!y) return '';
+  if (y >= 7) return 'green';
+  if (y >= 5) return 'gold';
+  return '';
+}
+
+function scoreClass(s) {
+  if (s >= 70) return 'top';
+  if (s >= 55) return 'mid';
+  return 'low';
+}
+
+function slugToId(slug) {
+  // /property/madrid-110511006 → id = 110511006
+  // slug is everything after the first dash-separated city prefix
+  const parts = slug.split('-');
+  // city could be multi-word? No — all cities are single word. Strip first token.
+  return parts.slice(1).join('-');
+}
+
+function makeSlug(listing) {
+  return listing.city + '-' + listing.id;
+}
+
+function render(listing, allListings) {
+  const img = CITY_IMAGES[listing.city] || '';
+  const score = listing.opportunity_score || 0;
+  const sc = scoreClass(score);
+  const pvm = listing.price_vs_median_pct;
+  const pvmStr = pvm != null ? (pvm < 0 ? pvm.toFixed(0) + '% vs market' : '+' + pvm.toFixed(0) + '% vs market') : '—';
+  const pvmColor = pvm != null ? (pvm < 0 ? 'green' : pvm > 10 ? 'orange' : '') : '';
+  const yc = yieldColor(listing.gross_yield_pct);
+
+  // Features
+  const features = [];
+  if (listing.has_elevator) features.push('🛗 Elevator');
+  if (listing.has_parking)  features.push('🅿️ Parking');
+  if (listing.has_terrace)  features.push('🌿 Terrace');
+  if (listing.has_pool)     features.push('🏊 Pool');
+
+  // Similar: same city, different id, sorted by score, top 3
+  const similar = allListings
+    .filter(l => l.city === listing.city && l.id !== listing.id && l.gross_yield_pct >= 3)
+    .sort((a, b) => (b.opportunity_score || 0) - (a.opportunity_score || 0))
+    .slice(0, 3);
+
+  const cityDisplay = listing.city_display || listing.city.charAt(0).toUpperCase() + listing.city.slice(1);
+  const nbhd = listing.neighborhood ? `, ${listing.neighborhood}` : '';
+  const propType = listing.property_type
+    ? listing.property_type.charAt(0).toUpperCase() + listing.property_type.slice(1)
+    : 'Property';
+
+  // Update meta
+  const titleStr = `${propType} in ${cityDisplay}${nbhd} — ${formatPrice(listing.price_eur)} — Terrasolana`;
+  const descStr = `${listing.rooms || '?'}-bed ${propType.toLowerCase()} in ${cityDisplay}${nbhd}. ${listing.gross_yield_pct ? listing.gross_yield_pct.toFixed(1) + '% gross yield. ' : ''}Opportunity Score: ${score}/100.`;
+  document.getElementById('pageTitle').textContent = titleStr;
+  document.getElementById('metaDesc').setAttribute('content', descStr);
+  document.getElementById('ogTitle').setAttribute('content', titleStr);
+  document.getElementById('ogDesc').setAttribute('content', descStr);
+  document.getElementById('canonical').setAttribute('href', `https://terrasolana.com/property/${makeSlug(listing)}`);
+
+  const html = `
+    <div class="prop-hero">
+      <div class="prop-hero-img" style="background-image:url('${img}')"></div>
+      <div class="prop-hero-overlay"></div>
+      <div class="prop-hero-badges">
+        ${listing.gross_yield_pct ? `<span class="badge badge-yield">${listing.gross_yield_pct.toFixed(1)}% yield</span>` : ''}
+        ${score >= 70 ? '<span class="badge badge-score">Top pick</span>' : ''}
+        ${listing.price_drops > 0 ? `<span class="badge badge-muted">↓ ${listing.price_drops} price drop${listing.price_drops > 1 ? 's' : ''}</span>` : ''}
+      </div>
+    </div>
+
+    <div class="prop-wrap">
+      <div class="prop-main">
+        <div class="prop-breadcrumb">
+          <a href="/search.html">Search</a>
+          <span>›</span>
+          <a href="/search.html?city=${listing.city}">${cityDisplay}</a>
+          <span>›</span>
+          <span>${listing.neighborhood || propType}</span>
+        </div>
+
+        <div class="prop-price">${formatPrice(listing.price_eur)}</div>
+        <div class="prop-address">${propType} · ${cityDisplay}${nbhd}</div>
+
+        <div class="prop-specs">
+          ${listing.rooms    ? `<span class="prop-spec">🛏 ${listing.rooms} bed${listing.rooms > 1 ? 's' : ''}</span>` : ''}
+          ${listing.bathrooms ? `<span class="prop-spec">🚿 ${listing.bathrooms} bath${listing.bathrooms > 1 ? 's' : ''}</span>` : ''}
+          ${listing.size_m2  ? `<span class="prop-spec">📐 ${listing.size_m2}m²</span>` : ''}
+          ${listing.price_per_m2 ? `<span class="prop-spec">€${Math.round(listing.price_per_m2).toLocaleString()}/m²</span>` : ''}
+        </div>
+
+        <div class="prop-metrics">
+          <div class="prop-metric">
+            <div class="prop-metric-label">Gross Yield</div>
+            <div class="prop-metric-value ${yc}">${listing.gross_yield_pct ? listing.gross_yield_pct.toFixed(1) + '%' : '—'}</div>
+            <div class="prop-metric-sub">Before costs</div>
+          </div>
+          <div class="prop-metric">
+            <div class="prop-metric-label">Net Yield</div>
+            <div class="prop-metric-value ${yieldColor(listing.net_yield_pct)}">${listing.net_yield_pct ? listing.net_yield_pct.toFixed(1) + '%' : '—'}</div>
+            <div class="prop-metric-sub">After est. costs</div>
+          </div>
+          <div class="prop-metric">
+            <div class="prop-metric-label">Est. Rent</div>
+            <div class="prop-metric-value">${listing.estimated_rent_eur ? '€' + Math.round(listing.estimated_rent_eur).toLocaleString() + '/mo' : '—'}</div>
+            <div class="prop-metric-sub">Monthly estimate</div>
+          </div>
+          <div class="prop-metric">
+            <div class="prop-metric-label">vs. Market</div>
+            <div class="prop-metric-value ${pvmColor}" style="font-size:18px">${pvmStr}</div>
+            <div class="prop-metric-sub">vs. city median/m²</div>
+          </div>
+          <div class="prop-metric">
+            <div class="prop-metric-label">Price per m²</div>
+            <div class="prop-metric-value" style="font-size:18px">${listing.price_per_m2 ? '€' + Math.round(listing.price_per_m2).toLocaleString() : '—'}</div>
+            <div class="prop-metric-sub">City median: €${listing.city_median_m2 ? Math.round(listing.city_median_m2).toLocaleString() : '—'}</div>
+          </div>
+          <div class="prop-metric">
+            <div class="prop-metric-label">Opportunity Score</div>
+            <div class="prop-metric-value ${sc === 'top' ? 'green' : sc === 'mid' ? 'gold' : ''}">${score}/100</div>
+            <div class="prop-metric-sub">${score >= 70 ? 'Top pick' : score >= 55 ? 'Good opportunity' : 'Average'}</div>
+          </div>
+        </div>
+
+        ${features.length ? `
+        <div class="prop-features">
+          ${features.map(f => `<span class="prop-feature">${f}</span>`).join('')}
+        </div>` : ''}
+
+        <div class="prop-data-table">
+          <h3>Investment data</h3>
+          <div class="prop-data-row">
+            <span class="prop-data-key">Purchase price</span>
+            <span class="prop-data-val">${formatPrice(listing.price_eur)}</span>
+          </div>
+          <div class="prop-data-row">
+            <span class="prop-data-key">Annual gross rent</span>
+            <span class="prop-data-val">${listing.estimated_rent_eur ? '€' + Math.round(listing.estimated_rent_eur * 12).toLocaleString() : '—'}</span>
+          </div>
+          <div class="prop-data-row">
+            <span class="prop-data-key">Gross yield</span>
+            <span class="prop-data-val ${yc}">${listing.gross_yield_pct ? listing.gross_yield_pct.toFixed(2) + '%' : '—'}</span>
+          </div>
+          <div class="prop-data-row">
+            <span class="prop-data-key">Net yield (est.)</span>
+            <span class="prop-data-val">${listing.net_yield_pct ? listing.net_yield_pct.toFixed(2) + '%' : '—'}</span>
+          </div>
+          <div class="prop-data-row">
+            <span class="prop-data-key">Price vs. city median/m²</span>
+            <span class="prop-data-val ${pvmColor}">${pvmStr}</span>
+          </div>
+          ${listing.price_drops > 0 ? `
+          <div class="prop-data-row">
+            <span class="prop-data-key">Price drops</span>
+            <span class="prop-data-val orange">${listing.price_drops} recorded</span>
+          </div>` : ''}
+          <div class="prop-data-row">
+            <span class="prop-data-key">Opportunity score</span>
+            <span class="prop-data-val">${score}/100</span>
+          </div>
+          <div class="prop-data-row">
+            <span class="prop-data-key">Listing source</span>
+            <span class="prop-data-val" style="font-family:var(--font-sans)">
+              ${listing.url ? `<a href="${listing.url}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;font-size:13px">View on Idealista →</a>` : 'Idealista'}
+            </span>
+          </div>
+        </div>
+
+        <p style="font-size:12px;color:var(--ink-4);line-height:1.6;margin-bottom:40px">
+          Yield calculations and market comparisons are estimates based on city-level rental benchmarks. 
+          Always verify with a local agent and solicitor before purchasing. 
+          <a href="/methodology.html" style="color:var(--accent)">How we calculate →</a>
+        </p>
+
+        ${similar.length ? `
+        <div class="similar-section">
+          <h2>Similar properties in ${cityDisplay}</h2>
+          <div class="similar-grid">
+            ${similar.map(s => `
+            <a href="/property/${makeSlug(s)}" class="similar-card">
+              <div class="similar-img" style="background-image:url('${img}')">
+                <div style="height:100%;background:linear-gradient(to bottom,rgba(0,0,0,0.05),rgba(0,0,0,0.4))"></div>
+              </div>
+              <div class="similar-body">
+                <div class="similar-price">${formatPrice(s.price_eur)}</div>
+                <div class="similar-addr">${s.neighborhood || cityDisplay}${s.rooms ? ` · ${s.rooms} bed` : ''}${s.size_m2 ? ` · ${s.size_m2}m²` : ''}</div>
+                <div class="similar-yield">${s.gross_yield_pct ? s.gross_yield_pct.toFixed(1) + '% yield' : ''}</div>
+              </div>
+            </a>`).join('')}
+          </div>
+        </div>` : ''}
+      </div>
+
+      <div class="prop-sidebar">
+        <div class="prop-cta-card">
+          <div style="text-align:center;margin-bottom:20px">
+            <div class="score-ring ${sc}">
+              <div class="score-ring-num">${score}</div>
+              <div class="score-ring-label">Score</div>
+            </div>
+            <div style="font-size:13px;color:var(--ink-3);line-height:1.5">
+              ${score >= 70 ? '🎯 Top-pick investment opportunity' : score >= 55 ? '✓ Good opportunity' : 'Investment opportunity'}
+            </div>
+          </div>
+          <div class="prop-cta-label">Free agent introduction</div>
+          <div class="prop-cta-heading">Speak with a<br>${cityDisplay} specialist</div>
+          <div class="prop-cta-body">We'll introduce you to a vetted, English-speaking buyer's agent who knows this market. No obligation, no fees.</div>
+          <button class="btn-primary" onclick="openAgentModal('${listing.id}','${listing.city}',${listing.price_eur})">Get agent intro →</button>
+          ${listing.url ? `<a href="${listing.url}" target="_blank" rel="noopener" class="btn-secondary">View on Idealista →</a>` : ''}
+          <div class="prop-cta-trust">✓ Free · No obligation · Response within 24h</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('propContent').innerHTML = html;
+}
+
+function renderNotFound(slug) {
+  document.getElementById('propContent').innerHTML = `
+    <div class="prop-notfound">
+      <div style="font-size:48px;margin-bottom:16px">🏠</div>
+      <h2 style="font-family:var(--font-serif);font-size:24px;font-weight:700;margin-bottom:12px">Property not found</h2>
+      <p style="color:var(--ink-3);font-size:15px;line-height:1.6;margin-bottom:28px">We couldn't find a listing matching <code style="background:var(--bg-muted);padding:2px 6px;border-radius:4px;font-size:12px">${slug}</code>. It may have been removed or the URL may be incorrect.</p>
+      <a href="/search.html" class="btn-primary">Browse all properties →</a>
+    </div>
+  `;
+}
+
+async function init() {
+  // Parse slug from URL: /property/madrid-110511006
+  const path = window.location.pathname; // e.g. /property/madrid-110511006
+  const slug = path.replace(/^\/property\//, '').replace(/\/$/, '');
+
+  if (!slug) { renderNotFound('(empty)'); return; }
+
+  const listingId = slugToId(slug);
+
+  try {
+    const data = await fetch('/data/listings.json').then(r => r.json());
+    const listing = data.find(l => l.id === listingId);
+    if (!listing) { renderNotFound(slug); return; }
+    render(listing, data);
+  } catch(e) {
+    renderNotFound(slug);
+  }
+}
+
+// ── Modal ───────────────────────────────────────────────
+function openAgentModal(id, city, price) {
+  document.getElementById('agentFormWrap').style.display = '';
+  document.getElementById('agentSuccessWrap').style.display = 'none';
+  document.getElementById('agentForm').reset();
+  const btn = document.querySelector('#agentForm button[type="submit"]');
+  if (btn) { btn.disabled = false; btn.textContent = 'Connect me with an agent →'; }
+  document.getElementById('agentFormPropertyId').value = id;
+  document.getElementById('agentFormCity').value = city;
+  document.getElementById('agentFormPrice').value = price;
+  document.getElementById('agentModal').classList.add('active');
+}
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+document.getElementById('agentModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal('agentModal');
+});
+document.getElementById('agentForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('button[type="submit"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+  fetch(this.action, {
+    method: 'POST',
+    body: new FormData(this),
+    headers: { 'Accept': 'application/json' }
+  }).then(r => {
+    if (r.ok) {
+      document.getElementById('agentFormWrap').style.display = 'none';
+      document.getElementById('agentSuccessWrap').style.display = 'block';
+    } else {
+      if (btn) { btn.disabled = false; btn.textContent = 'Connect me with an agent →'; }
+    }
+  }).catch(() => {
+    if (btn) { btn.disabled = false; btn.textContent = 'Connect me with an agent →'; }
+  });
+});
+
+// ── Nav ─────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
+});
+function toggleMobileNav() {
+  const m = document.getElementById('mobileNavMenu');
+  const o = document.getElementById('mobileNavOverlay');
+  const open = m.style.display !== 'flex';
+  m.style.display = open ? 'flex' : 'none';
+  o.style.display  = open ? 'block' : 'none';
+}
+
+init();
+</script>
+<script src="/theme.js"></script>
+<script src="/consent.js"></script>
+</body>
+</html>

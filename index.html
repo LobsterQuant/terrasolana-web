@@ -788,8 +788,8 @@ function buildPropertyCard(l) {
       </div>
     </div>
     <div class="card-footer">
-      <button class="btn-primary" onclick="openAgentModal('${l.id}','${l.city}',${l.price_eur})">Connect with agent</button>
-      ${l.url ? `<a href="${l.url}" target="_blank" rel="noopener" class="btn-ghost">Idealista →</a>` : ''}
+      <a href="/property/${l.city}-${l.id}" class="btn-primary" style="justify-content:center;flex:1">View property →</a>
+      <button class="btn-ghost" onclick="openAgentModal('${l.id}','${l.city}',${l.price_eur})" style="white-space:nowrap">Get agent intro</button>
     </div>
   </div>`;
 }

@@ -18,6 +18,7 @@
     }
   ],
   "rewrites": [
+    { "source": "/property/:slug", "destination": "/property.html" },
     { "source": "/search", "destination": "/search.html" },
     { "source": "/newsletter", "destination": "/newsletter.html" },
     { "source": "/about", "destination": "/about.html" },
