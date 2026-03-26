@@ -516,7 +516,8 @@ function makeSlug(listing) {
 }
 
 function render(listing, allListings) {
-  const img = CITY_IMAGES[listing.city] || '';
+  // Use real property photo if available, fall back to city photo
+  const img = listing.photo_url || CITY_IMAGES[listing.city] || '';
   const score = listing.opportunity_score || 0;
   const sc = scoreClass(score);
   const pvm = listing.price_vs_median_pct;
@@ -672,7 +673,7 @@ function render(listing, allListings) {
           <div class="similar-grid">
             ${similar.map(s => `
             <a href="/property/${makeSlug(s)}" class="similar-card">
-              <div class="similar-img" style="background-image:url('${img}')">
+              <div class="similar-img" style="background-image:url('${s.photo_url || CITY_IMAGES[s.city] || img}')">
                 <div style="height:100%;background:linear-gradient(to bottom,rgba(0,0,0,0.05),rgba(0,0,0,0.4))"></div>
               </div>
               <div class="similar-body">
@@ -731,7 +732,7 @@ async function init() {
   const listingId = slugToId(slug);
 
   try {
-    const data = await fetch('/data/listings.json?v=2').then(r => r.json());
+    const data = await fetch('/data/listings.json?v=3').then(r => r.json());
     const listing = data.find(l => l.id === listingId);
     if (!listing) { renderNotFound(slug); return; }
     render(listing, data);

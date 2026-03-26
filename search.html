@@ -809,12 +809,10 @@ const CITY_PHOTOS = {
   alicante: '/images/cities/alicante.jpg',
 };
 
-function cityCardImage(c) {
-  const photo = CITY_PHOTOS[c];
-  if (photo) {
-    return `background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.45) 100%), url('${photo}'); background-size: cover; background-position: center;`;
-  }
-  return 'background: linear-gradient(135deg,#E8DDD0,#D4C9B8);';
+function cardImage(l) {
+  // Use real property photo if available, fall back to city photo
+  const photo = l.photo_url || CITY_PHOTOS[l.city] || '/images/cities/malaga.jpg';
+  return `background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.48) 100%), url('${photo}'); background-size: cover; background-position: center;`;
 }
 
 function buildCard(l) {
@@ -839,7 +837,7 @@ function buildCard(l) {
 
   return `
   <div class="property-card">
-    <div class="card-image" style="${cityCardImage(l.city)}">
+    <div class="card-image" style="${cardImage(l)}">
       <div class="card-image-city" style="display:flex;gap:5px;flex-wrap:wrap">
         ${yieldStr ? `<span class="badge badge-yield">${yieldStr}</span>` : ''}
         ${score >= 70 ? `<span class="badge badge-score">Top pick</span>` : ''}
@@ -1074,7 +1072,7 @@ async function init() {
   renderFilters();
 
   try {
-    const res = await fetch('/data/listings.json?v=2');
+    const res = await fetch('/data/listings.json?v=3');
     allListings = await res.json();
     applyFilters();
   } catch(e) {
