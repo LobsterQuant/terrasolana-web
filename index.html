@@ -541,11 +541,16 @@
 <div class="newsletter-strip">
   <h2>Spain's best yields, every week.</h2>
   <p>Hand-picked investment properties with real data. Free. No spam.</p>
-  <form class="newsletter-form" action="https://formspree.io/f/mkopnypn" method="POST" onsubmit="return handleNewsletterSubmit(event)">
-    <input type="email" name="email" placeholder="your@email.com" required>
-    <button type="submit" class="btn-primary">Subscribe →</button>
+  <form class="newsletter-form" action="https://formspree.io/f/mkopnypn" method="POST" onsubmit="return handleNewsletterSubmit(event)" style="flex-direction:column;align-items:center">
+    <div style="display:flex;gap:12px;width:100%;max-width:420px">
+      <input type="email" name="email" placeholder="your@email.com" required style="flex:1">
+      <button type="submit" class="btn-primary">Subscribe →</button>
+    </div>
+    <div style="display:flex;gap:8px;align-items:flex-start;margin-top:10px;max-width:420px;text-align:left">
+      <input type="checkbox" id="nlConsent" name="gdpr_consent" required style="width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:#D4622A;cursor:pointer">
+      <label for="nlConsent" style="font-size:11px;color:rgba(255,255,255,0.55);line-height:1.5;cursor:pointer">I agree to receive the weekly Spain property newsletter and accept the <a href="/privacy.html" style="color:rgba(255,255,255,0.7);text-decoration:underline">Privacy Policy</a>. Unsubscribe anytime.</label>
+    </div>
   </form>
-  <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:10px;max-width:420px;margin-left:auto;margin-right:auto">By subscribing you agree to our <a href="/privacy.html" style="color:rgba(255,255,255,0.55);text-decoration:underline">Privacy Policy</a>. Unsubscribe anytime.</p>
 </div>
 
 <!-- ── FOOTER ────────────────────────────────────────── -->
