@@ -544,6 +544,7 @@
     <input type="email" name="email" placeholder="your@email.com" required>
     <button type="submit" class="btn-primary">Subscribe →</button>
   </form>
+  <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:10px;max-width:420px;margin-left:auto;margin-right:auto">By subscribing you agree to our <a href="/privacy.html" style="color:rgba(255,255,255,0.55);text-decoration:underline">Privacy Policy</a>. Unsubscribe anytime.</p>
 </div>
 
 <!-- ── FOOTER ────────────────────────────────────────── -->
@@ -612,6 +613,10 @@
         <div>
           <label style="font-size:12px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:6px">Message (optional)</label>
           <textarea name="message" rows="3" placeholder="Any specific requirements or questions..."></textarea>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:12px;background:var(--bg-muted);border-radius:6px;border:1.5px solid var(--border)">
+          <input type="checkbox" id="agentConsent" name="consent" required style="width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:var(--accent);cursor:pointer">
+          <label for="agentConsent" style="font-size:12px;color:var(--ink-3);line-height:1.5;cursor:pointer">I agree to be contacted about Spanish property opportunities and accept the <a href="/privacy.html" target="_blank" style="color:var(--accent);text-decoration:underline">Privacy Policy</a>.</label>
         </div>
         <button type="submit" class="btn-primary" style="width:100%;justify-content:center;margin-top:4px">Connect me with an agent →</button>
       </div>
@@ -842,5 +847,6 @@ function toggleMobileNav() {
   overlay.style.display = open ? 'block' : 'none';
 }
 </script>
+<script src="/consent.js"></script>
 </body>
 </html>
