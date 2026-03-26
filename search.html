@@ -445,8 +445,9 @@ function filterHTML() {
     {val:'alicante', label:'Alicante'},
     {val:'almeria',  label:'Almería'},
   ];
-  const yieldOpts = [{v:0,l:'Any'},{v:3,l:'3%+'},{v:5,l:'5%+'},{v:7,l:'7%+'},{v:9,l:'9%+'}];
-  // Note: "Any" for yield means no minimum. Default state.minYield=3 means "3%+" is pre-selected.
+  // Yield floor is always ≥3% — Terrasolana is an investment tool, not a lifestyle browser.
+  // "Any" removed: sub-3% listings skew stats and are not investment-grade.
+  const yieldOpts = [{v:3,l:'3%+'},{v:5,l:'5%+'},{v:7,l:'7%+'},{v:9,l:'9%+'}];
   const priceOpts = [{v:0,l:'Any'},{v:200000,l:'≤€200k'},{v:400000,l:'≤€400k'},{v:800000,l:'≤€800k'},{v:1500000,l:'≤€1.5M'}];
   const bedOpts   = [{v:0,l:'Any'},{v:1,l:'1+'},{v:2,l:'2+'},{v:3,l:'3+'},{v:4,l:'4+'}];
   const featOpts  = [{f:'has_elevator',l:'🛗 Lift'},{f:'has_parking',l:'🚗 Parking'},{f:'has_terrace',l:'🌿 Terrace'},{f:'has_pool',l:'🏊 Pool'}];
@@ -494,7 +495,7 @@ function renderFilters() {
   document.getElementById('drawerFilterContent').innerHTML  = filterHTML();
   // Update mobile filter btn badge
   const count = (state.cities.size > 0 ? state.cities.size : 0) +
-    (state.minYield > 0 ? 1 : 0) +
+    (state.minYield > 3 ? 1 : 0) +  // 3% is the floor, not a user filter
     (state.maxPrice > 0 ? 1 : 0) +
     (state.minBeds > 0 ? 1 : 0) +
     state.features.size;
@@ -520,7 +521,7 @@ function toggleFeature(feat) {
   renderFilters(); applyFilters();
 }
 function clearFilters() {
-  state.cities = new Set(); state.minYield = 0; state.maxPrice = 0;
+  state.cities = new Set(); state.minYield = 3; state.maxPrice = 0;  // floor stays at 3%
   state.minBeds = 0; state.features = new Set();
   document.getElementById('searchInput').value = '';
   document.getElementById('searchInputMobile').value = '';
@@ -618,7 +619,7 @@ function renderStats() {
 function renderActivePills() {
   const pills = [];
   state.cities.forEach(c => pills.push({ label: c.charAt(0).toUpperCase()+c.slice(1), action: ()=>toggleCity(c) }));
-  if (state.minYield > 0) pills.push({ label: `Yield ≥${state.minYield}%`, action: ()=>setYield(0) });
+  if (state.minYield > 3) pills.push({ label: `Yield ≥${state.minYield}%`, action: ()=>setYield(3) });  // only show pill if above the 3% floor
   if (state.maxPrice > 0) pills.push({ label: `≤€${state.maxPrice >= 1000000 ? (state.maxPrice/1000000).toFixed(1)+'M' : (state.maxPrice/1000)+'k'}`, action: ()=>setPrice(0) });
   if (state.minBeds  > 0) pills.push({ label: `${state.minBeds}+ beds`, action: ()=>setBeds(0) });
   state.features.forEach(f => pills.push({ label: f.replace('has_','').replace('_',' '), action: ()=>toggleFeature(f) }));
