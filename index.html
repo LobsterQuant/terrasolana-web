@@ -7,7 +7,7 @@
   <script>!function(){var t=localStorage.getItem("ts_theme")||((window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light");document.documentElement.setAttribute("data-theme",t)}()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terrasolana — Spain Property Intelligence</title>
-  <meta name="description" content="Curated Spain property with real investment data. Find high-yield, quality-filtered homes in Valencia, Madrid, Málaga, Alicante and Almería. For serious buyers.">
+  <meta name="description" content="Curated Spain property with real investment data. Find high-yield, quality-filtered homes across 10 Spanish cities including Valencia, Madrid, Sevilla and Málaga. For serious buyers.">
   <meta name="keywords" content="Spain property investment, buy property Spain, rental yield Spain, Valencia real estate, Madrid investment property">
   <meta property="og:title" content="Terrasolana — Spain Property Intelligence">
   <meta property="og:description" content="Curated Spain property with real investment data. Not a marketplace — a filter layer. Only quality listings, with yield metrics surfaced.">
@@ -358,11 +358,11 @@
       </div>
       <div class="hero-trust">
         <div class="hero-trust-item">
-          <div class="hero-trust-num">599</div>
+          <div class="hero-trust-num">3,500+</div>
           <div class="hero-trust-label">Curated Listings</div>
         </div>
         <div class="hero-trust-item">
-          <div class="hero-trust-num">5</div>
+          <div class="hero-trust-num">10</div>
           <div class="hero-trust-label">Major Cities</div>
         </div>
         <div class="hero-trust-item">
@@ -422,7 +422,7 @@
 <section id="cities">
   <div class="section-inner">
     <p class="section-eyebrow">Where to Buy</p>
-    <h2 class="section-title">Five cities, all different.<br>One intelligence layer.</h2>
+    <h2 class="section-title">Ten cities, all different.<br>One intelligence layer.</h2>
     <p class="section-sub">From Almería's high-yield value plays to Málaga's lifestyle premium — we cover all of Spain's key markets for foreign buyers.</p>
     <div class="cities-grid" id="citiesGrid">
       <!-- populated by JS -->
@@ -646,7 +646,7 @@ let listings = [];
 
 async function loadData() {
   try {
-    const res = await fetch('/data/listings.json?v=5');
+    const res = await fetch('/data/listings.json?v=6');
     listings = await res.json();
     populateHeroTopPicks();
     populateCities();

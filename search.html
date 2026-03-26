@@ -685,7 +685,7 @@ function toggleMobileNav() {
 
 // ── Core filter logic ──────────────────────────────────
 function applyFilters() {
-  state.query = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+  state.query = (document.getElementById('searchInputMobile')?.value || document.getElementById('searchInput')?.value || '').toLowerCase().trim();
   state.sort   = document.getElementById('sortSelect')?.value || 'score';
 
   filtered = allListings.filter(l => {
@@ -706,7 +706,7 @@ function applyFilters() {
     if (state.minBeds > 0 && (!l.rooms || l.rooms < state.minBeds)) return false;
     for (const f of state.features) { if (!l[f]) return false; }
     if (state.query) {
-      const hay = `${l.city} ${l.neighborhood||''} ${l.property_type||''}`.toLowerCase();
+      const hay = `${l.city} ${l.city_display||''} ${l.neighborhood||''} ${l.property_type||''} ${l.name||''}`.toLowerCase();
       if (!hay.includes(state.query)) return false;
     }
     return true;
@@ -1092,7 +1092,7 @@ async function init() {
   renderFilters();
 
   try {
-    const res = await fetch('/data/listings.json?v=5');
+    const res = await fetch('/data/listings.json?v=6');
     allListings = await res.json();
     applyFilters();
   } catch(e) {
