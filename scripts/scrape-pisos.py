@@ -380,7 +380,8 @@ def main():
                 if not l.get('photo_url') or 'unsplash' in l.get('photo_url',''):
                     img = l.get('image','')
                     if img and 'imghs.net' in img:
-                        l['photo_url'] = img  # Real photo from pisos.com!
+                        # Upgrade mm-wp thumbnail to fch-wp (full detail size, ~3.6× larger)
+                        l['photo_url'] = img.replace('/mm-wp/', '/fch-wp/', 1)
                     else:
                         l['photo_url'] = get_photo_fallback(l.get('property_type','flat'), city)
             all_listings.extend(listings)

@@ -1092,7 +1092,7 @@ async function init() {
   renderFilters();
 
   try {
-    const res = await fetch('/data/listings.json?v=4');
+    const res = await fetch('/data/listings.json?v=5');
     allListings = await res.json();
     applyFilters();
   } catch(e) {
