@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>!function(){var t=localStorage.getItem("ts_theme")||((window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light");document.documentElement.setAttribute("data-theme",t)}()</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rental Yield in Spain by City: What the Data Actually Shows in 2026 — Terrasolana</title>
+  <meta name="description" content="Real gross and net rental yield figures for Madrid, Valencia, Málaga, Alicante, and Almería in 2026. How yields are calculated, what drives them, and which neighbourhoods outperform.">
+  <meta property="og:title" content="Rental Yield in Spain by City: What the Data Actually Shows in 2026">
+  <meta property="og:description" content="City-by-city yield data for Spain's top investment markets — based on real listings, not averages.">
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-03-21">
+  <link rel="canonical" href="https://terrasolana.com/blog/rental-yield-spain-by-city">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/shared.css">
+  <style>
+    body { padding-top: var(--nav-height); }
+    .blog-wrap { max-width: 720px; margin: 0 auto; padding: 56px 32px 80px; }
+    .blog-eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 16px; }
+    .blog-title { font-family: var(--font-serif); font-size: clamp(28px,5vw,46px); font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+    .blog-meta { font-size: 13px; color: var(--ink-3); margin-bottom: 36px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+    .blog-body p { font-size: 16px; line-height: 1.85; color: var(--ink-2); margin-bottom: 22px; }
+    .blog-body h2 { font-family: var(--font-serif); font-size: 24px; font-weight: 700; color: var(--ink); margin: 44px 0 16px; }
+    .blog-body h3 { font-size: 18px; font-weight: 700; color: var(--ink); margin: 32px 0 12px; }
+    .blog-body a { color: var(--accent); text-decoration: underline; }
+    .blog-body strong { color: var(--ink); font-weight: 600; }
+    .data-callout { background: var(--bg-muted); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 24px 0; font-size: 14px; color: var(--ink-2); line-height: 1.65; }
+    .data-callout strong { color: var(--ink); }
+    .yield-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 28px 0; }
+    .yield-table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 480px; }
+    .yield-table th { background: var(--bg-muted); padding: 10px 14px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-3); font-weight: 700; border-bottom: 2px solid var(--border); }
+    .yield-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); color: var(--ink-2); }
+    .yield-table tr:last-child td { border-bottom: none; }
+    .yield-table .mono { font-family: var(--font-mono); font-weight: 700; color: var(--ink); }
+    .yield-table .green { color: var(--sage); font-weight: 700; }
+    .blog-cta { background: var(--bg-muted); border: 1px solid var(--border); border-radius: 12px; padding: 28px; text-align: center; margin: 48px 0; }
+    .blog-cta h3 { font-family: var(--font-serif); font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+    .blog-cta p { font-size: 14px; color: var(--ink-3); margin-bottom: 20px; }
+    .faq-section { margin-top: 48px; border-top: 1px solid var(--border); padding-top: 36px; }
+    .faq-section h2 { font-family: var(--font-serif); font-size: 22px; font-weight: 700; margin-bottom: 28px; }
+    .faq-q-text { font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 10px; }
+    .faq-a-text { font-size: 15px; color: var(--ink-2); line-height: 1.75; margin-bottom: 28px; }
+    @media (max-width: 640px) { .blog-wrap { padding: 40px 20px 60px; } }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Rental Yield in Spain by City: What the Data Actually Shows in 2026",
+    "description": "City-by-city rental yield data for Spain's top investment markets in 2026, with gross and net yield figures, neighbourhood analysis, and what drives yield variation.",
+    "datePublished": "2026-03-21",
+    "publisher": { "@type": "Organization", "name": "Terrasolana", "url": "https://terrasolana.com" },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://terrasolana.com/blog/rental-yield-spain-by-city" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the average rental yield in Spain in 2026?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The national average gross rental yield in Spain was approximately 5.4% in Q3 2025 according to Global Property Guide. However, this average masks enormous variation. Investment-grade properties — those selected specifically for yield — routinely produce 7–14% gross across Almería, Madrid's secondary districts, and Alicante. The national average is depressed by high-priced, low-yield properties in prime urban and coastal locations." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between gross and net rental yield in Spain?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Gross yield is calculated as annual rent divided by purchase price, expressed as a percentage. Net yield deducts annual ownership costs — property tax (IBI, typically 0.4–1.1% of cadastral value), community fees (€50–150 per month), building insurance (around €300 per year), and maintenance (estimated at 1% of purchase price annually). In Spain, this cost deduction typically reduces gross yield by 25–35%, so a property yielding 10% gross produces approximately 6.5–7.5% net." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is rental yield higher in Almería than Madrid?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The yield differential between Almería and Madrid reflects a single fundamental factor: purchase price per m² is dramatically lower in Almería (€1,650 median) than Madrid (€5,820 median), while monthly rents are not commensurately lower. A flat that costs €80,000 in Almería and rents for €900 per month produces 13.5% gross. An equivalent flat in Madrid might cost €350,000 and rent for €1,500 — only 5.1% gross. Lower prices relative to rents equals higher yields." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I calculate rental yield on a Spanish property?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Gross yield = (monthly rent × 12) ÷ purchase price × 100. For example: €900/month × 12 = €10,800 annual rent ÷ €80,000 purchase price × 100 = 13.5% gross yield. For net yield, deduct estimated annual costs (IBI, community fees, insurance, maintenance) from the annual rent before dividing. Remember that purchase transaction costs in Spain (ITP, notary, registry, legal fees) add 10–13% to the effective cost base." }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+<nav id="mainNav">
+  <a href="/" class="nav-logo"><div class="nav-logomark">☀</div><span class="nav-wordmark">Terra<span>solana</span></span></a>
+  <ul class="nav-links">
+    <li><a href="/search.html">Search</a></li>
+    <li><a href="/index.html#cities">Cities</a></li>
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/faq.html">FAQ</a></li>
+    <li><a href="/blog.html" class="active">Blog</a></li>
+    <li><a href="/newsletter.html">Newsletter</a></li>
+  </ul>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">☀️</button>
+  <a href="/search.html" class="btn-primary">Browse Properties →</a>
+  <button class="mobile-nav-toggle" aria-label="Menu" onclick="toggleMobileNav()"><span></span><span></span><span></span></button>
+</nav>
+<div id="mobileNavOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199" onclick="toggleMobileNav()"></div>
+<div id="mobileNavMenu" style="display:none;position:fixed;top:var(--nav-height);left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);z-index:198;padding:16px 20px;flex-direction:column;gap:4px">
+  <a href="/search.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Search</a>
+  <a href="/blog.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Blog</a>
+  <a href="/about.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">About</a>
+  <a href="/newsletter.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Newsletter</a>
+</div>
+
+<div class="blog-wrap">
+  <div class="blog-eyebrow">Data Analysis · March 2026</div>
+  <h1 class="blog-title">Rental Yield in Spain by City: What the Data Actually Shows in 2026</h1>
+  <div class="blog-meta">
+    <span>📅 21 March 2026</span>
+    <span>⏱ 9 min read</span>
+    <span>📊 Data analysis</span>
+  </div>
+
+  <div class="blog-body">
+    <p>Most articles about rental yield in Spain cite the same figures: 5.4% national average, slightly higher in secondary cities, slightly lower in prime locations. These numbers are accurate in the way that averages are always accurate — they summarise a dataset without telling you anything actionable about the specific market you are trying to enter. A global average gross yield of 5.4% includes a three-bedroom penthouse in Puerto Banús sitting unsold for eighteen months and a sixty-square-metre apartment in Almería's old town producing 13.5% gross on an eighty-thousand-euro purchase price. These are not the same investment. The average obscures what matters.</p>
+
+    <p>This analysis uses Terrasolana's own database of 653 active listings scraped from Idealista across five Spanish cities, filtered to show only investment-grade properties yielding three percent or above. The yield figures below represent what is actually available to buy today — not theoretical median calculations or market reports based on asking rents. Rental estimates are derived from city-level market benchmarks calibrated by property size and type, and cross-referenced against the <a href="/methodology.html">methodology we publish openly</a>.</p>
+
+    <h2>How Rental Yield Actually Works in Spain</h2>
+
+    <p>Before the city data, it is worth being precise about what yield figures mean and what they do not. Gross yield is the simplest calculation: annual rental income divided by purchase price. A flat that costs €100,000 and rents for €800 per month produces €9,600 annual rent, giving a gross yield of 9.6%. This figure is useful for comparing properties and markets quickly. It tells you nothing about what you will actually earn after costs.</p>
+
+    <p>Net yield deducts the real costs of ownership before calculating the return. In Spain, those costs include the annual IBI property tax (typically 0.4–1.1% of the property's cadastral value, which usually runs well below market value), community fees paid to the building's homeowners association (typically €50–150 per month depending on building services and size), building insurance (around €300–400 per year), and an allowance for maintenance and voids (typically modelled at 1% of purchase price annually, though this varies considerably with property condition and management approach). Across Spanish residential properties, these costs typically reduce gross yield by 25–35%, meaning a property yielding 10% gross produces approximately 6.5–7.5% net after operational costs but before income tax.</p>
+
+    <p>Income tax adds a further layer. Non-resident landlords from within the European Economic Area pay 19% on net rental income in Spain. Non-EEA non-residents pay 24% on gross income with no deductions permitted — a materially worse tax position that significantly changes the net-of-tax yield calculation for American, British post-Brexit, or other non-EEA buyers. This distinction matters more than most investment guides acknowledge.</p>
+
+    <h2>City-by-City Yield Data (March 2026)</h2>
+
+    <p>The table below shows yield ranges for investment-grade listings on the Terrasolana platform, alongside city median price per m² and the number of listings currently meeting a minimum 3% yield threshold. These figures reflect actual properties for sale in March 2026, not historical averages.</p>
+
+    <div class="yield-table-wrap">
+      <table class="yield-table">
+        <thead>
+          <tr>
+            <th>City</th>
+            <th>Median Price/m²</th>
+            <th>Avg Yield (3%+ listings)</th>
+            <th>Top Yield Available</th>
+            <th>Listings ≥3%</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Almería</strong></td>
+            <td class="mono">€1,650</td>
+            <td class="green">8.4%</td>
+            <td class="green">16.2%</td>
+            <td>65</td>
+          </tr>
+          <tr>
+            <td><strong>Madrid</strong></td>
+            <td class="mono">€5,820</td>
+            <td class="green">6.8%</td>
+            <td class="green">11.7%</td>
+            <td>34</td>
+          </tr>
+          <tr>
+            <td><strong>Alicante</strong></td>
+            <td class="mono">€2,508</td>
+            <td class="green">7.1%</td>
+            <td class="green">12.0%</td>
+            <td>7</td>
+          </tr>
+          <tr>
+            <td><strong>Valencia</strong></td>
+            <td class="mono">€3,238</td>
+            <td class="green">5.9%</td>
+            <td class="green">14.6%</td>
+            <td>33</td>
+          </tr>
+          <tr>
+            <td><strong>Málaga</strong></td>
+            <td class="mono">€4,024</td>
+            <td class="green">6.1%</td>
+            <td class="green">18.3%</td>
+            <td>12</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The top yield available — 18.3% gross in Málaga — reflects a specific listing: a small apartment in a working-class district that has been priced for a fast sale. These outlier figures exist in every market and should be treated with caution. Consistently achievable yields at scale are better represented by the average column.</p>
+
+    <h2>What Drives Yield Variation Within a City</h2>
+
+    <p>The intra-city variation in yield is as significant as the variation between cities. Understanding what drives it is more useful than knowing the city average. In every Spanish city, the yield divide comes down to one fundamental factor: the relationship between purchase price and local rental demand in a specific neighbourhood.</p>
+
+    <p>In Madrid, the prime central districts — Salamanca, Chamberí, Retiro — have purchase prices that have moved sharply ahead of rents over the past decade, compressing gross yields to 2.5–4%. These are areas where buyers are paying for scarcity value and capital preservation rather than current income. The secondary southern and western districts — Carabanchel, Usera, Vallecas — have purchase prices that remain lower than their rental markets would predict, partly because foreign buyers and institutional capital have historically avoided them, and partly because they lack the postcode prestige that drives luxury apartment prices. The result is a yield gap of five to six percentage points between a flat in Salamanca and an equivalent-sized flat in Carabanchel, even though the Carabanchel tenant is paying only marginally less rent than the Salamanca one.</p>
+
+    <p>In Valencia, the yield gradient runs from the historic centre outward. The Ciutat Vella, El Carmen, and Ruzafa districts attract premium prices from buyers who want to live in the city or let to short-term visitors, compressing yields. The peripheral districts — Campanar, Benicalap, Patraix, La Torre — retain lower purchase prices relative to a rental market that has tightened sharply city-wide, producing yields of 6–8% on properties that would cost a fraction of a comparable central flat. The rental demand in these districts is genuine and stable: they house young professionals and families priced out of the centre, not tourists looking for a weekend flat.</p>
+
+    <p>In Almería, the variation is less dramatic because the whole city is priced relatively modestly, but it still exists. The historic Almedina quarter and the El Zapillo beach district carry premiums relative to their actual rental market that compress yields slightly. The Barrio Alto, Pescadería, and El Quemadero areas offer the best combination of low purchase price and stable tenant demand. The university halls are clustered in the western campus area; properties there let quickly to students but tend to carry higher management overhead than properties let to working adults.</p>
+
+    <h2>The Net Yield Reality: A Worked Example</h2>
+
+    <p>Taking a specific Almería listing from the Terrasolana database — a three-bedroom, 104m² apartment in the Barrio Alto area, asking price €80,000, estimated monthly rent €900 — the gross yield calculates to 13.5%. The transaction cost of purchase adds approximately €10,000 to €12,000 at Spanish rates (ITP transfer tax, notary, property registry, and legal fees), bringing the effective cost base to around €92,000. On that basis, gross yield falls to 11.7%.</p>
+
+    <p>Annual operating costs: IBI at approximately €400 per year on a property of this type and value, community fees at €80 per month (€960 per year), insurance at €350 per year, and maintenance reserve at 1% of purchase price (€800 per year). Total annual costs: approximately €2,510. Net annual income: €10,800 gross rent minus €2,510 costs equals €8,290. Net yield on the all-in cost base of €92,000: 9.0%.</p>
+
+    <p>The 19% Spanish income tax for an EEA non-resident landlord, applied to net rental income of €8,290, produces a tax liability of approximately €1,575 per year. After-tax annual income: €6,715. After-tax yield on all-in cost: approximately 7.3%. That is still a strong return by European standards and well above what most mainstream property markets currently offer. But it is not the 13.5% headline figure, and understanding the gap between those two numbers is what separates a successful investment from a disappointing one.</p>
+
+    <h2>Yield and Capital Growth: The Trade-Off</h2>
+
+    <p>Yield and capital growth tend to run in opposite directions in Spanish property, as they do in most markets. The cities and districts offering the highest yields — Almería, Madrid's secondary ring — are generally not the ones that have produced the strongest capital appreciation over the past five years. That distinction belongs to Málaga, prime Valencia, and (above all) Madrid's central districts, where price growth of 25–30% since 2021 has dramatically compressed current yields but delivered strong gains to buyers who entered early.</p>
+
+    <p>This creates a genuine strategic question for any property investor approaching Spain in 2026. A buyer who prioritises yield and enters Almería today at a 9% net yield is generating strong current income but is making a weaker bet on capital appreciation. A buyer who accepts a 4% net yield in prime Valencia is making a stronger capital appreciation bet but needs to hold for long enough that the price growth justifies the yield sacrifice.</p>
+
+    <p>There is no objectively correct answer. What matters is that the question is asked explicitly rather than defaulting to whichever city produces the most compelling headline yield. The investors who have fared best in Spanish property over the last decade are those who bought in cities where they understood the rental market intimately — not those who chased the highest advertised gross yield figure.</p>
+  </div>
+
+  <div class="blog-cta">
+    <h3>See live yield data on every listing</h3>
+    <p>Every property on Terrasolana shows gross yield, net yield, and how the price compares to the city median. Filter by city and minimum yield.</p>
+    <a href="/search.html?yield=5" class="btn-primary">View properties yielding 5%+ →</a>
+  </div>
+
+  <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-q-text">What is the average rental yield in Spain in 2026?</div>
+    <div class="faq-a-text">The national average gross rental yield in Spain was approximately 5.4% in Q3 2025 according to Global Property Guide. However, investment-grade properties — selected specifically for yield — routinely produce 7–14% gross across Almería, Madrid's secondary districts, and Alicante. The national average is depressed by high-priced, low-yield properties in prime urban and coastal locations.</div>
+
+    <div class="faq-q-text">What is the difference between gross and net rental yield in Spain?</div>
+    <div class="faq-a-text">Gross yield is annual rent divided by purchase price. Net yield deducts annual ownership costs — IBI property tax, community fees, insurance, and maintenance — which typically reduce gross yield by 25–35% in Spain. A property yielding 10% gross produces approximately 6.5–7.5% net before income tax.</div>
+
+    <div class="faq-q-text">Why is rental yield higher in Almería than Madrid?</div>
+    <div class="faq-a-text">Purchase price per m² is dramatically lower in Almería (€1,650 median) than Madrid (€5,820 median), while monthly rents are not commensurately lower. A flat costing €80,000 in Almería renting for €900 per month produces 13.5% gross. An equivalent flat in Madrid might cost €350,000 and rent for €1,500 — only 5.1% gross. Lower prices relative to rents equals higher yields.</div>
+
+    <div class="faq-q-text">How do I calculate rental yield on a Spanish property?</div>
+    <div class="faq-a-text">Gross yield = (monthly rent × 12) ÷ purchase price × 100. For net yield, deduct estimated annual costs (IBI, community fees, insurance, maintenance) from the annual rent before dividing. Transaction costs in Spain add 10–13% to the effective cost base — a factor many yield calculations omit.</div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div><div class="footer-brand-name">Terrasolana</div><p class="footer-brand-desc">Spain property intelligence for serious buyers.</p></div>
+    <div>
+      <div class="footer-col-title">Explore</div>
+      <ul class="footer-links">
+        <li><a href="/search.html">Search Properties</a></li>
+        <li><a href="/blog.html">Blog</a></li>
+        <li><a href="/methodology.html">Methodology</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/newsletter.html">Newsletter</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <ul class="footer-links">
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/privacy.html">Privacy</a></li>
+        <li><a href="/terms.html">Terms</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Terrasolana. Not a licensed estate agent. Data sourced from public listings.</span></div>
+</footer>
+<script>
+window.addEventListener('scroll',()=>document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>20));
+function toggleMobileNav(){const m=document.getElementById('mobileNavMenu'),o=document.getElementById('mobileNavOverlay'),open=m.style.display!=='flex';m.style.display=open?'flex':'none';o.style.display=open?'block':'none';}
+</script>
+<script src="/theme.js"></script>
+<script src="/consent.js"></script>
+</body>
+</html>

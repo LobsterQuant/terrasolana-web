@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>!function(){var t=localStorage.getItem("ts_theme")||((window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light");document.documentElement.setAttribute("data-theme",t)}()</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Spain Property Investment Guides — Terrasolana</title>
+  <meta name="description" content="Investment guides, yield data, and market analysis for international buyers researching Spanish property. Written for serious buyers, not tourists.">
+  <meta property="og:title" content="Blog — Spain Property Investment Guides — Terrasolana">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://terrasolana.com/blog">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/shared.css">
+  <style>
+    body { padding-top: var(--nav-height); }
+    .blog-hero {
+      background: var(--bg-muted);
+      border-bottom: 1px solid var(--border);
+      padding: 64px 48px 56px;
+      text-align: center;
+    }
+    .blog-hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(30px, 5vw, 48px);
+      font-weight: 800;
+      margin: 12px 0 16px;
+    }
+    .blog-hero p {
+      font-size: 17px;
+      color: var(--ink-3);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+    .blog-grid-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 56px 32px 80px;
+    }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .blog-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 150ms, transform 150ms;
+      text-decoration: none;
+    }
+    .blog-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+    .blog-card-img {
+      height: 160px;
+      background-size: cover;
+      background-position: center;
+    }
+    .blog-card-body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
+    .blog-card-tag {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .blog-card-title {
+      font-family: var(--font-serif);
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.35;
+      margin-bottom: 12px;
+    }
+    .blog-card-excerpt {
+      font-size: 14px;
+      color: var(--ink-3);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 18px;
+    }
+    .blog-card-meta {
+      font-size: 12px;
+      color: var(--ink-4);
+      display: flex;
+      gap: 12px;
+    }
+    .newsletter-strip-blog {
+      background: linear-gradient(135deg, #2D3A2E 0%, #1C2A1E 100%);
+      padding: 56px 48px;
+      text-align: center;
+      margin-top: 24px;
+    }
+    .newsletter-strip-blog h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(22px, 3.5vw, 32px);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .newsletter-strip-blog p { color: rgba(255,255,255,0.65); font-size: 16px; margin-bottom: 28px; max-width: 440px; margin-left: auto; margin-right: auto; }
+    @media (max-width: 640px) {
+      .blog-hero { padding: 48px 20px 40px; }
+      .blog-grid-wrap { padding: 40px 20px 60px; }
+      .newsletter-strip-blog { padding: 48px 20px; }
+    }
+  </style>
+</head>
+<body>
+<nav id="mainNav">
+  <a href="/" class="nav-logo"><div class="nav-logomark">☀</div><span class="nav-wordmark">Terra<span>solana</span></span></a>
+  <ul class="nav-links">
+    <li><a href="/search.html">Search</a></li>
+    <li><a href="/index.html#cities">Cities</a></li>
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/faq.html">FAQ</a></li>
+    <li><a href="/blog.html" class="active">Blog</a></li>
+    <li><a href="/newsletter.html">Newsletter</a></li>
+  </ul>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">☀️</button>
+  <a href="/search.html" class="btn-primary">Browse Properties →</a>
+  <button class="mobile-nav-toggle" aria-label="Menu" onclick="toggleMobileNav()"><span></span><span></span><span></span></button>
+</nav>
+<div id="mobileNavOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199" onclick="toggleMobileNav()"></div>
+<div id="mobileNavMenu" style="display:none;position:fixed;top:var(--nav-height);left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);z-index:198;padding:16px 20px;flex-direction:column;gap:4px">
+  <a href="/search.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Search</a>
+  <a href="/blog.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Blog</a>
+  <a href="/about.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">About</a>
+  <a href="/newsletter.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Newsletter</a>
+</div>
+
+<div class="blog-hero">
+  <p class="section-eyebrow">Spain Property Intelligence</p>
+  <h1>Guides for serious buyers</h1>
+  <p>Investment analysis, yield data, and market intelligence for international buyers researching Spanish property. Written for people who want the real picture.</p>
+</div>
+
+<div class="blog-grid-wrap">
+  <div class="blog-grid">
+
+    <a href="/blog/best-places-invest-spain-2026" class="blog-card">
+      <div class="blog-card-img" style="background-image:url('https://images.unsplash.com/photo-1717703511674-58f919e0a6e1?w=600&auto=format&fit=crop&q=80')"></div>
+      <div class="blog-card-body">
+        <div class="blog-card-tag">Investment Guide</div>
+        <div class="blog-card-title">Best Places to Invest in Spanish Property in 2026</div>
+        <div class="blog-card-excerpt">A city-by-city analysis of where the genuine investment opportunities sit — based on actual price-to-rent ratios, transaction data, and the structural factors that drive rental demand.</div>
+        <div class="blog-card-meta">
+          <span>📅 20 Mar 2026</span>
+          <span>⏱ 8 min</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="/blog/rental-yield-spain-by-city" class="blog-card">
+      <div class="blog-card-img" style="background-image:url('https://images.unsplash.com/photo-1649714729492-ae23e78e185d?w=600&auto=format&fit=crop&q=80')"></div>
+      <div class="blog-card-body">
+        <div class="blog-card-tag">Data Analysis</div>
+        <div class="blog-card-title">Rental Yield in Spain by City: What the Data Actually Shows in 2026</div>
+        <div class="blog-card-excerpt">Real gross and net yield figures for Madrid, Valencia, Málaga, Alicante, and Almería — from live listings, not averages. With a worked example of the full net-of-tax calculation.</div>
+        <div class="blog-card-meta">
+          <span>📅 21 Mar 2026</span>
+          <span>⏱ 9 min</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="/blog/buy-to-let-rules-spain-2026" class="blog-card">
+      <div class="blog-card-img" style="background-image:url('https://images.unsplash.com/photo-1612972735944-ed73dd220d21?w=600&auto=format&fit=crop&q=80')"></div>
+      <div class="blog-card-body">
+        <div class="blog-card-tag">Legal Guide</div>
+        <div class="blog-card-title">Buy-to-Let Rules in Spain 2026: The Complete Guide for Foreign Investors</div>
+        <div class="blog-card-excerpt">NIE requirements, transaction costs, the Urban Leases Act, tourist rental licensing by city, and how rental income is taxed for EEA vs. non-EEA non-resident landlords.</div>
+        <div class="blog-card-meta">
+          <span>📅 22 Mar 2026</span>
+          <span>⏱ 10 min</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<div class="newsletter-strip-blog">
+  <h2>New guides every month.</h2>
+  <p>Get the weekly Spain property briefing — curated high-yield listings and market analysis, every Monday.</p>
+  <a href="/newsletter.html" class="btn-primary" style="font-size:15px;padding:13px 28px">Subscribe free →</a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div><div class="footer-brand-name">Terrasolana</div><p class="footer-brand-desc">Spain property intelligence for serious buyers.</p></div>
+    <div>
+      <div class="footer-col-title">Explore</div>
+      <ul class="footer-links">
+        <li><a href="/search.html">Search Properties</a></li>
+        <li><a href="/blog.html">Blog</a></li>
+        <li><a href="/methodology.html">Methodology</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/newsletter.html">Newsletter</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <ul class="footer-links">
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/privacy.html">Privacy</a></li>
+        <li><a href="/terms.html">Terms</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Terrasolana. Not a licensed estate agent. Data sourced from public listings.</span></div>
+</footer>
+<script>
+window.addEventListener('scroll',()=>document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>20));
+function toggleMobileNav(){const m=document.getElementById('mobileNavMenu'),o=document.getElementById('mobileNavOverlay'),open=m.style.display!=='flex';m.style.display=open?'flex':'none';o.style.display=open?'block':'none';}
+</script>
+<script src="/theme.js"></script>
+<script src="/consent.js"></script>
+</body>
+</html>
