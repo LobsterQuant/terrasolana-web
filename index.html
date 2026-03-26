@@ -648,6 +648,22 @@ function cityEmoji(city) {
   return map[city] || '🏠';
 }
 
+const CITY_PHOTOS = {
+  valencia: '/images/cities/valencia.jpg',
+  madrid:   '/images/cities/madrid.jpg',
+  malaga:   '/images/cities/malaga.jpg',
+  almeria:  '/images/cities/almeria.jpg',
+  alicante: '/images/cities/alicante.jpg',
+};
+
+function cityCardImage(c) {
+  const photo = CITY_PHOTOS[c];
+  if (photo) {
+    return `background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.50) 100%), url('${photo}'); background-size: cover; background-position: center;`;
+  }
+  return 'background: linear-gradient(135deg,#E8DDD0,#D4C9B8);';
+}
+
 function formatPrice(p) {
   if (!p) return '—';
   if (p >= 1000000) return `€${(p/1000000).toFixed(1)}M`;
@@ -718,10 +734,9 @@ function buildPropertyCard(l) {
 
   return `
   <div class="property-card">
-    <div class="card-image">
-      <div class="card-image-placeholder">${cityEmoji(l.city)}</div>
+    <div class="card-image" style="${cityCardImage(l.city)}">
       <div class="card-image-city">
-        ${yieldStr !== '—' ? `<span class="badge badge-yield">${yieldStr} yield</span>` : ''}
+        ${yieldStr !== '—' ? `<span class="badge badge-yield">${yieldStr}</span>` : ''}
         ${score >= 70 ? `<span class="badge badge-score">Top pick</span>` : ''}
       </div>
     </div>

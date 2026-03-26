@@ -659,14 +659,20 @@ function yieldClass(y) {
   if (!y) return 'yield-low';
   return y >= 7 ? 'yield-high' : y >= 5 ? 'yield-mid' : 'yield-low';
 }
-function cityGradient(c) {
-  return {
-    valencia:'linear-gradient(135deg,#E8D5B0,#C8A87A)',
-    madrid:'linear-gradient(135deg,#D4D0C8,#B8B4AA)',
-    malaga:'linear-gradient(135deg,#E8C9A0,#D4A870)',
-    almeria:'linear-gradient(135deg,#E0C8A8,#C4A888)',
-    alicante:'linear-gradient(135deg,#C8D8E8,#A8C0D4)',
-  }[c] || 'linear-gradient(135deg,#E8DDD0,#D4C9B8)';
+const CITY_PHOTOS = {
+  valencia: '/images/cities/valencia.jpg',
+  madrid:   '/images/cities/madrid.jpg',
+  malaga:   '/images/cities/malaga.jpg',
+  almeria:  '/images/cities/almeria.jpg',
+  alicante: '/images/cities/alicante.jpg',
+};
+
+function cityCardImage(c) {
+  const photo = CITY_PHOTOS[c];
+  if (photo) {
+    return `background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.45) 100%), url('${photo}'); background-size: cover; background-position: center;`;
+  }
+  return 'background: linear-gradient(135deg,#E8DDD0,#D4C9B8);';
 }
 
 function buildCard(l) {
@@ -686,8 +692,7 @@ function buildCard(l) {
 
   return `
   <div class="property-card">
-    <div class="card-image" style="background:${cityGradient(l.city)}">
-      <div class="card-image-placeholder">${cityEmoji(l.city)}</div>
+    <div class="card-image" style="${cityCardImage(l.city)}">
       <div class="card-image-city" style="display:flex;gap:5px;flex-wrap:wrap">
         ${yieldStr ? `<span class="badge badge-yield">${yieldStr}</span>` : ''}
         ${score >= 70 ? `<span class="badge badge-score">Top pick</span>` : ''}
