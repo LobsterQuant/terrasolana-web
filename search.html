@@ -441,6 +441,7 @@ function filterHTML() {
     {val:'almeria',  label:'Almería'},
   ];
   const yieldOpts = [{v:0,l:'Any'},{v:3,l:'3%+'},{v:5,l:'5%+'},{v:7,l:'7%+'},{v:9,l:'9%+'}];
+  // Note: "Any" for yield means no minimum. Default state.minYield=3 means "3%+" is pre-selected.
   const priceOpts = [{v:0,l:'Any'},{v:200000,l:'≤€200k'},{v:400000,l:'≤€400k'},{v:800000,l:'≤€800k'},{v:1500000,l:'≤€1.5M'}];
   const bedOpts   = [{v:0,l:'Any'},{v:1,l:'1+'},{v:2,l:'2+'},{v:3,l:'3+'},{v:4,l:'4+'}];
   const featOpts  = [{f:'has_elevator',l:'🛗 Lift'},{f:'has_parking',l:'🚗 Parking'},{f:'has_terrace',l:'🌿 Terrace'},{f:'has_pool',l:'🏊 Pool'}];
