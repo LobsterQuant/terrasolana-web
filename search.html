@@ -7,7 +7,7 @@
   <script>!function(){var t=localStorage.getItem("ts_theme")||((window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light");document.documentElement.setAttribute("data-theme",t)}()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Search Spain Properties — Terrasolana</title>
-  <meta name="description" content="Search curated Spain property with yield filters, price-per-m² data, and opportunity scores. Valencia, Madrid, Málaga, Alicante, Almería.">
+  <meta name="description" content="Search 3,500+ Spain properties for sale and rent across 10 cities. Filter by yield, price, city. Valencia, Madrid, Sevilla, Granada and more.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
@@ -523,6 +523,7 @@ const PAGE_SIZE = 24;
 
 let state = {
   cities: new Set(),   // empty = all
+  operation: '',       // '' = all, 'sale', 'rent'
   minYield: 3,         // default: investment-grade only (≥3% yield)
   minPrice: 0,
   maxPrice: 0,
@@ -541,7 +542,13 @@ function filterHTML() {
     {val:'malaga',   label:'Málaga'},
     {val:'alicante', label:'Alicante'},
     {val:'almeria',  label:'Almería'},
+    {val:'sevilla',  label:'Sevilla'},
+    {val:'granada',  label:'Granada'},
+    {val:'zaragoza', label:'Zaragoza'},
+    {val:'murcia',   label:'Murcia'},
+    {val:'palma',    label:'Palma'},
   ];
+  const operationOpts = [{v:'',l:'All'},{v:'sale',l:'For Sale'},{v:'rent',l:'For Rent'}];
   // Yield floor is always ≥3% — Terrasolana is an investment tool, not a lifestyle browser.
   // "Any" removed: sub-3% listings skew stats and are not investment-grade.
   const yieldOpts    = [{v:3,l:'3%+'},{v:5,l:'5%+'},{v:7,l:'7%+'},{v:9,l:'9%+'}];
@@ -552,6 +559,13 @@ function filterHTML() {
   const featOpts     = [{f:'has_elevator',l:'🛗 Lift'},{f:'has_parking',l:'🚗 Parking'},{f:'has_terrace',l:'🌿 Terrace'},{f:'has_pool',l:'🏊 Pool'}];
 
   return `
+    <div class="filter-group">
+      <label class="filter-label">Listing Type</label>
+      <div class="filter-chips">
+        ${operationOpts.map(o=>`<button type="button" class="filter-chip ${state.operation===o.v?'active':''}" data-operation="${o.v}">${o.l}</button>`).join('')}
+      </div>
+    </div>
+    <hr class="filter-divider">
     <div class="filter-group">
       <label class="filter-label">City</label>
       <div class="filter-chips">
@@ -608,6 +622,7 @@ function renderFilters() {
   document.getElementById('drawerFilterContent').innerHTML  = filterHTML();
   // Update mobile filter btn badge
   const count = (state.cities.size > 0 ? state.cities.size : 0) +
+    (state.operation ? 1 : 0) +
     (state.minYield > 3 ? 1 : 0) +
     (state.minPrice > 0 ? 1 : 0) +
     (state.maxPrice > 0 ? 1 : 0) +
@@ -627,6 +642,7 @@ function toggleCity(val) {
   else state.cities.add(val);
   renderFilters(); applyFilters();
 }
+function setOperation(val){ state.operation = val; renderFilters(); applyFilters(); }
 function setYield(val)    { state.minYield  = val; renderFilters(); applyFilters(); }
 function setMinPrice(val) { state.minPrice  = val; renderFilters(); applyFilters(); }
 function setPrice(val)    { state.maxPrice  = val; renderFilters(); applyFilters(); }
@@ -638,7 +654,7 @@ function toggleFeature(feat) {
   renderFilters(); applyFilters();
 }
 function clearFilters() {
-  state.cities = new Set(); state.minYield = 3; state.minPrice = 0; state.maxPrice = 0;
+  state.cities = new Set(); state.operation = ''; state.minYield = 3; state.minPrice = 0; state.maxPrice = 0;
   state.propType = ''; state.minBeds = 0; state.features = new Set();
   document.getElementById('searchInput').value = '';
   document.getElementById('searchInputMobile').value = '';
@@ -674,7 +690,8 @@ function applyFilters() {
 
   filtered = allListings.filter(l => {
     if (state.cities.size > 0 && !state.cities.has(l.city)) return false;
-    if (state.minYield > 0 && (!l.gross_yield_pct || l.gross_yield_pct < state.minYield)) return false;
+    if (state.operation && l.operation !== state.operation) return false;
+    if (state.operation !== 'rent' && state.minYield > 0 && (!l.gross_yield_pct || l.gross_yield_pct < state.minYield)) return false;
     if (state.minPrice > 0 && (!l.price_eur || l.price_eur < state.minPrice)) return false;
     if (state.maxPrice > 0 && l.price_eur > state.maxPrice) return false;
     if (state.propType) {
@@ -747,6 +764,7 @@ function renderStats() {
 function renderActivePills() {
   const pills = [];
   state.cities.forEach(c => pills.push({ label: c.charAt(0).toUpperCase()+c.slice(1), action: ()=>toggleCity(c) }));
+  if (state.operation) pills.push({ label: state.operation === 'sale' ? 'For Sale' : 'For Rent', action: ()=>setOperation('') });
   if (state.minYield > 3) pills.push({ label: `Yield ≥${state.minYield}%`, action: ()=>setYield(3) });
   if (state.minPrice > 0) pills.push({ label: `€${state.minPrice >= 1000000 ? (state.minPrice/1000000).toFixed(1)+'M' : (state.minPrice/1000)+'k'}+`, action: ()=>setMinPrice(0) });
   if (state.maxPrice > 0) pills.push({ label: `≤€${state.maxPrice >= 1000000 ? (state.maxPrice/1000000).toFixed(1)+'M' : (state.maxPrice/1000)+'k'}`, action: ()=>setPrice(0) });
@@ -1054,6 +1072,8 @@ document.addEventListener('click', function(e) {
   const b  = chip.dataset.beds;
   const f  = chip.dataset.feat;
   const c  = chip.dataset.city;
+  const op = chip.dataset.operation;
+  if (op !== undefined) { setOperation(op); return; }
   if (y  !== undefined) { setYield(parseInt(y)); return; }
   if (mp !== undefined) { setMinPrice(parseInt(mp)); return; }
   if (p  !== undefined) { setPrice(parseInt(p)); return; }
@@ -1072,7 +1092,7 @@ async function init() {
   renderFilters();
 
   try {
-    const res = await fetch('/data/listings.json?v=3');
+    const res = await fetch('/data/listings.json?v=4');
     allListings = await res.json();
     applyFilters();
   } catch(e) {
