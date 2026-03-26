@@ -339,8 +339,8 @@
     <!-- Stats -->
     <div class="search-stats" id="searchStats">
       <div class="search-stat"><div class="search-stat-val" id="statCount">—</div><div class="search-stat-label">Properties</div></div>
-      <div class="search-stat"><div class="search-stat-val green" id="statAvgYield">—</div><div class="search-stat-label">Avg Yield (≥3%)</div></div>
-      <div class="search-stat"><div class="search-stat-val" id="statAvgPrice">—</div><div class="search-stat-label">Median Price (≤€1M)</div></div>
+      <div class="search-stat"><div class="search-stat-val green" id="statAvgYield">—</div><div class="search-stat-label">Avg Yield</div></div>
+      <div class="search-stat"><div class="search-stat-val" id="statAvgPrice">—</div><div class="search-stat-label">Median Price</div></div>
       <div class="search-stat"><div class="search-stat-val green" id="statMaxYield">—</div><div class="search-stat-label">Top Yield</div></div>
     </div>
 
@@ -582,11 +582,10 @@ function applyFilters() {
 // Price median: listings ≤ €1M (no luxury outlier skew)
 // Both computed from current filtered set
 function renderStats() {
-  const yieldSet = filtered.filter(l => l.gross_yield_pct >= 3);
-  const priceSet = filtered.filter(l => l.price_eur > 0 && l.price_eur <= 1000000);
-  const yields   = yieldSet.map(l => l.gross_yield_pct);
-  const prices   = priceSet.map(l => l.price_eur);
-  const allYields = filtered.filter(l => l.gross_yield_pct > 0).map(l => l.gross_yield_pct);
+  // Use the already-filtered set directly — no secondary filter needed.
+  // filtered already respects minYield (default 3%), so stats reflect what's visible.
+  const yields  = filtered.map(l => l.gross_yield_pct).filter(y => y > 0);
+  const prices  = filtered.map(l => l.price_eur).filter(p => p > 0).sort((a,b) => a-b);
 
   document.getElementById('statCount').textContent = filtered.length.toLocaleString();
 
@@ -594,15 +593,15 @@ function renderStats() {
     yields.length ? (yields.reduce((a,b) => a+b, 0) / yields.length).toFixed(1) + '%' : '—';
 
   if (prices.length) {
-    const sorted = [...prices].sort((a,b) => a-b);
-    const median = sorted[Math.floor(sorted.length / 2)];
-    document.getElementById('statAvgPrice').textContent = '€' + Math.round(median / 1000) + 'k';
+    const median = prices[Math.floor(prices.length / 2)];
+    document.getElementById('statAvgPrice').textContent =
+      median >= 1000000 ? '€' + (median/1000000).toFixed(1) + 'M' : '€' + Math.round(median / 1000) + 'k';
   } else {
     document.getElementById('statAvgPrice').textContent = '—';
   }
 
   document.getElementById('statMaxYield').textContent =
-    allYields.length ? Math.max(...allYields).toFixed(1) + '%' : '—';
+    yields.length ? Math.max(...yields).toFixed(1) + '%' : '—';
 }
 
 function renderActivePills() {
