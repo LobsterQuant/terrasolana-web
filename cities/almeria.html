@@ -59,17 +59,19 @@
     <li><a href="/about.html">About</a></li>
     <li><a href="/newsletter.html">Newsletter</a></li>
   </ul>
-  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">☀️</button>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">☀️</button>
   <a href="/search.html?city=almeria" class="btn-primary">Browse Almería →</a>
-  <button class="mobile-nav-toggle" aria-label="Menu" onclick="document.getElementById('mobileNavMenu').style.display=document.getElementById('mobileNavMenu').style.display==='flex'?'none':'flex'">
+  <button class="mobile-nav-toggle" aria-label="Menu" onclick="toggleMobileNav()">
     <span></span><span></span><span></span>
   </button>
 </nav>
-
+<div id="mobileNavOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199" onclick="toggleMobileNav()"></div>
 <div id="mobileNavMenu" style="display:none;position:fixed;top:var(--nav-height);left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);z-index:198;padding:16px 20px;flex-direction:column;gap:4px">
   <a href="/search.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Search</a>
   <a href="/blog.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Blog</a>
+  <a href="/about.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">About</a>
   <a href="/newsletter.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Newsletter</a>
+  <a href="/search.html" class="btn-primary" style="margin-top:8px;justify-content:center">Browse Properties →</a>
 </div>
 
 <section class="city-hero">

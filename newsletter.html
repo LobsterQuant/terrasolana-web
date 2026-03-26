@@ -60,28 +60,35 @@
 </head>
 <body>
 
-<nav id="mainNav">
-  <a href="/" class="nav-logo">
-    <div class="nav-logomark">☀</div>
-    <span class="nav-wordmark">Terra<span>solana</span></span>
-  </a>
+<nav>
+  <a href="/" class="nav-wordmark">Terrasolana</a>
   <ul class="nav-links">
     <li><a href="/search.html">Search</a></li>
-    <li><a href="/index.html#cities">Cities</a></li>
+    <li><a href="/blog.html">Blog</a></li>
     <li><a href="/about.html">About</a></li>
-    <li><a href="/newsletter.html" class="active">Newsletter</a></li>
+    <li><a href="/newsletter.html">Newsletter</a></li>
   </ul>
   <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">☀️</button>
   <a href="/search.html" class="btn-primary">Browse Properties →</a>
-  <button class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  <button class="mobile-nav-toggle" aria-label="Menu" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div id="mobileNavOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199" onclick="toggleMobileNav()"></div>
+<div id="mobileNavMenu" style="display:none;position:fixed;top:var(--nav-height);left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);z-index:198;padding:16px 20px;flex-direction:column;gap:4px">
+  <a href="/search.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Search</a>
+  <a href="/blog.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Blog</a>
+  <a href="/about.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">About</a>
+  <a href="/newsletter.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Newsletter</a>
+  <a href="/search.html" class="btn-primary" style="margin-top:8px;justify-content:center">Browse Properties →</a>
+</div>
 
 <div class="nl-hero">
   <p class="section-eyebrow" style="color:rgba(255,255,255,0.5)">Every Monday</p>
   <h1>Spain's best yields,<br>in your inbox.</h1>
   <p>Hand-picked investment properties with real yield data, opportunity scores, and market intel. No noise. Free forever.</p>
   <form class="nl-form" action="https://formspree.io/f/mkopnypn" method="POST" onsubmit="return handleSubmit(event)">
-    <input type="email" name="email" placeholder="your@email.com" required>
+    <input type="email" name="email" placeholder="your@email.com" required style="flex:1;min-width:0;width:100%">
     <div style="display:flex;gap:8px;align-items:flex-start;text-align:left;margin-top:8px">
       <input type="checkbox" id="nlConsentHero" name="gdpr_consent" required style="width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:#D4622A;cursor:pointer">
       <label for="nlConsentHero" style="font-size:11px;color:rgba(255,255,255,0.55);line-height:1.5;cursor:pointer">I agree to receive the weekly Spain property newsletter and accept the <a href="/privacy.html" style="color:rgba(255,255,255,0.7);text-decoration:underline">Privacy Policy</a>. Unsubscribe anytime.</label>

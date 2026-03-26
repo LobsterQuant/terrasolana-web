@@ -691,7 +691,8 @@ function applyFilters() {
   filtered = allListings.filter(l => {
     if (state.cities.size > 0 && !state.cities.has(l.city)) return false;
     if (state.operation && l.operation !== state.operation) return false;
-    if (state.operation !== 'rent' && state.minYield > 0 && (!l.gross_yield_pct || l.gross_yield_pct < state.minYield)) return false;
+    const isRent = l.operation === 'rent';
+    if (!isRent && state.minYield > 0 && (!l.gross_yield_pct || l.gross_yield_pct < state.minYield)) return false;
     if (state.minPrice > 0 && (!l.price_eur || l.price_eur < state.minPrice)) return false;
     if (state.maxPrice > 0 && l.price_eur > state.maxPrice) return false;
     if (state.propType) {
@@ -1097,7 +1098,7 @@ async function init() {
   renderFilters();
 
   try {
-    const res = await fetch('/data/listings.json?v=13');
+    const res = await fetch('/data/listings.json?v=14');
     allListings = await res.json();
     applyFilters();
   } catch(e) {
