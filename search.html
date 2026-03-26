@@ -808,7 +808,7 @@ function loadMore() { page++; renderResults(); }
 
 // ── Card builder ───────────────────────────────────────
 function cityEmoji(c) {
-  return {valencia:'🌊',madrid:'🏙',malaga:'☀️',almeria:'🏺',alicante:'⛵'}[c] || '🏠';
+  return {valencia:'🌊',madrid:'🏙',malaga:'☀️',almeria:'🏺',alicante:'⛵',sevilla:'🦢',granada:'🕌',zaragoza:'🏛',murcia:'🌿',palma:'🌴'}[c] || '🏠';
 }
 function formatPrice(p) {
   if (!p) return '—';
@@ -825,6 +825,11 @@ const CITY_PHOTOS = {
   malaga:   '/images/cities/malaga.jpg',
   almeria:  '/images/cities/almeria.jpg',
   alicante: '/images/cities/alicante.jpg',
+  sevilla:  'https://images.unsplash.com/photo-1559564484-4e2c7e13a97d?w=800&auto=format&fit=crop&q=80',
+  granada:  'https://images.unsplash.com/photo-1541343672885-9be56236302a?w=800&auto=format&fit=crop&q=80',
+  zaragoza: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&auto=format&fit=crop&q=80',
+  murcia:   'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=800&auto=format&fit=crop&q=80',
+  palma:    'https://images.unsplash.com/photo-1555990793-da11153b6c8b?w=800&auto=format&fit=crop&q=80',
 };
 
 function cardImage(l) {
@@ -1092,7 +1097,7 @@ async function init() {
   renderFilters();
 
   try {
-    const res = await fetch('/data/listings.json?v=8');
+    const res = await fetch('/data/listings.json?v=9');
     allListings = await res.json();
     applyFilters();
   } catch(e) {

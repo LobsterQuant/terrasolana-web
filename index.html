@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="/shared.css">
   <style>
     /* ── Hero ────────────────────────────────────────── */
-    .hero {
+    .hero { overflow: hidden;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -283,7 +283,7 @@
     @media (max-width: 640px) {
       .hero  { padding: calc(var(--nav-height) + 32px) 16px 56px; }
       section { padding: 52px 16px; }
-      .hero-h1 { font-size: clamp(28px, 8vw, 40px); word-break: break-word; padding-right: 16px; }
+      .hero-h1 { font-size: clamp(26px, 7vw, 38px); word-break: break-word; overflow-wrap: break-word; padding-right: 16px; max-width: 100%; }
       .hero-sub { font-size: 16px; }
       .hero-cta { flex-direction: column; align-items: flex-start; }
       .hero-cta .btn-primary,
@@ -563,6 +563,11 @@
         <li><a href="/search.html?city=malaga">Málaga</a></li>
         <li><a href="/search.html?city=almeria">Almería</a></li>
         <li><a href="/search.html?city=alicante">Alicante</a></li>
+        <li><a href="/search.html?city=sevilla">Sevilla</a></li>
+        <li><a href="/search.html?city=granada">Granada</a></li>
+        <li><a href="/search.html?city=zaragoza">Zaragoza</a></li>
+        <li><a href="/search.html?city=murcia">Murcia</a></li>
+        <li><a href="/search.html?city=palma">Palma de Mallorca</a></li>
       </ul>
     </div>
     <div>
@@ -646,7 +651,7 @@ let listings = [];
 
 async function loadData() {
   try {
-    const res = await fetch('/data/listings.json?v=8');
+    const res = await fetch('/data/listings.json?v=9');
     listings = await res.json();
     populateHeroTopPicks();
     populateCities();
@@ -670,6 +675,11 @@ const CITY_PHOTOS = {
   malaga:   '/images/cities/malaga.jpg',
   almeria:  '/images/cities/almeria.jpg',
   alicante: '/images/cities/alicante.jpg',
+  sevilla:  'https://images.unsplash.com/photo-1559564484-4e2c7e13a97d?w=800&auto=format&fit=crop&q=80',
+  granada:  'https://images.unsplash.com/photo-1541343672885-9be56236302a?w=800&auto=format&fit=crop&q=80',
+  zaragoza: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&auto=format&fit=crop&q=80',
+  murcia:   'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=800&auto=format&fit=crop&q=80',
+  palma:    'https://images.unsplash.com/photo-1555990793-da11153b6c8b?w=800&auto=format&fit=crop&q=80',
 };
 
 function cityCardImage(c) {

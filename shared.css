@@ -65,6 +65,7 @@ body, nav, .property-card, .modal, .modal-overlay,
 /* ── Theme toggle button ─────────────────────────────── */
 .theme-toggle {
   width: 36px; height: 36px;
+  min-width: 44px; min-height: 44px;
   border-radius: 8px;
   background: var(--bg-muted);
   border: 1px solid var(--border);
