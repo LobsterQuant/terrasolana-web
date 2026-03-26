@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/shared.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <style>
     body { padding-top: var(--nav-height); }
 
@@ -240,7 +241,73 @@
       .search-stat:nth-child(3), .search-stat:nth-child(4) { border-bottom: none; }
       .results-grid { grid-template-columns: 1fr; }
       .sort-select { font-size: 12px; max-width: 100%; width: 100%; box-sizing: border-box; }
+      .view-toggle { width: 100%; }
+      #mapContainer { height: 60vw; max-height: 70vh; }
     }
+  </style>
+  <style>
+    /* ── View toggle ──────────────────────────── */
+    .view-toggle {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+    .view-toggle-btn {
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-3);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 120ms, color 120ms;
+    }
+    .view-toggle-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .view-toggle-btn:not(.active):hover { background: var(--bg-muted); color: var(--ink); }
+
+    /* ── Map container ────────────────────────── */
+    #mapContainer {
+      display: none;
+      height: 620px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    #mapContainer.active { display: block; }
+
+    /* ── Leaflet popup overrides ──────────────── */
+    .ts-popup { min-width: 180px; font-family: var(--font-sans); }
+    .ts-popup-price { font-weight: 700; font-size: 15px; color: #1C1917; margin-bottom: 4px; }
+    .ts-popup-yield { font-weight: 700; font-size: 13px; color: #2D6A4F; margin-bottom: 2px; }
+    .ts-popup-score { font-size: 12px; color: #78716C; margin-bottom: 10px; }
+    .ts-popup-link  { display: inline-block; background: #D4622A; color: #fff !important; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none !important; }
+    .ts-popup-link:hover { background: #B85220; }
+
+    /* ── Pin marker ───────────────────────────── */
+    .ts-pin {
+      background: var(--bg-card, #fff);
+      border: 2px solid var(--accent, #D4622A);
+      border-radius: 20px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink, #1C1917);
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      cursor: pointer;
+      transition: transform 100ms;
+    }
+    .ts-pin:hover { transform: scale(1.08); border-color: #B85220; }
+    .ts-pin.top { background: #2D6A4F; color: #fff; border-color: #2D6A4F; }
   </style>
 </head>
 <body>
@@ -328,12 +395,6 @@
         <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <input type="text" id="searchInput" placeholder="Search city, neighbourhood…" oninput="applyFilters()">
       </div>
-      <select id="sortSelect" class="sort-select" onchange="applyFilters()">
-        <option value="score">Opportunity Score</option>
-        <option value="yield_desc">Highest Yield</option>
-        <option value="price_asc">Price ↑</option>
-        <option value="price_desc">Price ↓</option>
-      </select>
     </div>
 
     <!-- Active filter pills -->
@@ -349,7 +410,20 @@
 
     <div class="results-header">
       <div class="results-count" id="resultsCount">Loading…</div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="view-toggle">
+          <button class="view-toggle-btn active" id="btnListView" onclick="setView('list')" title="List view">☰ List</button>
+          <button class="view-toggle-btn" id="btnMapView" onclick="setView('map')" title="Map view">🗺 Map</button>
+        </div>
+        <select id="sortSelect" class="sort-select" onchange="applyFilters()">
+          <option value="score">Top picks first</option>
+          <option value="yield_desc">Highest yield</option>
+          <option value="price_asc">Lowest price</option>
+          <option value="price_desc">Highest price</option>
+        </select>
+      </div>
     </div>
+    <div id="mapContainer"></div>
     <div class="results-grid" id="resultsGrid"></div>
     <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
       <button class="btn-secondary" onclick="loadMore()" style="min-width:180px">Load more</button>
@@ -589,8 +663,9 @@ function applyFilters() {
 
   page = 0;
   renderStats();
-  renderResults();
   renderActivePills();
+  if (currentView === 'map') renderMap();
+  else renderResults();
 }
 
 // ── Stats ──────────────────────────────────────────────
@@ -823,6 +898,100 @@ window.addEventListener('scroll', () => {
   document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
 });
 
+// ── Map view ───────────────────────────────────────────
+let mapInstance = null;
+let mapMarkers  = [];
+let currentView = 'list';
+
+function setView(view) {
+  currentView = view;
+  const mapEl  = document.getElementById('mapContainer');
+  const listEl = document.getElementById('resultsGrid');
+  const moreEl = document.getElementById('loadMoreWrap');
+  const btnList = document.getElementById('btnListView');
+  const btnMap  = document.getElementById('btnMapView');
+
+  if (view === 'map') {
+    mapEl.classList.add('active');
+    listEl.style.display  = 'none';
+    moreEl.style.display  = 'none';
+    btnList.classList.remove('active');
+    btnMap.classList.add('active');
+    renderMap();
+  } else {
+    mapEl.classList.remove('active');
+    listEl.style.display  = '';
+    btnList.classList.add('active');
+    btnMap.classList.remove('active');
+    renderResults();
+  }
+}
+
+function formatPriceMap(p) {
+  if (!p) return '—';
+  if (p >= 1000000) return '€' + (p/1000000).toFixed(1) + 'M';
+  if (p >= 1000)    return '€' + Math.round(p/1000) + 'k';
+  return '€' + p;
+}
+
+function renderMap() {
+  const container = document.getElementById('mapContainer');
+
+  // Init map once
+  if (!mapInstance) {
+    mapInstance = L.map('mapContainer', { zoomControl: true });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 18,
+    }).addTo(mapInstance);
+  }
+
+  // Clear old markers
+  mapMarkers.forEach(m => m.remove());
+  mapMarkers = [];
+
+  if (!filtered.length) return;
+
+  const bounds = [];
+
+  filtered.forEach(l => {
+    if (!l.lat || !l.lng) return;
+
+    const isTop = (l.opportunity_score || 0) >= 70;
+    const priceStr = formatPriceMap(l.price_eur);
+    const yieldStr = l.gross_yield_pct ? l.gross_yield_pct.toFixed(1) + '%' : '—';
+
+    // Custom div icon: price chip
+    const icon = L.divIcon({
+      className: '',
+      html: `<div class="ts-pin${isTop ? ' top' : ''}">${priceStr}</div>`,
+      iconAnchor: [0, 12],
+    });
+
+    const marker = L.marker([l.lat, l.lng], { icon })
+      .addTo(mapInstance)
+      .bindPopup(`
+        <div class="ts-popup">
+          <div class="ts-popup-price">${priceStr}</div>
+          <div class="ts-popup-yield">🏦 ${yieldStr} gross yield</div>
+          <div class="ts-popup-score">Score: ${l.opportunity_score || 0}/100 · ${l.city_display}${l.neighborhood ? ', ' + l.neighborhood : ''}</div>
+          <a class="ts-popup-link" href="/property/${l.city}-${l.id}">View property →</a>
+        </div>`, {
+        maxWidth: 220,
+        closeButton: false,
+      });
+
+    mapMarkers.push(marker);
+    bounds.push([l.lat, l.lng]);
+  });
+
+  if (bounds.length) {
+    mapInstance.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+    // Force resize in case container was hidden when map initialised
+    setTimeout(() => mapInstance.invalidateSize(), 50);
+  }
+}
+
 // ── Init ───────────────────────────────────────────────
 async function init() {
   const params = new URLSearchParams(window.location.search);
@@ -842,6 +1011,7 @@ async function init() {
 
 init();
 </script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLEo=" crossorigin=""></script>
 <script src="/theme.js"></script>
 <script src="/consent.js"></script>
 </body>
