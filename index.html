@@ -570,6 +570,7 @@
       <ul class="footer-links">
         <li><a href="/about.html">About</a></li>
         <li><a href="/newsletter.html">Newsletter</a></li>
+        <li><a href="/methodology.html">Methodology</a></li>
         <li><a href="/contact.html">Contact</a></li>
         <li><a href="/privacy.html">Privacy</a></li>
         <li><a href="/terms.html">Terms</a></li>
@@ -764,16 +765,27 @@ function buildPropertyCard(l) {
           <div class="card-metric-label">Est. Rent</div>
           <div class="card-metric-value">${rentStr}</div>
         </div>
-        <div>
-          <div class="card-metric-label">Score</div>
-          <div class="card-metric-value ${score>=70?'yield-high':score>=55?'yield-mid':'yield-low'}">${score}/100</div>
-        </div>
-        <div>
-          <div class="card-metric-label">vs. Market</div>
-          <div class="card-metric-value" style="font-size:12px;color:${l.price_vs_median_pct!=null&&l.price_vs_median_pct<0?'var(--sage)':'var(--ink-3)'}">
-            ${l.price_vs_median_pct!=null?(l.price_vs_median_pct<0?l.price_vs_median_pct.toFixed(0)+'%':'+'+l.price_vs_median_pct.toFixed(0)+'%')+'↔':'—'}
+        <div class="ts-tooltip-wrap" tabindex="0" style="display:flex;flex-direction:column;align-items:flex-start">
+          <div class="card-metric-label" style="display:flex;align-items:center;gap:4px">
+            Score <span style="font-size:10px;color:var(--ink-4);font-weight:400">ⓘ</span>
           </div>
+          <div class="card-metric-value ${score>=70?'yield-high':score>=55?'yield-mid':'yield-low'}">${score}/100</div>
+          <div class="ts-tooltip">Our <strong>Opportunity Score (0–100)</strong> combines gross yield (40%), price vs. neighbourhood median (35%), and market momentum (25%). Higher = better investment opportunity.<br><a href="/methodology.html" style="margin-top:6px;display:inline-block">Learn more →</a></div>
         </div>
+        ${(()=>{
+          const pvm = l.price_vs_median_pct;
+          const pvmAdj = pvm != null ? -pvm : null;
+          const pvmStr = pvmAdj != null ? (pvmAdj < 0 ? pvmAdj.toFixed(0)+'% vs market' : '+'+pvmAdj.toFixed(0)+'% vs market') : '—';
+          const pvmColor = pvmAdj != null ? (pvmAdj < 0 ? 'var(--sage)' : pvmAdj > 10 ? 'var(--accent)' : 'var(--ink-3)') : 'var(--ink-3)';
+          const tip = pvmAdj != null && pvmAdj < 0
+            ? \`Priced <strong>\${Math.abs(pvmAdj).toFixed(0)}% below</strong> city median price/m² — potentially underpriced.\`
+            : \`Priced <strong>\${pvmAdj!=null?pvmAdj.toFixed(0):0}% above</strong> city median price/m².\`;
+          return \`<div class="ts-tooltip-wrap" tabindex="0" style="display:flex;flex-direction:column;align-items:flex-start">
+            <div class="card-metric-label" style="display:flex;align-items:center;gap:4px">vs. Market <span style="font-size:10px;color:var(--ink-4);font-weight:400">ⓘ</span></div>
+            <div class="card-metric-value" style="font-size:12px;color:\${pvmColor}">\${pvmStr}</div>
+            <div class="ts-tooltip">\${tip}<br><a href="/methodology.html" style="margin-top:6px;display:inline-block">Learn more →</a></div>
+          </div>\`;
+        })()}
       </div>
     </div>
     <div class="card-footer">

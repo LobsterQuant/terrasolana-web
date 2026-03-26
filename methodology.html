@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methodology — How We Calculate Yield & Scores — Terrasolana</title>
+  <meta name="description" content="How Terrasolana calculates gross yield, net yield, opportunity score, and price vs. market median for Spain investment properties.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/shared.css">
+  <style>
+    body { padding-top: var(--nav-height); }
+    .m-wrap { max-width: 760px; margin: 0 auto; padding: 64px 48px 80px; }
+    .m-wrap h1 { font-family: var(--font-serif); font-size: clamp(28px,4vw,42px); font-weight: 800; margin-bottom: 8px; }
+    .m-intro { font-size: 17px; color: var(--ink-3); line-height: 1.7; margin-bottom: 56px; max-width: 600px; }
+
+    .m-section { margin-bottom: 52px; }
+    .m-section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+    .m-section-icon {
+      width: 44px; height: 44px;
+      background: var(--accent-light);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .m-section-icon.sage { background: var(--sage-light); }
+    .m-section-icon.gold { background: var(--gold-light); }
+    .m-section h2 {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0;
+    }
+    .m-section p { font-size: 15px; color: var(--ink-2); line-height: 1.75; margin-bottom: 14px; }
+    .m-section p:last-child { margin-bottom: 0; }
+
+    .formula-box {
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.8;
+    }
+    .formula-box .comment {
+      color: var(--ink-4);
+      font-size: 12px;
+      font-family: var(--font-sans);
+      font-weight: 400;
+    }
+
+    .score-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin: 16px 0;
+    }
+    .score-table th {
+      text-align: left;
+      padding: 10px 14px;
+      background: var(--bg-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--ink-3);
+      font-weight: 700;
+      border-bottom: 1px solid var(--border);
+    }
+    .score-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--ink-2);
+      vertical-align: top;
+    }
+    .score-table tr:last-child td { border-bottom: none; }
+    .score-table .weight {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .example-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px;
+      margin: 20px 0;
+    }
+    .example-card-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .example-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .example-row:last-child { border-bottom: none; }
+    .example-key { color: var(--ink-3); }
+    .example-val { font-family: var(--font-mono); font-weight: 700; color: var(--ink); }
+    .example-val.green { color: var(--sage); }
+    .example-val.gold  { color: var(--gold); }
+
+    .callout {
+      background: var(--sage-light);
+      border: 1px solid rgba(45,106,79,0.15);
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: 14px;
+      color: var(--ink-2);
+      line-height: 1.6;
+      margin: 20px 0;
+    }
+    .callout strong { color: var(--sage); }
+
+    .disclaimer {
+      background: var(--bg-muted);
+      border-radius: 8px;
+      padding: 20px;
+      font-size: 13px;
+      color: var(--ink-3);
+      line-height: 1.65;
+      margin-top: 40px;
+    }
+    .disclaimer strong { color: var(--ink-2); }
+
+    @media (max-width: 640px) {
+      .m-wrap { padding: 48px 20px 60px; }
+      .m-section-header { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <a href="/" class="nav-logo">
+    <div class="nav-logomark">☀</div>
+    <span class="nav-wordmark">Terra<span>solana</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/search.html">Search</a></li>
+    <li><a href="/index.html#cities">Cities</a></li>
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/newsletter.html">Newsletter</a></li>
+  </ul>
+  <a href="/search.html" class="btn-primary">Browse Properties →</a>
+  <button class="mobile-nav-toggle" aria-label="Menu" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div id="mobileNavOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199" onclick="toggleMobileNav()"></div>
+<div id="mobileNavMenu" style="display:none;position:fixed;top:var(--nav-height);left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);z-index:198;padding:16px 20px;flex-direction:column;gap:4px">
+  <a href="/search.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Search</a>
+  <a href="/index.html#cities" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Cities</a>
+  <a href="/about.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">About</a>
+  <a href="/newsletter.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Newsletter</a>
+</div>
+
+<div class="m-wrap">
+  <p class="section-eyebrow">Transparency</p>
+  <h1>How our metrics work</h1>
+  <p class="m-intro">Every property on Terrasolana comes with four data points: gross yield, net yield, price vs. market, and opportunity score. Here's exactly how we calculate each one — and what the numbers mean.</p>
+
+  <!-- ── 1. Gross Yield ──────────────────────────────── -->
+  <div class="m-section">
+    <div class="m-section-header">
+      <div class="m-section-icon">📊</div>
+      <h2>Gross Yield</h2>
+    </div>
+    <p>Gross yield is the simplest measure of rental return — annual rental income as a percentage of purchase price, before any costs.</p>
+    <div class="formula-box">
+      Gross Yield = (Estimated Monthly Rent × 12) ÷ Purchase Price × 100
+      <br><span class="comment">e.g. €900/mo rent × 12 = €10,800 ÷ €80,000 price = 13.5%</span>
+    </div>
+    <p>Rental estimates are derived from city-level rental market benchmarks, calibrated by property size, type, and neighbourhood. We use the local median rent per m² for the relevant city and property category — not a fixed national figure.</p>
+    <div class="callout">
+      <strong>What's a good gross yield?</strong> In Spain, residential properties typically yield 3–5% gross in prime coastal and urban locations. Properties above 7% are considered strong investment-grade. Above 10% usually reflects either exceptional value or a location with higher vacancy risk — always verify locally.
+    </div>
+  </div>
+
+  <!-- ── 2. Net Yield ────────────────────────────────── -->
+  <div class="m-section">
+    <div class="m-section-header">
+      <div class="m-section-icon sage">💶</div>
+      <h2>Net Yield (Estimated)</h2>
+    </div>
+    <p>Net yield deducts estimated annual ownership costs from the rental income before calculating the return. It's a more realistic picture of what you actually pocket.</p>
+    <div class="formula-box">
+      Annual Costs ≈ IBI (property tax) + community fees + insurance + maintenance
+      <br>Net Yield = (Annual Rent − Annual Costs) ÷ Purchase Price × 100
+      <br><span class="comment">Typical cost deduction: 25–35% of gross rent depending on property type</span>
+    </div>
+    <p>We apply a cost model based on Spanish norms: IBI is estimated at 0.4–1.1% of cadastral value (approximated from purchase price), community fees at €50–150/month, insurance at ~€300/year, and maintenance at 1% of purchase price annually.</p>
+    <p><strong>This is an estimate, not a guarantee.</strong> Actual costs vary significantly by municipality, building age, and management approach. Use net yield as a comparative signal, not a precise forecast.</p>
+  </div>
+
+  <!-- ── 3. Price vs. Market ────────────────────────── -->
+  <div class="m-section">
+    <div class="m-section-header">
+      <div class="m-section-icon gold">📍</div>
+      <h2>Price vs. Market</h2>
+    </div>
+    <p>This metric shows how the listing's price per m² compares to the city-wide median price per m² for the same property category. It tells you whether a property is cheap or expensive relative to its market.</p>
+    <div class="formula-box">
+      Price vs. Market = ((Listing Price/m²) − (City Median Price/m²)) ÷ (City Median Price/m²) × 100
+      <br><span class="comment">Negative = below median (potentially underpriced)</span>
+      <br><span class="comment">Positive = above median (potentially overpriced)</span>
+    </div>
+    <p>City median benchmarks are updated periodically from publicly available Spanish property market data (INE, Tinsa, Idealista market reports). They represent the median for residential properties in the same general city zone.</p>
+    <p>A listing at <strong style="color:var(--sage)">−25% vs. market</strong> is priced 25% below the city median per m² — a strong signal of value. A listing at <strong style="color:var(--accent)">+30% vs. market</strong> is priced 30% above median — and may be harder to exit or let at a premium.</p>
+    <div class="example-card">
+      <div class="example-card-label">Example: Madrid flat, 70m²</div>
+      <div class="example-row"><span class="example-key">Listing price per m²</span><span class="example-val">€3,250</span></div>
+      <div class="example-row"><span class="example-key">Madrid median per m²</span><span class="example-val">€4,200</span></div>
+      <div class="example-row"><span class="example-key">Price vs. Market</span><span class="example-val green">−22.6%</span></div>
+      <div class="example-row"><span class="example-key">Interpretation</span><span style="color:var(--sage);font-size:13px">22.6% below market — below median, potential negotiation upside</span></div>
+    </div>
+  </div>
+
+  <!-- ── 4. Opportunity Score ───────────────────────── -->
+  <div class="m-section">
+    <div class="m-section-header">
+      <div class="m-section-icon">🎯</div>
+      <h2>Opportunity Score (0–100)</h2>
+    </div>
+    <p>The opportunity score is our composite signal — a single number that combines yield, pricing, and market momentum into one investment-quality indicator. Higher is better.</p>
+
+    <table class="score-table">
+      <thead><tr><th>Component</th><th>Weight</th><th>What it measures</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Gross Yield</td>
+          <td class="weight">40%</td>
+          <td>Higher yield = higher score. Anchored to the city's yield distribution — 7%+ scores near maximum.</td>
+        </tr>
+        <tr>
+          <td>Price vs. Market</td>
+          <td class="weight">35%</td>
+          <td>Properties priced below the city median score higher. A −20% discount adds significant score.</td>
+        </tr>
+        <tr>
+          <td>Market Momentum</td>
+          <td class="weight">25%</td>
+          <td>Price drops and extended days on market signal a motivated seller and potential negotiating room.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="formula-box">
+      Score = (Yield component × 0.40) + (Price component × 0.35) + (Momentum component × 0.25)
+      <br><span class="comment">Each component normalised 0–100 within the city's distribution</span>
+    </div>
+
+    <p>Scores are calculated city by city — a score of 70 in Madrid reflects a different absolute yield than 70 in Almería, but both represent top-quartile opportunities within their respective markets.</p>
+
+    <div class="callout">
+      <strong>Score bands:</strong> 70–100 = top pick (strong investment case) · 55–69 = good (above average for the city) · 40–54 = average · Below 40 = lifestyle buy or long-term hold, not pure investment play.
+    </div>
+  </div>
+
+  <!-- ── Limitations ────────────────────────────────── -->
+  <div class="m-section">
+    <div class="m-section-header">
+      <div class="m-section-icon" style="background:var(--bg-muted)">⚠️</div>
+      <h2>Limitations & Data Sources</h2>
+    </div>
+    <p>Our data pipeline pulls listings from Idealista and Fotocasa. Prices are as listed — not confirmed transaction prices. Rental estimates are model-derived, not guaranteed. Property condition, legal status, community debt, and local demand are not reflected in our scores.</p>
+    <p>Data is refreshed periodically. Individual listings may have been withdrawn, price-changed, or let by the time you enquire. Always verify current status directly with the agent or on the source portal.</p>
+    <p>We are not licensed estate agents or financial advisors. Terrasolana provides data intelligence to assist your research — it is not a substitute for professional due diligence, legal advice, or a survey.</p>
+  </div>
+
+  <div class="disclaimer">
+    <strong>Disclaimer:</strong> All metrics are estimates based on publicly available data and algorithmic models. Terrasolana makes no warranty of accuracy. Past rental yields do not guarantee future returns. Property investment carries risk including capital loss. Always seek independent professional advice before making investment decisions.
+  </div>
+
+  <div style="margin-top:40px;display:flex;gap:16px;flex-wrap:wrap">
+    <a href="/search.html" class="btn-primary">Browse properties →</a>
+    <a href="/about.html"  class="btn-secondary">About Terrasolana</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">Terrasolana</div>
+      <p class="footer-brand-desc">Spain property intelligence for serious buyers.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Explore</div>
+      <ul class="footer-links">
+        <li><a href="/search.html">Search Properties</a></li>
+        <li><a href="/methodology.html">Methodology</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/newsletter.html">Newsletter</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <ul class="footer-links">
+        <li><a href="/privacy.html">Privacy</a></li>
+        <li><a href="/terms.html">Terms</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Terrasolana. Not a licensed estate agent. Data sourced from public listings.</span>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
+});
+function toggleMobileNav() {
+  const m = document.getElementById('mobileNavMenu');
+  const o = document.getElementById('mobileNavOverlay');
+  const open = m.style.display !== 'flex';
+  m.style.display = open ? 'flex' : 'none';
+  o.style.display  = open ? 'block' : 'none';
+}
+</script>
+<script src="/consent.js"></script>
+</body>
+</html>

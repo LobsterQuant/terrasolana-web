@@ -684,11 +684,18 @@ function buildCard(l) {
   const yieldStr  = l.gross_yield_pct ? l.gross_yield_pct.toFixed(1)+'%' : null;
   const rentStr   = l.estimated_rent_eur ? `€${Math.round(l.estimated_rent_eur).toLocaleString()}/mo` : '—';
   const score     = l.opportunity_score || 0;
-  const pvm       = l.price_vs_median_pct;
-  const pvmStr    = pvm != null
-    ? (pvm < 0 ? `${pvm.toFixed(0)}% vs median` : `+${pvm.toFixed(0)}% vs median`)
+  // price_vs_median_pct is stored inverted: positive value = below median (good/cheap)
+  // e.g. 67.9 means listing is 67.9% BELOW city median price/m² → underpriced
+  const pvm = l.price_vs_median_pct;
+  // Convert to standard sign: negative = below median (bargain), positive = above median (expensive)
+  const pvmAdj = pvm != null ? -pvm : null;
+  const pvmStr = pvmAdj != null
+    ? (pvmAdj < 0 ? `${pvmAdj.toFixed(0)}% vs market` : `+${pvmAdj.toFixed(0)}% vs market`)
     : null;
-  const pvmColor  = pvm != null && pvm < 0 ? 'var(--sage)' : pvm > 20 ? 'var(--accent)' : 'var(--ink-3)';
+  // Green = below market (cheap), orange/red = above market (expensive)
+  const pvmColor = pvmAdj != null
+    ? (pvmAdj < 0 ? 'var(--sage)' : pvmAdj > 10 ? 'var(--accent)' : 'var(--ink-3)')
+    : 'var(--ink-3)';
 
   // BUG 3 FIX: days_on_market is all 5 (scraper default) — omit it
   // Show price_drops only if non-zero
@@ -725,13 +732,28 @@ function buildCard(l) {
           <div class="card-metric-value">${rentStr}</div>
         </div>
         ${pvmStr ? `
-        <div>
-          <div class="card-metric-label">vs. Market</div>
+        <div class="ts-tooltip-wrap" tabindex="0" style="display:flex;flex-direction:column;align-items:flex-start">
+          <div class="card-metric-label" style="display:flex;align-items:center;gap:4px">
+            vs. Market <span style="font-size:10px;color:var(--ink-4);font-weight:400">ⓘ</span>
+          </div>
           <div class="card-metric-value" style="font-size:12px;color:${pvmColor}">${pvmStr}</div>
+          <div class="ts-tooltip">
+            ${pvmAdj < 0
+              ? `This property is priced <strong>${Math.abs(pvmAdj).toFixed(0)}% below</strong> the city median price per m² — potentially underpriced relative to comparable properties.`
+              : `This property is priced <strong>${pvmAdj.toFixed(0)}% above</strong> the city median price per m² — higher than average for this city.`
+            }
+            <br><a href="/methodology.html" style="margin-top:6px;display:inline-block">Learn more →</a>
+          </div>
         </div>` : '<div></div>'}
-        <div>
-          <div class="card-metric-label">Score</div>
+        <div class="ts-tooltip-wrap" tabindex="0" style="display:flex;flex-direction:column;align-items:flex-start">
+          <div class="card-metric-label" style="display:flex;align-items:center;gap:4px">
+            Score <span style="font-size:10px;color:var(--ink-4);font-weight:400">ⓘ</span>
+          </div>
           <div class="card-metric-value ${score>=70?'yield-high':score>=55?'yield-mid':'yield-low'}">${score}/100</div>
+          <div class="ts-tooltip">
+            Our <strong>Opportunity Score (0–100)</strong> combines gross yield (40%), price vs. neighbourhood median (35%), and days on market / price drops (25%). Higher = better investment opportunity.
+            <br><a href="/methodology.html" style="margin-top:6px;display:inline-block">Learn more →</a>
+          </div>
         </div>
       </div>
       ${drops ? `<div style="font-size:12px;color:var(--gold)">📉 ${l.price_drops} price drop${l.price_drops>1?'s':''}</div>` : ''}

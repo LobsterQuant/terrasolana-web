@@ -572,6 +572,65 @@ footer {
 .newsletter-form input::placeholder { color: rgba(255,255,255,0.4); }
 .newsletter-form input:focus { border-color: rgba(255,255,255,0.5); }
 
+/* ── Tooltips ────────────────────────────────────────── */
+.ts-tooltip-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: help;
+}
+.ts-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: #fff;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 10px 14px;
+  border-radius: 8px;
+  width: 220px;
+  text-align: left;
+  z-index: 400;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 150ms, visibility 150ms;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+.ts-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--ink);
+}
+.ts-tooltip a { color: rgba(255,255,255,0.65); text-decoration: underline; pointer-events: auto; }
+.ts-tooltip a:hover { color: #fff; }
+.ts-tooltip-wrap:hover .ts-tooltip,
+.ts-tooltip-wrap:focus-within .ts-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+/* On mobile: show tooltip on tap, prevent it going off-screen */
+@media (max-width: 480px) {
+  .ts-tooltip {
+    left: auto;
+    right: -8px;
+    transform: none;
+    width: 200px;
+  }
+  .ts-tooltip::after {
+    left: auto;
+    right: 16px;
+    transform: none;
+  }
+}
+
 /* ── Loading skeleton ────────────────────────────────── */
 .skeleton {
   background: linear-gradient(90deg, var(--bg-muted) 25%, var(--border) 50%, var(--bg-muted) 75%);

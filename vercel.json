@@ -21,6 +21,7 @@
     { "source": "/search", "destination": "/search.html" },
     { "source": "/newsletter", "destination": "/newsletter.html" },
     { "source": "/about", "destination": "/about.html" },
+    { "source": "/methodology", "destination": "/methodology.html" },
     { "source": "/contact", "destination": "/contact.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/terms.html" }
