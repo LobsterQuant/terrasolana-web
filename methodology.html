@@ -63,11 +63,18 @@
       font-weight: 400;
     }
 
+    .score-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      width: 100%;
+      display: block;
+      margin: 16px 0;
+    }
     .score-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 14px;
-      margin: 16px 0;
+      min-width: 400px;
     }
     .score-table th {
       text-align: left;
@@ -248,7 +255,7 @@
     </div>
     <p>The opportunity score is our composite signal — a single number that combines yield, pricing, and market momentum into one investment-quality indicator. Higher is better.</p>
 
-    <table class="score-table">
+    <div class="score-table-wrap"><table class="score-table">
       <thead><tr><th>Component</th><th>Weight</th><th>What it measures</th></tr></thead>
       <tbody>
         <tr>
@@ -267,7 +274,7 @@
           <td>Price drops and extended days on market signal a motivated seller and potential negotiating room.</td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
 
     <div class="formula-box">
       Score = (Yield component × 0.40) + (Price component × 0.35) + (Momentum component × 0.25)

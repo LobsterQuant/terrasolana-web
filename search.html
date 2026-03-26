@@ -238,7 +238,7 @@
       .search-stat { min-width: 50%; border-bottom: 1px solid var(--border); }
       .search-stat:nth-child(3), .search-stat:nth-child(4) { border-bottom: none; }
       .results-grid { grid-template-columns: 1fr; }
-      .sort-select { font-size: 12px; }
+      .sort-select { font-size: 12px; max-width: 100%; width: 100%; box-sizing: border-box; }
     }
   </style>
 </head>
@@ -282,7 +282,7 @@
     <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     <input type="text" id="searchInputMobile" placeholder="Search city, area…" oninput="document.getElementById('searchInput').value=this.value;applyFilters()" style="font-size:14px">
   </div>
-  <select id="sortSelectMobile" class="sort-select" onchange="document.getElementById('sortSelect').value=this.value;applyFilters()" style="font-size:12px;min-width:0;width:auto;padding:8px 24px 8px 8px">
+  <select id="sortSelectMobile" class="sort-select" onchange="document.getElementById('sortSelect').value=this.value;applyFilters()" style="font-size:12px;min-width:0;padding:8px 24px 8px 8px;max-width:100%;box-sizing:border-box">
     <option value="score">Score ↓</option>
     <option value="yield_desc">Yield ↓</option>
     <option value="price_asc">Price ↑</option>
