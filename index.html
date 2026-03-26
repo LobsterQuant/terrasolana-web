@@ -670,7 +670,7 @@ let listings = [];
 
 async function loadData() {
   try {
-    const res = await fetch('/data/listings.json?v=14');
+    const res = await fetch('/data/listings.json?v=15');
     listings = await res.json();
     populateHeroTopPicks();
     populateCities();
