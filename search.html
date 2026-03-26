@@ -587,26 +587,32 @@ function applyFilters() {
 // Price median: listings ≤ €1M (no luxury outlier skew)
 // Both computed from current filtered set
 function renderStats() {
-  // Use the already-filtered set directly — no secondary filter needed.
-  // filtered already respects minYield (default 3%), so stats reflect what's visible.
-  const yields  = filtered.map(l => l.gross_yield_pct).filter(y => y > 0);
-  const prices  = filtered.map(l => l.price_eur).filter(p => p > 0).sort((a,b) => a-b);
+  // Stats always reflect the filtered set.
+  // Yield avg: only from listings with yield > 0 (exclude lifestyle/luxury noise).
+  // Price median: only from listings ≤ €1.5M (exclude outlier mansions).
+  // This ensures stats stay meaningful even if user clears all filters.
+  const yieldSet = filtered.filter(l => l.gross_yield_pct > 0);
+  const priceSet = filtered.filter(l => l.price_eur > 0 && l.price_eur <= 1500000)
+                           .map(l => l.price_eur).sort((a,b) => a-b);
 
   document.getElementById('statCount').textContent = filtered.length.toLocaleString();
 
   document.getElementById('statAvgYield').textContent =
-    yields.length ? (yields.reduce((a,b) => a+b, 0) / yields.length).toFixed(1) + '%' : '—';
+    yieldSet.length
+      ? (yieldSet.reduce((s,l) => s + l.gross_yield_pct, 0) / yieldSet.length).toFixed(1) + '%'
+      : '—';
 
-  if (prices.length) {
-    const median = prices[Math.floor(prices.length / 2)];
+  if (priceSet.length) {
+    const median = priceSet[Math.floor(priceSet.length / 2)];
     document.getElementById('statAvgPrice').textContent =
       median >= 1000000 ? '€' + (median/1000000).toFixed(1) + 'M' : '€' + Math.round(median / 1000) + 'k';
   } else {
     document.getElementById('statAvgPrice').textContent = '—';
   }
 
+  const allYields = filtered.map(l => l.gross_yield_pct).filter(y => y > 0);
   document.getElementById('statMaxYield').textContent =
-    yields.length ? Math.max(...yields).toFixed(1) + '%' : '—';
+    allYields.length ? Math.max(...allYields).toFixed(1) + '%' : '—';
 }
 
 function renderActivePills() {
@@ -685,11 +691,9 @@ function buildCard(l) {
   const yieldStr  = l.gross_yield_pct ? l.gross_yield_pct.toFixed(1)+'%' : null;
   const rentStr   = l.estimated_rent_eur ? `€${Math.round(l.estimated_rent_eur).toLocaleString()}/mo` : '—';
   const score     = l.opportunity_score || 0;
-  // price_vs_median_pct is stored inverted: positive value = below median (good/cheap)
-  // e.g. 67.9 means listing is 67.9% BELOW city median price/m² → underpriced
+  // price_vs_median_pct: negative = below median (cheap/green), positive = above median (expensive/orange)
   const pvm = l.price_vs_median_pct;
-  // Convert to standard sign: negative = below median (bargain), positive = above median (expensive)
-  const pvmAdj = pvm != null ? -pvm : null;
+  const pvmAdj = pvm != null ? pvm : null;
   const pvmStr = pvmAdj != null
     ? (pvmAdj < 0 ? `${pvmAdj.toFixed(0)}% vs market` : `+${pvmAdj.toFixed(0)}% vs market`)
     : null;
