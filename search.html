@@ -339,8 +339,8 @@
     <!-- Stats -->
     <div class="search-stats" id="searchStats">
       <div class="search-stat"><div class="search-stat-val" id="statCount">—</div><div class="search-stat-label">Properties</div></div>
-      <div class="search-stat"><div class="search-stat-val green" id="statAvgYield">—</div><div class="search-stat-label">Avg Yield</div></div>
-      <div class="search-stat"><div class="search-stat-val" id="statAvgPrice">—</div><div class="search-stat-label">Avg Price</div></div>
+      <div class="search-stat"><div class="search-stat-val green" id="statAvgYield">—</div><div class="search-stat-label">Avg Yield (≥3%)</div></div>
+      <div class="search-stat"><div class="search-stat-val" id="statAvgPrice">—</div><div class="search-stat-label">Median Price (≤€1M)</div></div>
       <div class="search-stat"><div class="search-stat-val green" id="statMaxYield">—</div><div class="search-stat-label">Top Yield</div></div>
     </div>
 
@@ -423,7 +423,7 @@ const PAGE_SIZE = 24;
 
 let state = {
   cities: new Set(),   // empty = all
-  minYield: 0,
+  minYield: 3,         // default: investment-grade only (≥3% yield)
   maxPrice: 0,
   minBeds: 0,
   features: new Set(),
@@ -576,35 +576,32 @@ function applyFilters() {
   renderActivePills();
 }
 
-// ── Stats: investment-grade subset only ───────────────
-// Yield avg: only listings with gross_yield_pct > 0
-// Price avg: only listings ≤ €1M (exclude luxury outliers)
-// Both: only from the current filtered visible set
+// ── Stats ──────────────────────────────────────────────
+// Yield avg: listings with yield ≥ 3% (investment-grade signal)
+// Price median: listings ≤ €1M (no luxury outlier skew)
+// Both computed from current filtered set
 function renderStats() {
-  const yieldSet = filtered.filter(l => l.gross_yield_pct > 0);
+  const yieldSet = filtered.filter(l => l.gross_yield_pct >= 3);
   const priceSet = filtered.filter(l => l.price_eur > 0 && l.price_eur <= 1000000);
   const yields   = yieldSet.map(l => l.gross_yield_pct);
   const prices   = priceSet.map(l => l.price_eur);
+  const allYields = filtered.filter(l => l.gross_yield_pct > 0).map(l => l.gross_yield_pct);
 
   document.getElementById('statCount').textContent = filtered.length.toLocaleString();
 
-  // Yield: mean of positive-yield listings only
   document.getElementById('statAvgYield').textContent =
     yields.length ? (yields.reduce((a,b) => a+b, 0) / yields.length).toFixed(1) + '%' : '—';
 
-  // Price: median of ≤€1M listings (robust to outliers)
   if (prices.length) {
     const sorted = [...prices].sort((a,b) => a-b);
     const median = sorted[Math.floor(sorted.length / 2)];
-    document.getElementById('statAvgPrice').textContent =
-      '€' + Math.round(median / 1000) + 'k';
+    document.getElementById('statAvgPrice').textContent = '€' + Math.round(median / 1000) + 'k';
   } else {
     document.getElementById('statAvgPrice').textContent = '—';
   }
 
-  // Top yield: max across all filtered (including high-value)
   document.getElementById('statMaxYield').textContent =
-    yields.length ? Math.max(...yields).toFixed(1) + '%' : '—';
+    allYields.length ? Math.max(...allYields).toFixed(1) + '%' : '—';
 }
 
 function renderActivePills() {
