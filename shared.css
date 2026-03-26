@@ -25,10 +25,57 @@
   --shadow-sm:    0 1px 3px rgba(0,0,0,0.06);
   --shadow-md:    0 4px 16px rgba(0,0,0,0.08);
   --shadow-lg:    0 12px 40px rgba(0,0,0,0.10);
+  --bg-footer:    #1C1917;      /* footer — dark in both modes */
   --font-serif:   'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-sans:    'Inter', system-ui, -apple-system, sans-serif;
   --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
 }
+
+/* ── Dark mode token overrides ───────────────────────── */
+[data-theme="dark"] {
+  --bg:           #0F1117;
+  --bg-card:      #1A1D27;
+  --bg-muted:     #151820;
+  --border:       #2A2D3A;
+  --border-dark:  #3A3E50;
+  --ink:          #F5F3EF;
+  --ink-2:        #C8C4BC;
+  --ink-3:        #8A8580;
+  --ink-4:        #5A5652;
+  --accent:       #E8713A;       /* slightly brighter terracotta for dark bg */
+  --accent-hover: #D4622A;
+  --accent-light: #2A1810;
+  --sage:         #4CAF7A;
+  --sage-light:   #0D2418;
+  --gold:         #E0AA50;
+  --gold-light:   #251B08;
+  --shadow-sm:    0 1px 3px rgba(0,0,0,0.30);
+  --shadow-md:    0 4px 16px rgba(0,0,0,0.40);
+  --shadow-lg:    0 12px 40px rgba(0,0,0,0.50);
+  --bg-footer:    #0A0C12;      /* footer — even darker in dark mode */
+}
+
+/* ── Theme transition (smooth switch) ───────────────── */
+body, nav, .property-card, .modal, .modal-overlay,
+.city-card, footer, .filter-panel, .search-stats,
+.faq-item, .faq-q, .faq-a, .about-value, .cookie-banner {
+  transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+/* ── Theme toggle button ─────────────────────────────── */
+.theme-toggle {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: var(--bg-muted);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: background 150ms, border-color 150ms;
+  margin-left: 8px;
+}
+.theme-toggle:hover { background: var(--border); }
 
 /* ── Reset ───────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -496,7 +543,7 @@ select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmln
 
 /* ── Footer ──────────────────────────────────────────── */
 footer {
-  background: var(--ink);
+  background: var(--bg-footer);
   color: rgba(255,255,255,0.7);
   padding: 48px;
 }

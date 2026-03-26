@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script>!function(){var t=localStorage.getItem("ts_theme")||((window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light");document.documentElement.setAttribute("data-theme",t)}()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact — Terrasolana</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,6 +30,7 @@
     <li><a href="/faq.html">FAQ</a></li>
     <li><a href="/newsletter.html">Newsletter</a></li>
   </ul>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">☀️</button>
   <a href="/search.html" class="btn-primary">Browse Properties →</a>
   <button class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
@@ -84,6 +86,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     .then(r => { if(r.ok) this.innerHTML = '<div style="text-align:center;padding:40px 0"><div style="font-size:40px;margin-bottom:12px">✓</div><h3 style="font-family:var(--font-serif);font-size:22px;font-weight:700;margin-bottom:8px">Message sent.</h3><p style="color:var(--ink-3)">We\'ll get back to you within 24 hours.</p></div>'; });
 });
 </script>
+<script src="/theme.js"></script>
 <script src="/consent.js"></script>
 </body>
 </html>

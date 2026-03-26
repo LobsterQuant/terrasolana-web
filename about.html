@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script>!function(){var t=localStorage.getItem("ts_theme")||((window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light");document.documentElement.setAttribute("data-theme",t)}()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — Terrasolana</title>
   <meta name="description" content="Terrasolana is Spain property intelligence for serious buyers. We filter thousands of listings down to the ones worth your time — with real yield data.">
@@ -41,6 +42,7 @@
     <li><a href="/faq.html">FAQ</a></li>
     <li><a href="/newsletter.html">Newsletter</a></li>
   </ul>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">☀️</button>
   <a href="/search.html" class="btn-primary">Browse Properties →</a>
   <button class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
@@ -139,6 +141,7 @@ window.addEventListener('scroll', () => {
   document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
 });
 </script>
+<script src="/theme.js"></script>
 <script src="/consent.js"></script>
 </body>
 </html>

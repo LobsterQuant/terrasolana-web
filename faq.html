@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script>!function(){var t=localStorage.getItem("ts_theme")||((window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light");document.documentElement.setAttribute("data-theme",t)}()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FAQ — Frequently Asked Questions — Terrasolana</title>
   <meta name="description" content="Answers to common questions about how Terrasolana works: agent referrals, yield calculations, opportunity scores, data freshness, and more.">
@@ -166,6 +167,7 @@
     <li><a href="/faq.html" class="active">FAQ</a></li>
     <li><a href="/newsletter.html">Newsletter</a></li>
   </ul>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">☀️</button>
   <a href="/search.html" class="btn-primary">Browse Properties →</a>
   <button class="mobile-nav-toggle" aria-label="Menu" onclick="toggleMobileNav()">
     <span></span><span></span><span></span>
@@ -406,6 +408,7 @@ function toggle(btn) {
   }
 }
 </script>
+<script src="/theme.js"></script>
 <script src="/consent.js"></script>
 </body>
 </html>

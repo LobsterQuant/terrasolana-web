@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script>!function(){var t=localStorage.getItem("ts_theme")||((window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light");document.documentElement.setAttribute("data-theme",t)}()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weekly Newsletter — Terrasolana</title>
   <meta name="description" content="Get Spain's best investment properties every Monday. Curated picks with yield data, opportunity scores, and market intelligence.">
@@ -62,6 +63,7 @@
     <li><a href="/about.html">About</a></li>
     <li><a href="/newsletter.html" class="active">Newsletter</a></li>
   </ul>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">☀️</button>
   <a href="/search.html" class="btn-primary">Browse Properties →</a>
   <button class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
@@ -188,6 +190,7 @@ function handleSubmit(e) {
   return false;
 }
 </script>
+<script src="/theme.js"></script>
 <script src="/consent.js"></script>
 </body>
 </html>
