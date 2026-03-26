@@ -585,13 +585,15 @@ footer {
 .mt-auto     { margin-top: auto; }
 .divider     { border: none; border-top: 1px solid var(--border); }
 
-/* ── Mobile nav ──────────────────────────────────────── */
+/* ── Mobile nav toggle ───────────────────────────────── */
 .mobile-nav-toggle {
   display: none;
   flex-direction: column;
   gap: 5px;
   cursor: pointer;
   padding: 4px;
+  background: none;
+  border: none;
 }
 .mobile-nav-toggle span {
   display: block;
@@ -602,20 +604,49 @@ footer {
 }
 
 /* ── Responsive ──────────────────────────────────────── */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   nav { padding: 0 20px; }
   .container { padding: 0 20px; }
+  .nav-links { gap: 20px; }
+}
+
+@media (max-width: 768px) {
+  /* Nav: hide links, show hamburger */
+  nav { padding: 0 16px; height: 56px; }
+  :root { --nav-height: 56px; }
   .nav-links { display: none; }
+  .nav-wordmark { font-size: 16px; }
+  /* Hide desktop CTA btn in nav on mobile, hamburger only */
+  nav > .btn-primary { display: none; }
   .mobile-nav-toggle { display: flex; }
-  .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+
+  /* Container */
+  .container { padding: 0 16px; }
+
+  /* Footer */
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
   .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
-  footer { padding: 40px 20px; }
+  footer { padding: 36px 16px; }
+
+  /* Newsletter strip */
   .newsletter-strip { padding: 48px 20px; }
   .newsletter-form { flex-direction: column; }
-  .stats-bar { flex-wrap: wrap; gap: 20px; justify-content: center; }
+
+  /* Stats bar */
+  .stats-bar { flex-wrap: wrap; gap: 16px; justify-content: center; }
+
+  /* Modals — full-width on mobile */
+  .modal { border-radius: 14px 14px 0 0; position: fixed; bottom: 0; left: 0; right: 0; max-height: 90vh; max-width: 100%; margin: 0; }
+  .modal-overlay { align-items: flex-end; padding: 0; }
+
+  /* Property card — compact */
+  .card-image { height: 150px; }
+  .card-body  { padding: 14px; gap: 10px; }
+  .card-price { font-size: 18px; }
 }
-@media (max-width: 900px) {
-  nav { padding: 0 24px; }
-  .container { padding: 0 24px; }
-  .nav-links { gap: 20px; }
+
+@media (max-width: 480px) {
+  nav { padding: 0 14px; }
+  .nav-logomark { width: 28px; height: 28px; font-size: 14px; }
+  .container { padding: 0 14px; }
 }

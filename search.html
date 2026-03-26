@@ -15,27 +15,27 @@
     /* ── Page layout ─────────────────────────────────── */
     .search-layout {
       display: grid;
-      grid-template-columns: 300px 1fr;
+      grid-template-columns: 288px 1fr;
       gap: 0;
       min-height: calc(100vh - var(--nav-height));
       align-items: start;
     }
 
-    /* ── Sidebar filters ─────────────────────────────── */
+    /* ── Sidebar filters (desktop) ───────────────────── */
     .search-sidebar {
       position: sticky;
       top: var(--nav-height);
       height: calc(100vh - var(--nav-height));
       overflow-y: auto;
       border-right: 1px solid var(--border);
-      padding: 24px;
+      padding: 24px 20px;
       background: var(--bg-card);
     }
     .sidebar-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
     .sidebar-title {
       font-size: 13px;
@@ -53,99 +53,192 @@
       font-family: inherit;
     }
     .clear-filters:hover { text-decoration: underline; }
+    .filter-divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
 
-    .filter-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+    /* ── Mobile filter drawer ────────────────────────── */
+    .mobile-filter-bar {
+      display: none;
+      padding: 10px 16px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      gap: 10px;
+      align-items: center;
+      position: sticky;
+      top: var(--nav-height);
+      z-index: 100;
+    }
+    .mobile-filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border: 1.5px solid var(--border-dark);
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--bg-card);
+      color: var(--ink);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .mobile-filter-btn.has-filters { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+    /* Drawer overlay */
+    .filter-drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 300;
+    }
+    .filter-drawer-overlay.open { display: block; }
+
+    /* Drawer panel */
+    .filter-drawer {
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
+      width: min(320px, 90vw);
+      background: var(--bg-card);
+      z-index: 301;
+      overflow-y: auto;
+      padding: 20px;
+      transform: translateX(-100%);
+      transition: transform 250ms ease;
+    }
+    .filter-drawer.open { transform: translateX(0); }
+    .filter-drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .filter-drawer-close {
+      background: var(--bg-muted);
+      border: none;
+      border-radius: 50%;
+      width: 32px; height: 32px;
+      font-size: 18px;
+      color: var(--ink-3);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-family: inherit;
+    }
 
     /* ── Main content ────────────────────────────────── */
-    .search-main { padding: 24px 32px; }
+    .search-main { padding: 20px 28px; min-width: 0; }
 
     .search-topbar {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
     }
-    .search-topbar .search-input-wrap { flex: 1; min-width: 200px; }
+    .search-topbar .search-input-wrap { flex: 1; min-width: 160px; }
 
     .results-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
     }
-    .results-count {
-      font-size: 14px;
-      color: var(--ink-3);
-    }
+    .results-count { font-size: 14px; color: var(--ink-3); }
     .results-count strong { color: var(--ink); font-weight: 700; }
-    .sort-select {
-      width: auto;
-      padding: 8px 32px 8px 12px;
-      font-size: 13px;
-    }
+    .sort-select { width: auto; padding: 8px 32px 8px 12px; font-size: 13px; }
 
     /* ── Grid ────────────────────────────────────────── */
     .results-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
     }
 
     /* ── Active filter pills ─────────────────────────── */
     .active-filters {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 16px;
+      gap: 6px;
+      margin-bottom: 14px;
     }
     .active-filter-pill {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 4px 12px 4px 10px;
+      gap: 4px;
+      padding: 4px 10px;
       background: var(--accent-light);
       color: var(--accent);
       border-radius: 100px;
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
+      border: none;
+      font-family: inherit;
     }
     .active-filter-pill:hover { background: #fde0d5; }
+
+    /* ── Stats bar ───────────────────────────────────── */
+    .search-stats {
+      display: flex;
+      gap: 0;
+      background: var(--bg-muted);
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .search-stat {
+      flex: 1;
+      text-align: center;
+      padding: 14px 8px;
+      border-right: 1px solid var(--border);
+    }
+    .search-stat:last-child { border-right: none; }
+    .search-stat-val {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .search-stat-val.green { color: var(--sage); }
+    .search-stat-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-4);
+      margin-top: 3px;
+    }
 
     /* ── No results ──────────────────────────────────── */
     .no-results {
       grid-column: 1/-1;
       text-align: center;
-      padding: 80px 20px;
+      padding: 60px 20px;
     }
-    .no-results-emoji { font-size: 48px; margin-bottom: 16px; }
-    .no-results h3 { font-family: var(--font-serif); font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-    .no-results p { color: var(--ink-3); font-size: 15px; }
+    .no-results-emoji { font-size: 40px; margin-bottom: 12px; }
+    .no-results h3 { font-family: var(--font-serif); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .no-results p { color: var(--ink-3); font-size: 14px; }
 
     /* ── Load more ───────────────────────────────────── */
-    .load-more-wrap { text-align: center; margin-top: 40px; padding-bottom: 40px; }
+    .load-more-wrap { text-align: center; margin-top: 36px; padding-bottom: 40px; }
 
-    /* ── Stats bar ───────────────────────────────────── */
-    .search-stats {
-      display: flex;
-      gap: 32px;
-      padding: 16px 20px;
-      background: var(--bg-muted);
-      border-radius: var(--radius);
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-    .search-stat { text-align: center; }
-    .search-stat-val { font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: var(--ink); }
-    .search-stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-4); margin-top: 2px; }
-
+    /* ── Responsive ──────────────────────────────────── */
     @media (max-width: 900px) {
       .search-layout { grid-template-columns: 1fr; }
-      .search-sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
-      .search-main { padding: 20px; }
+      .search-sidebar { display: none; } /* replaced by drawer on mobile */
+      .mobile-filter-bar { display: flex; }
+      .search-main { padding: 16px; }
+      .search-topbar { margin-bottom: 14px; }
+      .results-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    }
+    @media (max-width: 600px) {
+      .search-stats { flex-wrap: wrap; }
+      .search-stat { min-width: 50%; border-bottom: 1px solid var(--border); }
+      .search-stat:nth-child(3), .search-stat:nth-child(4) { border-bottom: none; }
+      .results-grid { grid-template-columns: 1fr; }
+      .sort-select { font-size: 12px; }
     }
   </style>
 </head>
@@ -164,149 +257,110 @@
     <li><a href="/newsletter.html">Newsletter</a></li>
   </ul>
   <a href="/newsletter.html" class="btn-primary">Weekly Picks →</a>
-  <button class="mobile-nav-toggle" aria-label="Menu">
+  <button class="mobile-nav-toggle" aria-label="Menu" onclick="toggleMobileNav()">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
+<!-- Mobile nav overlay -->
+<div id="mobileNavOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199" onclick="toggleMobileNav()"></div>
+<div id="mobileNavMenu" style="display:none;position:fixed;top:var(--nav-height);left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);z-index:198;padding:16px 20px;flex-direction:column;gap:4px">
+  <a href="/search.html" style="padding:10px 12px;font-size:15px;font-weight:600;color:var(--accent);display:block">Search</a>
+  <a href="/index.html#cities" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Cities</a>
+  <a href="/about.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">About</a>
+  <a href="/newsletter.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Newsletter</a>
+  <a href="/newsletter.html" class="btn-primary" style="margin-top:8px;justify-content:center">Weekly Picks →</a>
+</div>
+
+<!-- Mobile filter bar -->
+<div class="mobile-filter-bar" id="mobileFilterBar">
+  <button class="mobile-filter-btn" id="mobileFilterBtn" onclick="openFilterDrawer()">
+    ⚙ Filters <span id="mobileFilterCount" style="display:none;background:var(--accent);color:#fff;border-radius:100px;padding:1px 6px;font-size:11px;margin-left:2px"></span>
+  </button>
+  <div class="search-input-wrap" style="flex:1">
+    <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="searchInputMobile" placeholder="Search city, area…" oninput="document.getElementById('searchInput').value=this.value;applyFilters()" style="font-size:14px">
+  </div>
+  <select id="sortSelectMobile" class="sort-select" onchange="document.getElementById('sortSelect').value=this.value;applyFilters()" style="font-size:12px;min-width:0;width:auto;padding:8px 24px 8px 8px">
+    <option value="score">Score ↓</option>
+    <option value="yield_desc">Yield ↓</option>
+    <option value="price_asc">Price ↑</option>
+    <option value="price_desc">Price ↓</option>
+  </select>
+</div>
+
+<!-- Filter drawer overlay -->
+<div class="filter-drawer-overlay" id="filterDrawerOverlay" onclick="closeFilterDrawer()"></div>
+
+<!-- Filter drawer (mobile) -->
+<div class="filter-drawer" id="filterDrawer">
+  <div class="filter-drawer-header">
+    <span class="sidebar-title">Filters</span>
+    <button class="filter-drawer-close" onclick="closeFilterDrawer()">×</button>
+  </div>
+  <!-- Same filter content as sidebar — shared via JS render -->
+  <div id="drawerFilterContent"></div>
+  <div style="margin-top:20px;display:flex;gap:10px">
+    <button class="btn-secondary" onclick="clearFilters();closeFilterDrawer()" style="flex:1;justify-content:center">Clear</button>
+    <button class="btn-primary" onclick="closeFilterDrawer()" style="flex:2;justify-content:center">Show results</button>
+  </div>
+</div>
+
 <div class="search-layout">
 
-  <!-- ── SIDEBAR ──────────────────────────────────────── -->
+  <!-- ── SIDEBAR (desktop) ──────────────────────────── -->
   <aside class="search-sidebar">
     <div class="sidebar-header">
       <span class="sidebar-title">Filters</span>
       <button class="clear-filters" onclick="clearFilters()">Clear all</button>
     </div>
-
-    <!-- City -->
-    <div class="filter-group">
-      <label class="filter-label">City</label>
-      <div class="filter-chips" id="cityChips">
-        <div class="filter-chip active" data-value="all" onclick="toggleCity(this)">All</div>
-        <div class="filter-chip" data-value="valencia" onclick="toggleCity(this)">Valencia</div>
-        <div class="filter-chip" data-value="madrid" onclick="toggleCity(this)">Madrid</div>
-        <div class="filter-chip" data-value="malaga" onclick="toggleCity(this)">Málaga</div>
-        <div class="filter-chip" data-value="alicante" onclick="toggleCity(this)">Alicante</div>
-        <div class="filter-chip" data-value="almeria" onclick="toggleCity(this)">Almería</div>
-      </div>
-    </div>
-
-    <hr class="filter-divider">
-
-    <!-- Min yield -->
-    <div class="filter-group">
-      <label class="filter-label">Minimum Gross Yield</label>
-      <div class="filter-chips">
-        <div class="filter-chip active" data-yield="0" onclick="setYield(this,0)">Any</div>
-        <div class="filter-chip" data-yield="3" onclick="setYield(this,3)">3%+</div>
-        <div class="filter-chip" data-yield="5" onclick="setYield(this,5)">5%+</div>
-        <div class="filter-chip" data-yield="7" onclick="setYield(this,7)">7%+</div>
-        <div class="filter-chip" data-yield="9" onclick="setYield(this,9)">9%+</div>
-      </div>
-    </div>
-
-    <hr class="filter-divider">
-
-    <!-- Max price -->
-    <div class="filter-group">
-      <label class="filter-label">Max Price</label>
-      <div class="filter-chips">
-        <div class="filter-chip active" data-price="0" onclick="setPrice(this,0)">Any</div>
-        <div class="filter-chip" data-price="200000" onclick="setPrice(this,200000)">≤€200k</div>
-        <div class="filter-chip" data-price="400000" onclick="setPrice(this,400000)">≤€400k</div>
-        <div class="filter-chip" data-price="800000" onclick="setPrice(this,800000)">≤€800k</div>
-        <div class="filter-chip" data-price="1500000" onclick="setPrice(this,1500000)">≤€1.5M</div>
-      </div>
-    </div>
-
-    <hr class="filter-divider">
-
-    <!-- Bedrooms -->
-    <div class="filter-group">
-      <label class="filter-label">Bedrooms</label>
-      <div class="filter-chips" id="bedroomChips">
-        <div class="filter-chip active" data-beds="0" onclick="setBeds(this,0)">Any</div>
-        <div class="filter-chip" data-beds="1" onclick="setBeds(this,1)">1+</div>
-        <div class="filter-chip" data-beds="2" onclick="setBeds(this,2)">2+</div>
-        <div class="filter-chip" data-beds="3" onclick="setBeds(this,3)">3+</div>
-        <div class="filter-chip" data-beds="4" onclick="setBeds(this,4)">4+</div>
-      </div>
-    </div>
-
-    <hr class="filter-divider">
-
-    <!-- Features -->
-    <div class="filter-group">
-      <label class="filter-label">Features</label>
-      <div class="filter-chips">
-        <div class="filter-chip" data-feat="has_elevator" onclick="toggleFeature(this)">🛗 Lift</div>
-        <div class="filter-chip" data-feat="has_parking" onclick="toggleFeature(this)">🚗 Parking</div>
-        <div class="filter-chip" data-feat="has_terrace" onclick="toggleFeature(this)">🌿 Terrace</div>
-        <div class="filter-chip" data-feat="has_pool" onclick="toggleFeature(this)">🏊 Pool</div>
-      </div>
-    </div>
-
-    <hr class="filter-divider">
-
-    <!-- Sort (sidebar mobile duplicate) -->
-    <div class="filter-group">
-      <label class="filter-label">Sort By</label>
-      <select id="sortSelectSidebar" onchange="document.getElementById('sortSelect').value=this.value;applyFilters()">
-        <option value="score">Opportunity Score</option>
-        <option value="yield_desc">Highest Yield</option>
-        <option value="price_asc">Price: Low → High</option>
-        <option value="price_desc">Price: High → Low</option>
-        <option value="dom">Most Days on Market</option>
-      </select>
-    </div>
+    <div id="sidebarFilterContent"></div>
   </aside>
 
   <!-- ── MAIN ─────────────────────────────────────────── -->
   <main class="search-main">
 
-    <div class="search-topbar">
+    <div class="search-topbar" id="desktopTopbar">
       <div class="search-input-wrap">
         <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <input type="text" id="searchInput" placeholder="Search city, neighbourhood…" oninput="applyFilters()">
       </div>
-      <select id="sortSelect" class="sort-select" onchange="document.getElementById('sortSelectSidebar').value=this.value;applyFilters()">
+      <select id="sortSelect" class="sort-select" onchange="applyFilters()">
         <option value="score">Opportunity Score</option>
         <option value="yield_desc">Highest Yield</option>
         <option value="price_asc">Price ↑</option>
         <option value="price_desc">Price ↓</option>
-        <option value="dom">Days on Market</option>
       </select>
     </div>
 
     <!-- Active filter pills -->
     <div class="active-filters" id="activeFilterPills"></div>
 
-    <!-- Stats summary -->
+    <!-- Stats -->
     <div class="search-stats" id="searchStats">
       <div class="search-stat"><div class="search-stat-val" id="statCount">—</div><div class="search-stat-label">Properties</div></div>
-      <div class="search-stat"><div class="search-stat-val" id="statAvgYield">—</div><div class="search-stat-label">Avg Yield</div></div>
+      <div class="search-stat"><div class="search-stat-val green" id="statAvgYield">—</div><div class="search-stat-label">Avg Yield</div></div>
       <div class="search-stat"><div class="search-stat-val" id="statAvgPrice">—</div><div class="search-stat-label">Avg Price</div></div>
-      <div class="search-stat"><div class="search-stat-val" id="statMaxYield">—</div><div class="search-stat-label">Top Yield</div></div>
+      <div class="search-stat"><div class="search-stat-val green" id="statMaxYield">—</div><div class="search-stat-label">Top Yield</div></div>
     </div>
 
-    <!-- Results -->
     <div class="results-header">
       <div class="results-count" id="resultsCount">Loading…</div>
     </div>
     <div class="results-grid" id="resultsGrid"></div>
     <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
-      <button class="btn-secondary" onclick="loadMore()" style="min-width:200px">Load more properties</button>
+      <button class="btn-secondary" onclick="loadMore()" style="min-width:180px">Load more</button>
     </div>
   </main>
 </div>
 
-<!-- Agent modal (same as index) -->
+<!-- Agent modal -->
 <div class="modal-overlay" id="agentModal">
   <div class="modal" style="position:relative">
     <button class="modal-close" onclick="closeModal('agentModal')">×</button>
     <p class="section-eyebrow">Get Expert Help</p>
     <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:700;margin-bottom:8px;margin-top:4px">Connect with a Spain specialist</h3>
-    <p style="font-size:14px;color:var(--ink-3);margin-bottom:24px;line-height:1.6">We'll introduce you to a vetted, English-speaking buyer's agent who knows this market. Free, no obligation.</p>
+    <p style="font-size:14px;color:var(--ink-3);margin-bottom:24px;line-height:1.6">We'll introduce you to a vetted, English-speaking buyer's agent. Free, no obligation.</p>
     <form id="agentForm" action="https://formspree.io/f/mreogjop" method="POST">
       <input type="hidden" name="property_id" id="agentFormPropertyId">
       <input type="hidden" name="property_city" id="agentFormCity">
@@ -353,9 +407,7 @@
             <option>Long-term planning (6+ months)</option>
           </select>
         </div>
-        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;margin-top:4px;font-size:15px;padding:13px">
-          Connect me with an agent →
-        </button>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:15px;padding:13px">Connect me with an agent →</button>
         <p style="font-size:11px;color:var(--ink-4);text-align:center">We'll respond within 24 hours. No spam, no obligation.</p>
       </div>
     </form>
@@ -370,7 +422,7 @@ let page = 0;
 const PAGE_SIZE = 24;
 
 let state = {
-  city: 'all',
+  cities: new Set(),   // empty = all
   minYield: 0,
   maxPrice: 0,
   minBeds: 0,
@@ -379,119 +431,129 @@ let state = {
   sort: 'score'
 };
 
-// ── Init ───────────────────────────────────────────────
-async function init() {
-  // Parse URL params
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('city') && params.get('city') !== 'all') {
-    state.city = params.get('city');
-    document.querySelectorAll('#cityChips .filter-chip').forEach(c => {
-      c.classList.toggle('active', c.dataset.value === state.city || c.dataset.value === 'all' && false);
-    });
-    document.querySelectorAll('#cityChips .filter-chip').forEach(c => {
-      if (c.dataset.value === state.city) c.classList.add('active');
-      else if (c.dataset.value === 'all') c.classList.remove('active');
-    });
-  }
-  if (params.get('yield')) {
-    const y = parseFloat(params.get('yield'));
-    state.minYield = y;
-    document.querySelectorAll('[data-yield]').forEach(c => {
-      c.classList.toggle('active', parseFloat(c.dataset.yield) === y);
-    });
-  }
+// ── Filter HTML (rendered into both sidebar + drawer) ──
+function filterHTML() {
+  const cityList = [
+    {val:'valencia', label:'Valencia'},
+    {val:'madrid',   label:'Madrid'},
+    {val:'malaga',   label:'Málaga'},
+    {val:'alicante', label:'Alicante'},
+    {val:'almeria',  label:'Almería'},
+  ];
+  const yieldOpts = [{v:0,l:'Any'},{v:3,l:'3%+'},{v:5,l:'5%+'},{v:7,l:'7%+'},{v:9,l:'9%+'}];
+  const priceOpts = [{v:0,l:'Any'},{v:200000,l:'≤€200k'},{v:400000,l:'≤€400k'},{v:800000,l:'≤€800k'},{v:1500000,l:'≤€1.5M'}];
+  const bedOpts   = [{v:0,l:'Any'},{v:1,l:'1+'},{v:2,l:'2+'},{v:3,l:'3+'},{v:4,l:'4+'}];
+  const featOpts  = [{f:'has_elevator',l:'🛗 Lift'},{f:'has_parking',l:'🚗 Parking'},{f:'has_terrace',l:'🌿 Terrace'},{f:'has_pool',l:'🏊 Pool'}];
 
-  try {
-    const res = await fetch('/data/listings.json');
-    allListings = await res.json();
-    applyFilters();
-  } catch(e) {
-    document.getElementById('resultsGrid').innerHTML = '<p style="color:var(--ink-3);padding:40px">Failed to load listings.</p>';
-  }
+  return `
+    <div class="filter-group">
+      <label class="filter-label">City</label>
+      <div class="filter-chips">
+        ${cityList.map(c=>`<div class="filter-chip ${state.cities.size===0||state.cities.has(c.val)?'active':''}" data-city="${c.val}" onclick="toggleCity('${c.val}')">${c.label}</div>`).join('')}
+      </div>
+    </div>
+    <hr class="filter-divider">
+    <div class="filter-group">
+      <label class="filter-label">Min Gross Yield</label>
+      <div class="filter-chips">
+        ${yieldOpts.map(o=>`<div class="filter-chip ${state.minYield===o.v?'active':''}" onclick="setYield(${o.v})">${o.l}</div>`).join('')}
+      </div>
+    </div>
+    <hr class="filter-divider">
+    <div class="filter-group">
+      <label class="filter-label">Max Price</label>
+      <div class="filter-chips">
+        ${priceOpts.map(o=>`<div class="filter-chip ${state.maxPrice===o.v?'active':''}" onclick="setPrice(${o.v})">${o.l}</div>`).join('')}
+      </div>
+    </div>
+    <hr class="filter-divider">
+    <div class="filter-group">
+      <label class="filter-label">Bedrooms</label>
+      <div class="filter-chips">
+        ${bedOpts.map(o=>`<div class="filter-chip ${state.minBeds===o.v?'active':''}" onclick="setBeds(${o.v})">${o.l}</div>`).join('')}
+      </div>
+    </div>
+    <hr class="filter-divider">
+    <div class="filter-group">
+      <label class="filter-label">Features</label>
+      <div class="filter-chips">
+        ${featOpts.map(o=>`<div class="filter-chip ${state.features.has(o.f)?'active':''}" onclick="toggleFeature('${o.f}')">${o.l}</div>`).join('')}
+      </div>
+    </div>
+  `;
 }
 
-// ── Filter functions ───────────────────────────────────
-function toggleCity(el) {
-  const val = el.dataset.value;
-  if (val === 'all') {
-    document.querySelectorAll('#cityChips .filter-chip').forEach(c => c.classList.remove('active'));
-    el.classList.add('active');
-    state.city = 'all';
-  } else {
-    document.querySelector('#cityChips [data-value="all"]').classList.remove('active');
-    // Toggle this city
-    el.classList.toggle('active');
-    // If none selected, reactivate "All"
-    const anyActive = [...document.querySelectorAll('#cityChips .filter-chip:not([data-value="all"])')].some(c => c.classList.contains('active'));
-    if (!anyActive) {
-      document.querySelector('#cityChips [data-value="all"]').classList.add('active');
-      state.city = 'all';
-    } else {
-      state.city = [...document.querySelectorAll('#cityChips .filter-chip:not([data-value="all"]).active')].map(c => c.dataset.value);
-    }
-  }
-  applyFilters();
+function renderFilters() {
+  document.getElementById('sidebarFilterContent').innerHTML = filterHTML();
+  document.getElementById('drawerFilterContent').innerHTML  = filterHTML();
+  // Update mobile filter btn badge
+  const count = (state.cities.size > 0 ? state.cities.size : 0) +
+    (state.minYield > 0 ? 1 : 0) +
+    (state.maxPrice > 0 ? 1 : 0) +
+    (state.minBeds > 0 ? 1 : 0) +
+    state.features.size;
+  const badge = document.getElementById('mobileFilterCount');
+  const btn   = document.getElementById('mobileFilterBtn');
+  badge.style.display = count > 0 ? 'inline' : 'none';
+  badge.textContent   = count;
+  btn.classList.toggle('has-filters', count > 0);
 }
 
-function setYield(el, val) {
-  document.querySelectorAll('[data-yield]').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  state.minYield = val;
-  applyFilters();
+// ── Filter setters ─────────────────────────────────────
+function toggleCity(val) {
+  if (state.cities.has(val)) state.cities.delete(val);
+  else state.cities.add(val);
+  renderFilters(); applyFilters();
 }
-
-function setPrice(el, val) {
-  document.querySelectorAll('[data-price]').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  state.maxPrice = val;
-  applyFilters();
+function setYield(val)  { state.minYield = val; renderFilters(); applyFilters(); }
+function setPrice(val)  { state.maxPrice = val; renderFilters(); applyFilters(); }
+function setBeds(val)   { state.minBeds  = val; renderFilters(); applyFilters(); }
+function toggleFeature(feat) {
+  if (state.features.has(feat)) state.features.delete(feat);
+  else state.features.add(feat);
+  renderFilters(); applyFilters();
 }
-
-function setBeds(el, val) {
-  document.querySelectorAll('[data-beds]').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  state.minBeds = val;
-  applyFilters();
-}
-
-function toggleFeature(el) {
-  el.classList.toggle('active');
-  const feat = el.dataset.feat;
-  if (el.classList.contains('active')) state.features.add(feat);
-  else state.features.delete(feat);
-  applyFilters();
-}
-
 function clearFilters() {
-  state = { city:'all', minYield:0, maxPrice:0, minBeds:0, features: new Set(), query:'', sort: state.sort };
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  document.querySelector('#cityChips [data-value="all"]').classList.add('active');
-  document.querySelector('[data-yield="0"]').classList.add('active');
-  document.querySelector('[data-price="0"]').classList.add('active');
-  document.querySelector('[data-beds="0"]').classList.add('active');
+  state.cities = new Set(); state.minYield = 0; state.maxPrice = 0;
+  state.minBeds = 0; state.features = new Set();
   document.getElementById('searchInput').value = '';
-  applyFilters();
+  document.getElementById('searchInputMobile').value = '';
+  state.query = '';
+  renderFilters(); applyFilters();
 }
 
+// ── Drawer ─────────────────────────────────────────────
+function openFilterDrawer() {
+  document.getElementById('filterDrawer').classList.add('open');
+  document.getElementById('filterDrawerOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeFilterDrawer() {
+  document.getElementById('filterDrawer').classList.remove('open');
+  document.getElementById('filterDrawerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── Mobile nav ─────────────────────────────────────────
+function toggleMobileNav() {
+  const menu = document.getElementById('mobileNavMenu');
+  const overlay = document.getElementById('mobileNavOverlay');
+  const open = menu.style.display !== 'flex';
+  menu.style.display = open ? 'flex' : 'none';
+  overlay.style.display = open ? 'block' : 'none';
+}
+
+// ── Core filter logic ──────────────────────────────────
 function applyFilters() {
   state.query = document.getElementById('searchInput').value.toLowerCase().trim();
   state.sort   = document.getElementById('sortSelect').value;
 
   filtered = allListings.filter(l => {
-    // City
-    if (state.city !== 'all') {
-      if (Array.isArray(state.city)) { if (!state.city.includes(l.city)) return false; }
-      else if (l.city !== state.city) return false;
-    }
-    // Yield
+    if (state.cities.size > 0 && !state.cities.has(l.city)) return false;
     if (state.minYield > 0 && (!l.gross_yield_pct || l.gross_yield_pct < state.minYield)) return false;
-    // Price
     if (state.maxPrice > 0 && l.price_eur > state.maxPrice) return false;
-    // Beds
     if (state.minBeds > 0 && (!l.rooms || l.rooms < state.minBeds)) return false;
-    // Features
-    for (const feat of state.features) { if (!l[feat]) return false; }
-    // Text search
+    for (const f of state.features) { if (!l[f]) return false; }
     if (state.query) {
       const hay = `${l.city} ${l.neighborhood||''} ${l.property_type||''}`.toLowerCase();
       if (!hay.includes(state.query)) return false;
@@ -499,13 +561,11 @@ function applyFilters() {
     return true;
   });
 
-  // Sort
   filtered.sort((a,b) => {
     switch(state.sort) {
       case 'yield_desc': return (b.gross_yield_pct||0) - (a.gross_yield_pct||0);
       case 'price_asc':  return (a.price_eur||0) - (b.price_eur||0);
       case 'price_desc': return (b.price_eur||0) - (a.price_eur||0);
-      case 'dom':        return (b.days_on_market||0) - (a.days_on_market||0);
       default:           return (b.opportunity_score||0) - (a.opportunity_score||0);
     }
   });
@@ -516,63 +576,78 @@ function applyFilters() {
   renderActivePills();
 }
 
+// ── BUG 1 FIX: Stats reflect the filtered set ─────────
 function renderStats() {
-  const yields = filtered.map(l => l.gross_yield_pct).filter(Boolean);
-  const prices = filtered.map(l => l.price_eur).filter(Boolean);
+  // Only count listings that have yield data for yield stats
+  const withYield = filtered.filter(l => l.gross_yield_pct && l.gross_yield_pct > 0);
+  const withPrice = filtered.filter(l => l.price_eur && l.price_eur > 0);
+  const yields    = withYield.map(l => l.gross_yield_pct);
+  const prices    = withPrice.map(l => l.price_eur);
+
   document.getElementById('statCount').textContent = filtered.length.toLocaleString();
-  document.getElementById('statAvgYield').textContent = yields.length ? (yields.reduce((a,b)=>a+b,0)/yields.length).toFixed(1)+'%' : '—';
-  document.getElementById('statAvgPrice').textContent = prices.length ? '€'+(Math.round(prices.reduce((a,b)=>a+b,0)/prices.length/1000))+'k' : '—';
-  document.getElementById('statMaxYield').textContent = yields.length ? Math.max(...yields).toFixed(1)+'%' : '—';
+
+  document.getElementById('statAvgYield').textContent =
+    yields.length ? (yields.reduce((a,b)=>a+b,0)/yields.length).toFixed(1)+'%' : '—';
+
+  // Median price (not mean — avoids skew from €15M outliers)
+  if (prices.length) {
+    const sorted = [...prices].sort((a,b)=>a-b);
+    const median = sorted[Math.floor(sorted.length/2)];
+    document.getElementById('statAvgPrice').textContent =
+      median >= 1000000 ? '€'+(median/1000000).toFixed(1)+'M' : '€'+Math.round(median/1000)+'k';
+  } else {
+    document.getElementById('statAvgPrice').textContent = '—';
+  }
+
+  document.getElementById('statMaxYield').textContent =
+    yields.length ? Math.max(...yields).toFixed(1)+'%' : '—';
 }
 
 function renderActivePills() {
   const pills = [];
-  if (state.city !== 'all') {
-    const cities = Array.isArray(state.city) ? state.city : [state.city];
-    cities.forEach(c => pills.push({ label: c.charAt(0).toUpperCase()+c.slice(1), action: `clearCity('${c}')` }));
-  }
-  if (state.minYield > 0) pills.push({ label: `Yield ≥${state.minYield}%`, action: "setYield(document.querySelector('[data-yield=\"0\"]'),0)" });
-  if (state.maxPrice > 0) pills.push({ label: `≤€${(state.maxPrice/1000)}k`, action: "setPrice(document.querySelector('[data-price=\"0\"]'),0)" });
-  if (state.minBeds > 0) pills.push({ label: `${state.minBeds}+ beds`, action: "setBeds(document.querySelector('[data-beds=\"0\"]'),0)" });
-  state.features.forEach(f => pills.push({ label: f.replace('has_','').replace('_',' '), action: `document.querySelector('[data-feat="${f}"]').classList.remove('active');state.features.delete('${f}');applyFilters()` }));
+  state.cities.forEach(c => pills.push({ label: c.charAt(0).toUpperCase()+c.slice(1), action: ()=>toggleCity(c) }));
+  if (state.minYield > 0) pills.push({ label: `Yield ≥${state.minYield}%`, action: ()=>setYield(0) });
+  if (state.maxPrice > 0) pills.push({ label: `≤€${state.maxPrice >= 1000000 ? (state.maxPrice/1000000).toFixed(1)+'M' : (state.maxPrice/1000)+'k'}`, action: ()=>setPrice(0) });
+  if (state.minBeds  > 0) pills.push({ label: `${state.minBeds}+ beds`, action: ()=>setBeds(0) });
+  state.features.forEach(f => pills.push({ label: f.replace('has_','').replace('_',' '), action: ()=>toggleFeature(f) }));
 
-  document.getElementById('activeFilterPills').innerHTML = pills.map(p =>
-    `<div class="active-filter-pill" onclick="${p.action}">${p.label} ×</div>`
-  ).join('');
+  const container = document.getElementById('activeFilterPills');
+  container.innerHTML = '';
+  pills.forEach(p => {
+    const btn = document.createElement('button');
+    btn.className = 'active-filter-pill';
+    btn.textContent = p.label + ' ×';
+    btn.onclick = p.action;
+    container.appendChild(btn);
+  });
 }
 
 function renderResults() {
   const slice = filtered.slice(0, (page+1)*PAGE_SIZE);
-  document.getElementById('resultsCount').innerHTML = `<strong>${filtered.length.toLocaleString()}</strong> properties found`;
+  const total = filtered.length;
+  document.getElementById('resultsCount').innerHTML = `Showing <strong>${Math.min(slice.length, total).toLocaleString()}</strong> of <strong>${total.toLocaleString()}</strong> properties`;
 
-  if (!filtered.length) {
+  if (!total) {
     document.getElementById('resultsGrid').innerHTML = `
       <div class="no-results">
         <div class="no-results-emoji">🔍</div>
-        <h3>No properties match your filters</h3>
+        <h3>No properties match</h3>
         <p>Try removing a filter or widening your search.</p>
-        <button class="btn-secondary" onclick="clearFilters()" style="margin-top:20px">Clear all filters</button>
+        <button class="btn-secondary" onclick="clearFilters()" style="margin-top:16px">Clear all filters</button>
       </div>`;
     document.getElementById('loadMoreWrap').style.display = 'none';
     return;
   }
 
   document.getElementById('resultsGrid').innerHTML = slice.map(buildCard).join('');
-
-  const hasMore = filtered.length > slice.length;
-  document.getElementById('loadMoreWrap').style.display = hasMore ? 'block' : 'none';
+  document.getElementById('loadMoreWrap').style.display = total > slice.length ? 'block' : 'none';
 }
 
-function loadMore() {
-  page++;
-  renderResults();
-  // keep existing cards, just re-render (simple for static)
-}
+function loadMore() { page++; renderResults(); }
 
 // ── Card builder ───────────────────────────────────────
-function cityEmoji(city) {
-  const m = { valencia:'🌊', madrid:'🏙', malaga:'☀️', almeria:'🏺', alicante:'⛵' };
-  return m[city] || '🏠';
+function cityEmoji(c) {
+  return {valencia:'🌊',madrid:'🏙',malaga:'☀️',almeria:'🏺',alicante:'⛵'}[c] || '🏠';
 }
 function formatPrice(p) {
   if (!p) return '—';
@@ -581,85 +656,81 @@ function formatPrice(p) {
 }
 function yieldClass(y) {
   if (!y) return 'yield-low';
-  if (y >= 7) return 'yield-high';
-  if (y >= 5) return 'yield-mid';
-  return 'yield-low';
+  return y >= 7 ? 'yield-high' : y >= 5 ? 'yield-mid' : 'yield-low';
+}
+function cityGradient(c) {
+  return {
+    valencia:'linear-gradient(135deg,#E8D5B0,#C8A87A)',
+    madrid:'linear-gradient(135deg,#D4D0C8,#B8B4AA)',
+    malaga:'linear-gradient(135deg,#E8C9A0,#D4A870)',
+    almeria:'linear-gradient(135deg,#E0C8A8,#C4A888)',
+    alicante:'linear-gradient(135deg,#C8D8E8,#A8C0D4)',
+  }[c] || 'linear-gradient(135deg,#E8DDD0,#D4C9B8)';
 }
 
 function buildCard(l) {
   const yc = yieldClass(l.gross_yield_pct);
-  const yieldStr = l.gross_yield_pct ? l.gross_yield_pct.toFixed(1)+'%' : '—';
-  const rentStr = l.estimated_rent_eur ? `€${Math.round(l.estimated_rent_eur).toLocaleString()}/mo` : '—';
-  const score = l.opportunity_score || 0;
-  const dom = l.days_on_market;
-  const priceVsMedian = l.price_vs_median_pct;
-  const vmStr = priceVsMedian != null
-    ? (priceVsMedian >= 0 ? `+${priceVsMedian.toFixed(0)}% vs median` : `${priceVsMedian.toFixed(0)}% vs median`)
-    : '—';
-  const vmColor = priceVsMedian != null && priceVsMedian < 0 ? 'var(--sage)' : priceVsMedian > 20 ? 'var(--accent)' : 'var(--ink-3)';
+  const yieldStr  = l.gross_yield_pct ? l.gross_yield_pct.toFixed(1)+'%' : null;
+  const rentStr   = l.estimated_rent_eur ? `€${Math.round(l.estimated_rent_eur).toLocaleString()}/mo` : '—';
+  const score     = l.opportunity_score || 0;
+  const pvm       = l.price_vs_median_pct;
+  const pvmStr    = pvm != null
+    ? (pvm < 0 ? `${pvm.toFixed(0)}% vs median` : `+${pvm.toFixed(0)}% vs median`)
+    : null;
+  const pvmColor  = pvm != null && pvm < 0 ? 'var(--sage)' : pvm > 20 ? 'var(--accent)' : 'var(--ink-3)';
+
+  // BUG 3 FIX: days_on_market is all 5 (scraper default) — omit it
+  // Show price_drops only if non-zero
+  const drops = l.price_drops && l.price_drops > 0;
 
   return `
   <div class="property-card">
     <div class="card-image" style="background:${cityGradient(l.city)}">
       <div class="card-image-placeholder">${cityEmoji(l.city)}</div>
-      <div class="card-image-city" style="display:flex;gap:6px;flex-wrap:wrap">
-        ${l.gross_yield_pct ? `<span class="badge badge-yield">${yieldStr}</span>` : ''}
+      <div class="card-image-city" style="display:flex;gap:5px;flex-wrap:wrap">
+        ${yieldStr ? `<span class="badge badge-yield">${yieldStr}</span>` : ''}
         ${score >= 70 ? `<span class="badge badge-score">Top pick</span>` : ''}
       </div>
     </div>
     <div class="card-body">
       <div>
         <div class="card-price">${formatPrice(l.price_eur)}</div>
-        <div class="card-address" style="margin-top:4px">${l.city_display}${l.neighborhood ? ', '+l.neighborhood : ''}</div>
+        <div class="card-address" style="margin-top:3px">${l.city_display}${l.neighborhood ? ', '+l.neighborhood : ''}</div>
       </div>
       <div class="card-specs">
-        ${l.rooms ? `<span class="card-spec">🛏 ${l.rooms}</span>` : ''}
+        ${l.rooms     ? `<span class="card-spec">🛏 ${l.rooms}</span>` : ''}
         ${l.bathrooms ? `<span class="card-spec">🚿 ${l.bathrooms}</span>` : ''}
-        ${l.size_m2 ? `<span class="card-spec">📐 ${l.size_m2}m²</span>` : ''}
+        ${l.size_m2   ? `<span class="card-spec">📐 ${l.size_m2}m²</span>` : ''}
         ${l.has_terrace ? `<span class="card-spec">🌿</span>` : ''}
-        ${l.has_pool ? `<span class="card-spec">🏊</span>` : ''}
+        ${l.has_pool    ? `<span class="card-spec">🏊</span>` : ''}
         ${l.has_parking ? `<span class="card-spec">🚗</span>` : ''}
       </div>
       <div class="card-metrics">
         <div>
           <div class="card-metric-label">Gross Yield</div>
-          <div class="card-metric-value ${yc}">${yieldStr}</div>
+          <div class="card-metric-value ${yc}">${yieldStr || '—'}</div>
         </div>
         <div>
           <div class="card-metric-label">Est. Rent</div>
           <div class="card-metric-value">${rentStr}</div>
         </div>
+        ${pvmStr ? `
         <div>
           <div class="card-metric-label">vs. Market</div>
-          <div class="card-metric-value" style="font-size:12px;color:${vmColor}">${vmStr}</div>
-        </div>
+          <div class="card-metric-value" style="font-size:12px;color:${pvmColor}">${pvmStr}</div>
+        </div>` : '<div></div>'}
         <div>
           <div class="card-metric-label">Score</div>
           <div class="card-metric-value ${score>=70?'yield-high':score>=55?'yield-mid':'yield-low'}">${score}/100</div>
         </div>
       </div>
-      ${dom || l.price_drops ? `
-      <div style="font-size:12px;color:var(--ink-4);display:flex;gap:12px">
-        ${dom ? `<span>⏱ ${dom} days listed</span>` : ''}
-        ${l.price_drops ? `<span>📉 ${l.price_drops} price drop${l.price_drops>1?'s':''}</span>` : ''}
-      </div>` : ''}
+      ${drops ? `<div style="font-size:12px;color:var(--gold)">📉 ${l.price_drops} price drop${l.price_drops>1?'s':''}</div>` : ''}
     </div>
     <div class="card-footer">
       <button class="btn-primary" onclick="openAgentModal('${l.id}','${l.city}',${l.price_eur})">Get agent intro</button>
-      ${l.url ? `<a href="${l.url}" target="_blank" rel="noopener" class="btn-ghost">View on Idealista →</a>` : ''}
+      ${l.url ? `<a href="${l.url}" target="_blank" rel="noopener" class="btn-ghost" style="white-space:nowrap">Idealista →</a>` : ''}
     </div>
   </div>`;
-}
-
-function cityGradient(city) {
-  const g = {
-    valencia: 'linear-gradient(135deg,#E8D5B0,#C8A87A)',
-    madrid:   'linear-gradient(135deg,#D4D0C8,#B8B4AA)',
-    malaga:   'linear-gradient(135deg,#E8C9A0,#D4A870)',
-    almeria:  'linear-gradient(135deg,#E0C8A8,#C4A888)',
-    alicante: 'linear-gradient(135deg,#C8D8E8,#A8C0D4)',
-  };
-  return g[city] || 'linear-gradient(135deg,#E8DDD0,#D4C9B8)';
 }
 
 // ── Agent modal ────────────────────────────────────────
@@ -675,17 +746,33 @@ document.getElementById('agentModal').addEventListener('click', function(e) {
 });
 document.getElementById('agentForm').addEventListener('submit', function(e) {
   e.preventDefault();
-  fetch(this.action, {
-    method:'POST', body: new FormData(this), headers:{'Accept':'application/json'}
-  }).then(r => {
-    if (r.ok) this.innerHTML = '<div style="text-align:center;padding:32px 0"><div style="font-size:40px;margin-bottom:12px">✓</div><h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;margin-bottom:8px">You\'re connected.</h3><p style="color:var(--ink-3);font-size:14px">A specialist will reach out within 24 hours.</p></div>';
-  });
+  fetch(this.action, { method:'POST', body:new FormData(this), headers:{'Accept':'application/json'} })
+    .then(r => {
+      if (r.ok) this.innerHTML = '<div style="text-align:center;padding:32px 0"><div style="font-size:40px;margin-bottom:12px">✓</div><h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;margin-bottom:8px">You\'re connected.</h3><p style="color:var(--ink-3);font-size:14px">A specialist will reach out within 24 hours.</p></div>';
+    });
 });
 
 // ── Scroll ─────────────────────────────────────────────
 window.addEventListener('scroll', () => {
   document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
 });
+
+// ── Init ───────────────────────────────────────────────
+async function init() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('city')) state.cities.add(params.get('city'));
+  if (params.get('yield')) state.minYield = parseFloat(params.get('yield'));
+
+  renderFilters();
+
+  try {
+    const res = await fetch('/data/listings.json');
+    allListings = await res.json();
+    applyFilters();
+  } catch(e) {
+    document.getElementById('resultsGrid').innerHTML = '<p style="padding:40px;color:var(--ink-3)">Failed to load listings.</p>';
+  }
+}
 
 init();
 </script>

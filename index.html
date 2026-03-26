@@ -279,12 +279,25 @@
       .testimonials-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 640px) {
-      .hero  { padding: calc(var(--nav-height) + 40px) 20px 60px; }
-      section { padding: 60px 20px; }
-      .hero-trust { flex-wrap: wrap; gap: 24px; }
+      .hero  { padding: calc(var(--nav-height) + 32px) 16px 56px; }
+      section { padding: 52px 16px; }
+      .hero-h1 { font-size: clamp(28px, 8vw, 40px); }
+      .hero-sub { font-size: 16px; }
+      .hero-cta { flex-direction: column; align-items: flex-start; }
+      .hero-cta .btn-primary,
+      .hero-cta .btn-secondary { width: 100%; justify-content: center; }
+      .hero-trust { flex-wrap: wrap; gap: 20px; }
+      .hero-trust-item { min-width: calc(50% - 10px); }
+      .hero-panel { padding: 20px 16px; }
       .cities-grid { grid-template-columns: 1fr 1fr; }
       .picks-grid  { grid-template-columns: 1fr; }
       .testimonials-grid { grid-template-columns: 1fr; }
+      .steps-grid  { grid-template-columns: 1fr; }
+      .intelligence-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 400px) {
+      .hero-trust-num { font-size: 18px; }
+      .hero-trust { gap: 14px; }
     }
   </style>
 </head>
@@ -303,10 +316,20 @@
     <li><a href="/newsletter.html">Newsletter</a></li>
   </ul>
   <a href="/search.html" class="btn-primary">Browse Properties →</a>
-  <button class="mobile-nav-toggle" aria-label="Menu">
+  <button class="mobile-nav-toggle" aria-label="Menu" onclick="toggleMobileNav()">
     <span></span><span></span><span></span>
   </button>
 </nav>
+
+<!-- Mobile nav overlay + menu -->
+<div id="mobileNavOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199" onclick="toggleMobileNav()"></div>
+<div id="mobileNavMenu" style="display:none;position:fixed;top:var(--nav-height);left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);z-index:198;padding:16px 20px;flex-direction:column;gap:4px">
+  <a href="/search.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Search</a>
+  <a href="/index.html#cities" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Cities</a>
+  <a href="/about.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">About</a>
+  <a href="/newsletter.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Newsletter</a>
+  <a href="/search.html" class="btn-primary" style="margin-top:8px;justify-content:center">Browse Properties →</a>
+</div>
 
 <!-- ── HERO ─────────────────────────────────────────── -->
 <section class="hero">
@@ -691,14 +714,15 @@ function buildPropertyCard(l) {
   const yieldStr = l.gross_yield_pct ? l.gross_yield_pct.toFixed(1)+'%' : '—';
   const rentStr = l.estimated_rent_eur ? `€${Math.round(l.estimated_rent_eur).toLocaleString()}/mo` : '—';
   const score = l.opportunity_score || 0;
-  const dom = l.days_on_market || 0;
+  // days_on_market = 5 for all listings (scraper default) — do not display
 
   return `
   <div class="property-card">
     <div class="card-image">
       <div class="card-image-placeholder">${cityEmoji(l.city)}</div>
       <div class="card-image-city">
-        <span class="badge badge-yield">${yieldStr} yield</span>
+        ${yieldStr !== '—' ? `<span class="badge badge-yield">${yieldStr} yield</span>` : ''}
+        ${score >= 70 ? `<span class="badge badge-score">Top pick</span>` : ''}
       </div>
     </div>
     <div class="card-body">
@@ -714,7 +738,7 @@ function buildPropertyCard(l) {
       <div class="card-metrics">
         <div>
           <div class="card-metric-label">Gross Yield</div>
-          <div class="card-metric-value ${yc}">${yieldStr}</div>
+          <div class="card-metric-value ${yc}">${yieldStr || '—'}</div>
         </div>
         <div>
           <div class="card-metric-label">Est. Rent</div>
@@ -725,8 +749,10 @@ function buildPropertyCard(l) {
           <div class="card-metric-value ${score>=70?'yield-high':score>=55?'yield-mid':'yield-low'}">${score}/100</div>
         </div>
         <div>
-          <div class="card-metric-label">Days Listed</div>
-          <div class="card-metric-value">${dom || '—'}</div>
+          <div class="card-metric-label">vs. Market</div>
+          <div class="card-metric-value" style="font-size:12px;color:${l.price_vs_median_pct!=null&&l.price_vs_median_pct<0?'var(--sage)':'var(--ink-3)'}">
+            ${l.price_vs_median_pct!=null?(l.price_vs_median_pct<0?l.price_vs_median_pct.toFixed(0)+'%':'+'+l.price_vs_median_pct.toFixed(0)+'%')+'↔':'—'}
+          </div>
         </div>
       </div>
     </div>
@@ -791,6 +817,15 @@ document.getElementById('agentForm').addEventListener('submit', function(e) {
 });
 
 loadData();
+
+// Mobile nav toggle
+function toggleMobileNav() {
+  const menu = document.getElementById('mobileNavMenu');
+  const overlay = document.getElementById('mobileNavOverlay');
+  const open = menu.style.display !== 'flex';
+  menu.style.display = open ? 'flex' : 'none';
+  overlay.style.display = open ? 'block' : 'none';
+}
 </script>
 </body>
 </html>
