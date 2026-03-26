@@ -508,22 +508,24 @@ select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmln
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 24px;
+  padding: 0;
   cursor: pointer;
   transition: box-shadow 200ms, transform 200ms;
   position: relative;
   overflow: hidden;
+  min-height: 180px;
 }
-.city-card::before {
-  content: '';
-  position: absolute;
-  bottom: 0; right: 0;
-  width: 80px; height: 80px;
-  background: var(--bg-muted);
-  border-radius: 50% 0 0 0;
-  opacity: 0.6;
-}
+.city-card::before { display: none; }
 .city-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+.city-card-content {
+  padding: 24px;
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+}
 .city-card-emoji { font-size: 28px; margin-bottom: 12px; }
 .city-card-name {
   font-family: var(--font-serif);

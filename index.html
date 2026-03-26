@@ -283,7 +283,7 @@
     @media (max-width: 640px) {
       .hero  { padding: calc(var(--nav-height) + 32px) 16px 56px; }
       section { padding: 52px 16px; }
-      .hero-h1 { font-size: clamp(26px, 7vw, 38px); word-break: break-word; overflow-wrap: break-word; padding-right: 16px; max-width: 100%; }
+      .hero-h1 { font-size: clamp(26px, 7vw, 38px); word-break: break-word; overflow-wrap: break-word; max-width: 100%; width: 100%; box-sizing: border-box; }
       .hero-sub { font-size: 16px; }
       .hero-cta { flex-direction: column; align-items: flex-start; }
       .hero-cta .btn-primary,
@@ -304,10 +304,20 @@
   
 @media (max-width: 420px) {
   .hero h1, .hero-h1 {
-    font-size: 24px !important;
+    font-size: 22px !important;
+    line-height: 1.25 !important;
     max-width: 100% !important;
     width: 100% !important;
     overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    padding-right: 0 !important;
+  }
+  .hero-h1 em {
+    display: inline !important;
+  }
+  .hero-inner > div:first-child {
+    max-width: 100% !important;
+    overflow: hidden !important;
   }
 }
   </style>
@@ -660,7 +670,7 @@ let listings = [];
 
 async function loadData() {
   try {
-    const res = await fetch('/data/listings.json?v=10');
+    const res = await fetch('/data/listings.json?v=11');
     listings = await res.json();
     populateHeroTopPicks();
     populateCities();
@@ -697,6 +707,13 @@ function cityCardImage(c) {
     return `background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.50) 100%), url('${photo}'); background-size: cover; background-position: center;`;
   }
   return 'background: linear-gradient(135deg,#E8DDD0,#D4C9B8);';
+}
+function cityCardBg(c) {
+  const photo = CITY_PHOTOS[c];
+  if (photo) {
+    return `background-image: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.65) 100%), url('${photo}'); background-size: cover; background-position: center; color: #fff;`;
+  }
+  return '';
 }
 
 function formatPrice(p) {
@@ -748,13 +765,15 @@ function populateCities() {
   })).sort((a,b) => b.count - a.count);
 
   document.getElementById('citiesGrid').innerHTML = cities.map(c => `
-    <div class="city-card" onclick="window.location='/search.html?city=${c.city}'">
-      <div class="city-card-emoji">${cityEmoji(c.city)}</div>
-      <div class="city-card-name">${c.display}</div>
-      <div class="city-card-count">${c.count} listings</div>
-      <div style="margin-top:16px">
-        <div class="city-card-yield">Up to ${c.max_yield}%</div>
-        <div class="city-card-yield-label">Max gross yield</div>
+    <div class="city-card" onclick="window.location='/search.html?city=${c.city}'" style="${cityCardBg(c.city)}">
+      <div class="city-card-content">
+        <div class="city-card-emoji">${cityEmoji(c.city)}</div>
+        <div class="city-card-name">${c.display}</div>
+        <div class="city-card-count">${c.count} listings</div>
+        <div style="margin-top:16px">
+          <div class="city-card-yield">Up to ${c.max_yield}%</div>
+          <div class="city-card-yield-label">Max gross yield</div>
+        </div>
       </div>
     </div>
   `).join('');
