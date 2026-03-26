@@ -301,6 +301,15 @@
       .hero-trust-num { font-size: 18px; }
       .hero-trust { gap: 14px; }
     }
+  
+@media (max-width: 420px) {
+  .hero h1, .hero-h1 {
+    font-size: 24px !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow-wrap: break-word !important;
+  }
+}
   </style>
   <link rel="canonical" href="https://terrasolana.com/">
   <meta property="og:image" content="https://terrasolana.com/og-image.jpg">
@@ -651,7 +660,7 @@ let listings = [];
 
 async function loadData() {
   try {
-    const res = await fetch('/data/listings.json?v=9');
+    const res = await fetch('/data/listings.json?v=10');
     listings = await res.json();
     populateHeroTopPicks();
     populateCities();
@@ -770,7 +779,7 @@ function buildPropertyCard(l) {
 
   return `
   <div class="property-card">
-    <div class="card-image" style="${cityCardImage(l.city)}">
+    <div class="card-image" style="${l.photo_url && !l.photo_url.includes('unsplash') ? 'background-image: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.55) 100%), url(\'' + l.photo_url + '\'); background-size: cover; background-position: center;' : cityCardImage(l.city)}">
       <div class="card-image-city">
         ${yieldStr !== '—' ? `<span class="badge badge-yield">${yieldStr}</span>` : ''}
         ${score >= 70 ? `<span class="badge badge-score">Top pick</span>` : ''}
