@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <script>!function(){var t=localStorage.getItem("ts_theme")||((window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light");document.documentElement.setAttribute("data-theme",t)}()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Dynamic meta filled by JS -->
@@ -56,8 +58,8 @@
       gap: 40px;
       align-items: start;
     }
-    .prop-main { padding-top: 36px; }
-    .prop-sidebar { padding-top: 36px; }
+    .prop-main { padding-top: 36px; width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; }
+    .prop-sidebar { padding-top: 36px; min-width: 0; }
 
     /* ── Breadcrumb ────────────────────────────────────── */
     .prop-breadcrumb {
@@ -300,17 +302,26 @@
 
     /* ── Mobile ────────────────────────────────────────── */
     @media (max-width: 900px) {
-      .prop-wrap { grid-template-columns: 1fr; gap: 0; padding: 0 20px 60px; }
-      .prop-sidebar { padding-top: 0; }
+      .prop-wrap { grid-template-columns: 1fr; gap: 0; padding: 0 16px 60px; width: 100%; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
+      .prop-main { width: 100%; max-width: 100%; padding: 24px 0 0; }
+      .prop-sidebar { padding-top: 0; order: 2; }
+      .prop-main { order: 1; }
       .prop-cta-card { position: static; margin-bottom: 32px; }
       .prop-metrics { grid-template-columns: repeat(2, 1fr); }
       .similar-grid { grid-template-columns: 1fr 1fr; }
+      .prop-hero-badges { left: 16px; }
     }
     @media (max-width: 540px) {
+      .prop-wrap { padding: 0 12px 60px; }
       .prop-hero { height: 240px; }
       .prop-metrics { grid-template-columns: 1fr 1fr; }
       .similar-grid { grid-template-columns: 1fr; }
       .prop-breadcrumb { font-size: 12px; }
+      .prop-price { font-size: 28px; }
+    }
+    @media (max-width: 390px) {
+      .prop-metrics { grid-template-columns: 1fr 1fr; }
+      .prop-spec { font-size: 12px; padding: 4px 10px; }
     }
   </style>
 </head>
@@ -326,6 +337,7 @@
     <li><a href="/index.html#cities">Cities</a></li>
     <li><a href="/about.html">About</a></li>
     <li><a href="/faq.html">FAQ</a></li>
+    <li><a href="/blog.html">Blog</a></li>
     <li><a href="/newsletter.html">Newsletter</a></li>
   </ul>
   <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">☀️</button>
@@ -340,6 +352,7 @@
   <a href="/index.html#cities" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Cities</a>
   <a href="/about.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">About</a>
   <a href="/faq.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">FAQ</a>
+  <a href="/blog.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Blog</a>
   <a href="/newsletter.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Newsletter</a>
 </div>
 

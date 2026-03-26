@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <script>!function(){var t=localStorage.getItem("ts_theme")||((window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light");document.documentElement.setAttribute("data-theme",t)}()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Search Spain Properties — Terrasolana</title>
@@ -13,7 +15,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
-    body { padding-top: var(--nav-height); }
+    body { padding-top: var(--nav-height); overflow-x: hidden; }
 
     /* ── Page layout ─────────────────────────────────── */
     .search-layout {
@@ -639,8 +641,8 @@ function toggleMobileNav() {
 
 // ── Core filter logic ──────────────────────────────────
 function applyFilters() {
-  state.query = document.getElementById('searchInput').value.toLowerCase().trim();
-  state.sort   = document.getElementById('sortSelect').value;
+  state.query = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+  state.sort   = document.getElementById('sortSelect')?.value || 'score';
 
   filtered = allListings.filter(l => {
     if (state.cities.size > 0 && !state.cities.has(l.city)) return false;
@@ -947,6 +949,10 @@ function renderMap() {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       maxZoom: 18,
     }).addTo(mapInstance);
+    // Default view for Spain — used on mobile when fitBounds isn't called yet
+    if (window.innerWidth < 768) {
+      mapInstance.setView([40.0, -3.0], 6);
+    }
   }
 
   // Clear old markers
