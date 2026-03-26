@@ -155,9 +155,10 @@
 
     @media (max-width: 768px) {
       .score-table-wrap {
-        margin-left: -16px;
-        margin-right: -16px;
-        width: calc(100% + 32px);
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100vw;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
       }
