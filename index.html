@@ -592,6 +592,7 @@
     <p class="section-eyebrow">Connect with an Agent</p>
     <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:700;margin-bottom:8px;margin-top:4px">Speak with a Spain specialist</h3>
     <p style="font-size:14px;color:var(--ink-3);margin-bottom:24px;line-height:1.6">We'll connect you with a vetted, English-speaking buyer's agent who specialises in this city. No obligation.</p>
+  <div id="agentFormWrap">
     <form id="agentForm" action="https://formspree.io/f/mreogjop" method="POST">
       <input type="hidden" name="property_id" id="agentFormPropertyId">
       <input type="hidden" name="property_city" id="agentFormCity">
@@ -624,6 +625,13 @@
         <button type="submit" class="btn-primary" style="width:100%;justify-content:center;margin-top:4px">Connect me with an agent →</button>
       </div>
     </form>
+  </div>
+  <div id="agentSuccessWrap" style="display:none;text-align:center;padding:40px 24px">
+    <div style="width:56px;height:56px;border-radius:50%;background:#EAF4EE;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:#2D6A4F;font-size:26px;font-weight:700">✓</div>
+    <h3 style="font-family:var(--font-serif);font-size:22px;font-weight:700;color:#1C1917;margin-bottom:10px">Request sent!</h3>
+    <p style="color:#78716C;font-size:14px;line-height:1.6;max-width:280px;margin:0 auto 28px">We've received your details. Your agent will contact you within 24 hours.</p>
+    <button onclick="closeModal('agentModal')" style="display:inline-flex;align-items:center;justify-content:center;padding:12px 32px;background:#D4622A;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;width:100%;max-width:220px">Close</button>
+  </div>
   </div>
 </div>
 
@@ -807,6 +815,12 @@ function populateFeaturedPicks() {
 
 // ── Agent modal ────────────────────────────────────────
 function openAgentModal(id, city, price) {
+  // Reset to form state on each open
+  document.getElementById('agentFormWrap').style.display = '';
+  document.getElementById('agentSuccessWrap').style.display = 'none';
+  document.getElementById('agentForm').reset();
+  const btn = document.querySelector('#agentForm button[type="submit"]');
+  if (btn) { btn.disabled = false; btn.textContent = 'Connect me with an agent →'; }
   document.getElementById('agentFormPropertyId').value = id;
   document.getElementById('agentFormCity').value = city;
   document.getElementById('agentFormPrice').value = price;
@@ -838,14 +852,21 @@ function handleNewsletterSubmit(e) {
 // ── Agent form submit ──────────────────────────────────
 document.getElementById('agentForm').addEventListener('submit', function(e) {
   e.preventDefault();
+  const btn = this.querySelector('button[type="submit"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
   fetch(this.action, {
     method: 'POST',
     body: new FormData(this),
     headers: { 'Accept': 'application/json' }
   }).then(r => {
     if (r.ok) {
-      this.innerHTML = '<div style="text-align:center;padding:32px 0"><div style="font-size:40px;margin-bottom:12px">✓</div><h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;margin-bottom:8px">You\'re connected.</h3><p style="color:var(--ink-3);font-size:14px">A specialist will reach out within 24 hours.</p></div>';
+      document.getElementById('agentFormWrap').style.display = 'none';
+      document.getElementById('agentSuccessWrap').style.display = 'block';
+    } else {
+      if (btn) { btn.disabled = false; btn.textContent = 'Connect me with an agent →'; }
     }
+  }).catch(() => {
+    if (btn) { btn.disabled = false; btn.textContent = 'Connect me with an agent →'; }
   });
 });
 
