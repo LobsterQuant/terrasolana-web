@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — Frequently Asked Questions — Terrasolana</title>
+  <meta name="description" content="Answers to common questions about how Terrasolana works: agent referrals, yield calculations, opportunity scores, data freshness, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/shared.css">
+  <style>
+    body { padding-top: var(--nav-height); }
+
+    .faq-hero {
+      background: var(--bg-muted);
+      border-bottom: 1px solid var(--border);
+      padding: 64px 48px 56px;
+      text-align: center;
+    }
+    .faq-hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(30px, 5vw, 48px);
+      font-weight: 800;
+      margin: 12px 0 16px;
+    }
+    .faq-hero p {
+      font-size: 17px;
+      color: var(--ink-3);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    .faq-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 64px 48px 80px;
+    }
+
+    /* Category heading */
+    .faq-category {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin: 48px 0 20px;
+    }
+    .faq-category:first-of-type { margin-top: 0; }
+
+    /* Accordion item */
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      transition: box-shadow 150ms;
+    }
+    .faq-item:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+
+    .faq-q {
+      width: 100%;
+      background: var(--bg-card);
+      border: none;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+      text-align: left;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      font-family: var(--font-sans);
+      line-height: 1.4;
+    }
+    .faq-q:hover { background: var(--bg-muted); }
+
+    .faq-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 250ms, background 150ms;
+      line-height: 1;
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .faq-a {
+      display: none;
+      padding: 0 24px 20px;
+      background: var(--bg-card);
+      font-size: 14px;
+      color: var(--ink-2);
+      line-height: 1.75;
+      border-top: 1px solid var(--border);
+    }
+    .faq-item.open .faq-a { display: block; }
+
+    .faq-a p { margin: 14px 0 0; }
+    .faq-a p:first-child { margin-top: 16px; }
+    .faq-a p:last-child { margin-bottom: 0; }
+    .faq-a a { color: var(--accent); text-decoration: underline; }
+    .faq-a a:hover { color: var(--ink); }
+    .faq-a strong { color: var(--ink); font-weight: 600; }
+
+    .faq-a .highlight-box {
+      background: var(--bg-muted);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      padding: 12px 16px;
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--ink-3);
+    }
+
+    .faq-cta {
+      margin-top: 56px;
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+    }
+    .faq-cta h3 {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .faq-cta p { color: var(--ink-3); font-size: 15px; margin-bottom: 20px; }
+    .faq-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    @media (max-width: 640px) {
+      .faq-hero { padding: 48px 20px 40px; }
+      .faq-wrap { padding: 48px 20px 60px; }
+      .faq-q { padding: 16px 18px; font-size: 14px; }
+      .faq-a { padding: 0 18px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <a href="/" class="nav-logo">
+    <div class="nav-logomark">☀</div>
+    <span class="nav-wordmark">Terra<span>solana</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/search.html">Search</a></li>
+    <li><a href="/index.html#cities">Cities</a></li>
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/faq.html" class="active">FAQ</a></li>
+    <li><a href="/newsletter.html">Newsletter</a></li>
+  </ul>
+  <a href="/search.html" class="btn-primary">Browse Properties →</a>
+  <button class="mobile-nav-toggle" aria-label="Menu" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div id="mobileNavOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199" onclick="toggleMobileNav()"></div>
+<div id="mobileNavMenu" style="display:none;position:fixed;top:var(--nav-height);left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);z-index:198;padding:16px 20px;flex-direction:column;gap:4px">
+  <a href="/search.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Search</a>
+  <a href="/index.html#cities" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Cities</a>
+  <a href="/about.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">About</a>
+  <a href="/faq.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">FAQ</a>
+  <a href="/newsletter.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Newsletter</a>
+</div>
+
+<div class="faq-hero">
+  <p class="section-eyebrow">Help centre</p>
+  <h1>Frequently Asked Questions</h1>
+  <p>Everything you need to know about how Terrasolana works — from agent referrals to how we calculate yield.</p>
+</div>
+
+<div class="faq-wrap">
+
+  <!-- ── How it works ─────────────────────────────────── -->
+  <div class="faq-category">How it works</div>
+
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggle(this)" aria-expanded="false">
+      Do I need to pay anything to use Terrasolana?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">
+      <p><strong>No — Terrasolana is completely free for buyers.</strong> You can browse all properties, filter by yield and price, and read every data point at no cost.</p>
+      <p>We make money through agent referral fees — when a buyer we introduce completes a purchase, the buyer's agent pays us a share of their commission. This doesn't cost you anything extra; it comes out of the agent's side of the transaction.</p>
+      <div class="highlight-box">No subscription. No hidden fees. No credit card required. Ever.</div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggle(this)" aria-expanded="false">
+      How does the agent referral work?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">
+      <p>When you click "Connect with agent" on any property, you fill in a short form with your name, contact details, budget, and what you're looking for. We pass that introduction to a vetted local agent who specialises in investment properties in that city.</p>
+      <p>The agent contacts you directly — usually within 1–2 working days. From that point, you deal directly with them. They handle viewings, negotiations, due diligence, and the legal process.</p>
+      <p>If you decide to purchase, the agent earns their commission from the seller (or from a buyer's agent fee, depending on the agreement). We receive a referral fee from the agent — <strong>not from you</strong>.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggle(this)" aria-expanded="false">
+      What happens after I submit the agent intro form?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">
+      <p>Here's the typical timeline:</p>
+      <p><strong>Within minutes:</strong> You receive a confirmation email from us acknowledging your introduction request.</p>
+      <p><strong>Within 1–2 working days:</strong> The agent contacts you by email or WhatsApp to introduce themselves and arrange a call or viewing.</p>
+      <p><strong>No pressure:</strong> The agent knows you're researching — they won't hard-sell. If the match isn't right, let us know and we'll connect you with an alternative.</p>
+      <div class="highlight-box">We only pass your details to the specific agent for the city you enquired about. We do not share your information with third-party marketing lists.</div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggle(this)" aria-expanded="false">
+      Are the agents independent and vetted?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">
+      <p>Yes. Our agent partners are independent local agencies — not a franchise or a national chain. We work with agents who:</p>
+      <p>✓ Are registered with the relevant Spanish authorities (Agentes de la Propiedad Inmobiliaria or equivalent)<br>
+         ✓ Have English-language capability for international buyers<br>
+         ✓ Have a track record specifically with investment buyers, not just holiday-home sales<br>
+         ✓ Can recommend local solicitors (abogados) and fiscal representatives (gestores) for non-resident buyers</p>
+      <p>We review our agent relationships periodically and take buyer feedback seriously. If you have a poor experience, please <a href="/contact.html">contact us</a>.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggle(this)" aria-expanded="false">
+      Can I search properties in all regions of Spain?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">
+      <p>Currently Terrasolana covers five cities: <strong>Madrid, Valencia, Málaga, Almería, and Alicante</strong>. These were selected because they offer the strongest combination of rental yield, international buyer demand, and accessible price points.</p>
+      <p>We plan to expand to Barcelona, Seville, Bilbao, and the Canary Islands in 2026. If there's a specific city or region you'd like us to cover, <a href="/contact.html">let us know</a> — buyer demand drives our expansion priorities.</p>
+    </div>
+  </div>
+
+  <!-- ── Data & Metrics ────────────────────────────────── -->
+  <div class="faq-category">Data &amp; Metrics</div>
+
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggle(this)" aria-expanded="false">
+      How current is the property data?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">
+      <p>Our listing data is refreshed <strong>weekly</strong> from Idealista and Fotocasa. Prices, availability, and photos reflect what was live on those portals at the time of the last refresh.</p>
+      <p>Individual listings can be withdrawn or reduced between our refresh cycles. Always confirm current availability with the agent before making any plans around a specific property.</p>
+      <div class="highlight-box">City median benchmarks (used for yield estimates and price vs. market comparisons) are updated monthly from public market reports (INE, Tinsa, Idealista market data).</div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggle(this)" aria-expanded="false">
+      How is yield calculated — gross vs. net?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">
+      <p><strong>Gross yield</strong> is the simplest measure: annual rental income divided by purchase price, before any costs.</p>
+      <p style="font-family:var(--font-mono);font-size:13px;background:var(--bg-muted);padding:10px 14px;border-radius:6px;margin-top:12px">
+        Gross Yield = (Monthly Rent × 12) ÷ Purchase Price × 100
+      </p>
+      <p><strong>Net yield</strong> deducts estimated annual costs — property tax (IBI), community fees, insurance, and maintenance — before calculating the return. In Spain, this typically reduces gross yield by 25–35%.</p>
+      <p>Rental estimates are based on city-level benchmarks calibrated by property size, type, and neighbourhood. They are estimates, not guarantees.</p>
+      <p>→ <a href="/methodology.html">Full methodology explained here</a></p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggle(this)" aria-expanded="false">
+      What is the Opportunity Score?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">
+      <p>The Opportunity Score (0–100) is our composite investment signal. It combines three factors:</p>
+      <p><strong>40% — Gross Yield:</strong> Higher yield scores higher. Anchored to the city's yield distribution.<br>
+         <strong>35% — Price vs. Market:</strong> Properties priced below the city median per m² score higher.<br>
+         <strong>25% — Market Momentum:</strong> Price drops and extended days on market signal a motivated seller.</p>
+      <p>Scores are normalised within each city — a 70 in Madrid and a 70 in Almería both mean top-quartile for that city, even though the absolute yields differ.</p>
+      <p><strong>Score bands:</strong> 70–100 = top pick · 55–69 = good · 40–54 = average · Below 40 = lifestyle buy</p>
+      <p>→ <a href="/methodology.html">Full score methodology</a></p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggle(this)" aria-expanded="false">
+      What does "VS. MARKET" mean?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">
+      <p>"VS. MARKET" shows how the listing's price per m² compares to the city-wide median price per m² for similar properties.</p>
+      <p><strong style="color:var(--sage)">Negative (e.g. −25%) = below median</strong> — the property is priced 25% cheaper per m² than the city average. This is a potential value signal — the property may be underpriced, have negotiating room, or offer strong relative value.</p>
+      <p><strong style="color:var(--accent)">Positive (e.g. +15%) = above median</strong> — the property is priced above the city average per m². This can reflect a premium location, renovated condition, or simply overpricing. It doesn't necessarily mean it's a bad buy — but it warrants scrutiny.</p>
+      <div class="highlight-box">Note: this metric compares price per m² to the whole-city median. Micro-neighbourhood premiums are not accounted for. A +20% figure in a genuinely prime barrio may still represent fair value.</div>
+      <p>→ <a href="/methodology.html#price-vs-market">Full explanation with worked example</a></p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggle(this)" aria-expanded="false">
+      How do I know if a property is a good investment?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">
+      <p>Terrasolana's data gives you a strong starting point — yield, price benchmarking, and our Opportunity Score flag the most compelling listings. But no data tool replaces proper due diligence.</p>
+      <p>Before committing, you should verify:</p>
+      <p>✓ <strong>Physical condition</strong> — have a surveyor inspect the property<br>
+         ✓ <strong>Legal status</strong> — clear title, no outstanding debts or community arrears (nota simple from the Land Registry)<br>
+         ✓ <strong>Rental regulations</strong> — short-term rental licences are restricted or frozen in parts of Madrid, Valencia, and Málaga<br>
+         ✓ <strong>Non-resident tax obligations</strong> — Spain levies income tax on rental income and an imputed income tax on empty properties<br>
+         ✓ <strong>Transaction costs</strong> — budget 10–13% on top of purchase price for ITP/VAT, notary, registry, and legal fees</p>
+      <p>Our agent partners can guide you through all of this — or refer you to a specialist abogado.</p>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="faq-cta">
+    <h3>Still have questions?</h3>
+    <p>Get in touch — we read every message and reply within one working day.</p>
+    <div class="faq-cta-btns">
+      <a href="/contact.html" class="btn-primary">Contact us →</a>
+      <a href="/search.html" class="btn-secondary">Browse properties</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">Terrasolana</div>
+      <p class="footer-brand-desc">Spain property intelligence for serious buyers.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Explore</div>
+      <ul class="footer-links">
+        <li><a href="/search.html">Search Properties</a></li>
+        <li><a href="/search.html?city=valencia">Valencia</a></li>
+        <li><a href="/search.html?city=madrid">Madrid</a></li>
+        <li><a href="/search.html?city=malaga">Málaga</a></li>
+        <li><a href="/search.html?city=almeria">Almería</a></li>
+        <li><a href="/search.html?city=alicante">Alicante</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/newsletter.html">Newsletter</a></li>
+        <li><a href="/methodology.html">Methodology</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="/privacy.html">Privacy</a></li>
+        <li><a href="/terms.html">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Terrasolana. Not a licensed estate agent. Data sourced from public listings.</span>
+    <span>Data updated weekly · All prices in EUR</span>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
+});
+function toggleMobileNav() {
+  const m = document.getElementById('mobileNavMenu');
+  const o = document.getElementById('mobileNavOverlay');
+  const open = m.style.display !== 'flex';
+  m.style.display = open ? 'flex' : 'none';
+  o.style.display  = open ? 'block' : 'none';
+}
+function toggle(btn) {
+  const item = btn.closest('.faq-item');
+  const wasOpen = item.classList.contains('open');
+  // close all
+  document.querySelectorAll('.faq-item.open').forEach(el => {
+    el.classList.remove('open');
+    el.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+  });
+  if (!wasOpen) {
+    item.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
+</script>
+<script src="/consent.js"></script>
+</body>
+</html>
