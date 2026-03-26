@@ -45,6 +45,17 @@
     .faq-q-text { font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 10px; }
     .faq-a-text { font-size: 15px; color: var(--ink-2); line-height: 1.75; margin-bottom: 28px; }
     @media (max-width: 640px) { .blog-wrap { padding: 40px 20px 60px; } }
+    .blog-breadcrumb { font-size: 13px; color: var(--ink-3); margin-bottom: 28px; }
+    .blog-breadcrumb a { color: var(--accent); text-decoration: none; font-weight: 600; }
+    .blog-breadcrumb a:hover { text-decoration: underline; }
+    .related-posts { margin-top: 48px; padding-top: 36px; border-top: 1px solid var(--border); }
+    .related-posts h2 { font-family: var(--font-serif); font-size: 22px; font-weight: 700; margin-bottom: 20px; color: var(--ink); }
+    .related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .related-card { background: var(--bg-muted); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-decoration: none; display: block; transition: box-shadow 150ms, transform 150ms; }
+    .related-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .related-card-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 8px; }
+    .related-card-title { font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.45; }
+    @media (max-width: 600px) { .related-grid { grid-template-columns: 1fr; } }
   </style>
   <script type="application/ld+json">
   {

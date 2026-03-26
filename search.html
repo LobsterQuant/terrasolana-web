@@ -524,8 +524,10 @@ const PAGE_SIZE = 24;
 let state = {
   cities: new Set(),   // empty = all
   minYield: 3,         // default: investment-grade only (≥3% yield)
+  minPrice: 0,
   maxPrice: 0,
   minBeds: 0,
+  propType: '',        // '' = all types
   features: new Set(),
   query: '',
   sort: 'score'
@@ -542,10 +544,12 @@ function filterHTML() {
   ];
   // Yield floor is always ≥3% — Terrasolana is an investment tool, not a lifestyle browser.
   // "Any" removed: sub-3% listings skew stats and are not investment-grade.
-  const yieldOpts = [{v:3,l:'3%+'},{v:5,l:'5%+'},{v:7,l:'7%+'},{v:9,l:'9%+'}];
-  const priceOpts = [{v:0,l:'Any'},{v:200000,l:'≤€200k'},{v:400000,l:'≤€400k'},{v:800000,l:'≤€800k'},{v:1500000,l:'≤€1.5M'}];
-  const bedOpts   = [{v:0,l:'Any'},{v:1,l:'1+'},{v:2,l:'2+'},{v:3,l:'3+'},{v:4,l:'4+'}];
-  const featOpts  = [{f:'has_elevator',l:'🛗 Lift'},{f:'has_parking',l:'🚗 Parking'},{f:'has_terrace',l:'🌿 Terrace'},{f:'has_pool',l:'🏊 Pool'}];
+  const yieldOpts    = [{v:3,l:'3%+'},{v:5,l:'5%+'},{v:7,l:'7%+'},{v:9,l:'9%+'}];
+  const minPriceOpts = [{v:0,l:'Any'},{v:50000,l:'€50k+'},{v:100000,l:'€100k+'},{v:150000,l:'€150k+'},{v:200000,l:'€200k+'}];
+  const maxPriceOpts = [{v:0,l:'Any'},{v:200000,l:'≤€200k'},{v:400000,l:'≤€400k'},{v:800000,l:'≤€800k'},{v:1500000,l:'≤€1.5M'}];
+  const bedOpts      = [{v:0,l:'Any'},{v:1,l:'1+'},{v:2,l:'2+'},{v:3,l:'3+'},{v:4,l:'4+'}];
+  const propTypeOpts = [{v:'',l:'All'},{v:'apartment',l:'Apartment'},{v:'house',l:'House'},{v:'villa',l:'Villa'}];
+  const featOpts     = [{f:'has_elevator',l:'🛗 Lift'},{f:'has_parking',l:'🚗 Parking'},{f:'has_terrace',l:'🌿 Terrace'},{f:'has_pool',l:'🏊 Pool'}];
 
   return `
     <div class="filter-group">
@@ -563,9 +567,23 @@ function filterHTML() {
     </div>
     <hr class="filter-divider">
     <div class="filter-group">
+      <label class="filter-label">Min Price</label>
+      <div class="filter-chips">
+        ${minPriceOpts.map(o=>`<button type="button" class="filter-chip ${state.minPrice===o.v?'active':''}" data-minprice="${o.v}">${o.l}</button>`).join('')}
+      </div>
+    </div>
+    <hr class="filter-divider">
+    <div class="filter-group">
       <label class="filter-label">Max Price</label>
       <div class="filter-chips">
-        ${priceOpts.map(o=>`<button type="button" class="filter-chip ${state.maxPrice===o.v?'active':''}" data-price="${o.v}">${o.l}</button>`).join('')}
+        ${maxPriceOpts.map(o=>`<button type="button" class="filter-chip ${state.maxPrice===o.v?'active':''}" data-price="${o.v}">${o.l}</button>`).join('')}
+      </div>
+    </div>
+    <hr class="filter-divider">
+    <div class="filter-group">
+      <label class="filter-label">Property Type</label>
+      <div class="filter-chips">
+        ${propTypeOpts.map(o=>`<button type="button" class="filter-chip ${state.propType===o.v?'active':''}" data-proptype="${o.v}">${o.l}</button>`).join('')}
       </div>
     </div>
     <hr class="filter-divider">
@@ -590,8 +608,10 @@ function renderFilters() {
   document.getElementById('drawerFilterContent').innerHTML  = filterHTML();
   // Update mobile filter btn badge
   const count = (state.cities.size > 0 ? state.cities.size : 0) +
-    (state.minYield > 3 ? 1 : 0) +  // 3% is the floor, not a user filter
+    (state.minYield > 3 ? 1 : 0) +
+    (state.minPrice > 0 ? 1 : 0) +
     (state.maxPrice > 0 ? 1 : 0) +
+    (state.propType  ? 1 : 0) +
     (state.minBeds > 0 ? 1 : 0) +
     state.features.size;
   const badge = document.getElementById('mobileFilterCount');
@@ -607,17 +627,19 @@ function toggleCity(val) {
   else state.cities.add(val);
   renderFilters(); applyFilters();
 }
-function setYield(val)  { state.minYield = val; renderFilters(); applyFilters(); }
-function setPrice(val)  { state.maxPrice = val; renderFilters(); applyFilters(); }
-function setBeds(val)   { state.minBeds  = val; renderFilters(); applyFilters(); }
+function setYield(val)    { state.minYield  = val; renderFilters(); applyFilters(); }
+function setMinPrice(val) { state.minPrice  = val; renderFilters(); applyFilters(); }
+function setPrice(val)    { state.maxPrice  = val; renderFilters(); applyFilters(); }
+function setPropType(val) { state.propType  = val; renderFilters(); applyFilters(); }
+function setBeds(val)     { state.minBeds   = val; renderFilters(); applyFilters(); }
 function toggleFeature(feat) {
   if (state.features.has(feat)) state.features.delete(feat);
   else state.features.add(feat);
   renderFilters(); applyFilters();
 }
 function clearFilters() {
-  state.cities = new Set(); state.minYield = 3; state.maxPrice = 0;  // floor stays at 3%
-  state.minBeds = 0; state.features = new Set();
+  state.cities = new Set(); state.minYield = 3; state.minPrice = 0; state.maxPrice = 0;
+  state.propType = ''; state.minBeds = 0; state.features = new Set();
   document.getElementById('searchInput').value = '';
   document.getElementById('searchInputMobile').value = '';
   state.query = '';
@@ -653,7 +675,17 @@ function applyFilters() {
   filtered = allListings.filter(l => {
     if (state.cities.size > 0 && !state.cities.has(l.city)) return false;
     if (state.minYield > 0 && (!l.gross_yield_pct || l.gross_yield_pct < state.minYield)) return false;
+    if (state.minPrice > 0 && (!l.price_eur || l.price_eur < state.minPrice)) return false;
     if (state.maxPrice > 0 && l.price_eur > state.maxPrice) return false;
+    if (state.propType) {
+      const raw = (l.property_type || '').toLowerCase();
+      const apt  = ['flat','studio','duplex','penthouse'];
+      const house = ['chalet'];
+      const villa = ['countryhouse','country_house','villa','townhouse'];
+      if (state.propType === 'apartment' && !apt.includes(raw)) return false;
+      if (state.propType === 'house'     && !house.includes(raw)) return false;
+      if (state.propType === 'villa'     && !villa.includes(raw)) return false;
+    }
     if (state.minBeds > 0 && (!l.rooms || l.rooms < state.minBeds)) return false;
     for (const f of state.features) { if (!l[f]) return false; }
     if (state.query) {
@@ -715,8 +747,10 @@ function renderStats() {
 function renderActivePills() {
   const pills = [];
   state.cities.forEach(c => pills.push({ label: c.charAt(0).toUpperCase()+c.slice(1), action: ()=>toggleCity(c) }));
-  if (state.minYield > 3) pills.push({ label: `Yield ≥${state.minYield}%`, action: ()=>setYield(3) });  // only show pill if above the 3% floor
+  if (state.minYield > 3) pills.push({ label: `Yield ≥${state.minYield}%`, action: ()=>setYield(3) });
+  if (state.minPrice > 0) pills.push({ label: `€${state.minPrice >= 1000000 ? (state.minPrice/1000000).toFixed(1)+'M' : (state.minPrice/1000)+'k'}+`, action: ()=>setMinPrice(0) });
   if (state.maxPrice > 0) pills.push({ label: `≤€${state.maxPrice >= 1000000 ? (state.maxPrice/1000000).toFixed(1)+'M' : (state.maxPrice/1000)+'k'}`, action: ()=>setPrice(0) });
+  if (state.propType) pills.push({ label: state.propType.charAt(0).toUpperCase()+state.propType.slice(1), action: ()=>setPropType('') });
   if (state.minBeds  > 0) pills.push({ label: `${state.minBeds}+ beds`, action: ()=>setBeds(0) });
   state.features.forEach(f => pills.push({ label: f.replace('has_','').replace('_',' '), action: ()=>toggleFeature(f) }));
 
@@ -1015,16 +1049,20 @@ function renderMap() {
 document.addEventListener('click', function(e) {
   const chip = e.target.closest('.filter-chip');
   if (!chip) return;
-  const y = chip.dataset.yield;
-  const p = chip.dataset.price;
-  const b = chip.dataset.beds;
-  const f = chip.dataset.feat;
-  const c = chip.dataset.city;
-  if (y !== undefined) { setYield(parseInt(y)); return; }
-  if (p !== undefined) { setPrice(parseInt(p)); return; }
-  if (b !== undefined) { setBeds(parseInt(b)); return; }
-  if (f !== undefined) { toggleFeature(f); return; }
-  if (c !== undefined) { toggleCity(c); return; }
+  const y  = chip.dataset.yield;
+  const mp = chip.dataset.minprice;
+  const p  = chip.dataset.price;
+  const pt = chip.dataset.proptype;
+  const b  = chip.dataset.beds;
+  const f  = chip.dataset.feat;
+  const c  = chip.dataset.city;
+  if (y  !== undefined) { setYield(parseInt(y)); return; }
+  if (mp !== undefined) { setMinPrice(parseInt(mp)); return; }
+  if (p  !== undefined) { setPrice(parseInt(p)); return; }
+  if (pt !== undefined) { setPropType(pt); return; }
+  if (b  !== undefined) { setBeds(parseInt(b)); return; }
+  if (f  !== undefined) { toggleFeature(f); return; }
+  if (c  !== undefined) { toggleCity(c); return; }
 });
 
 // ── Init ───────────────────────────────────────────────
