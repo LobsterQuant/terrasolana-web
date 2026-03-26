@@ -345,15 +345,23 @@ nav.scrolled { box-shadow: var(--shadow-md); }
   gap: 6px;
 }
 .filter-chip {
+  display: inline-flex;
+  align-items: center;
   padding: 6px 14px;
   border-radius: 100px;
   font-size: 13px;
   font-weight: 500;
+  font-family: inherit;
   background: var(--bg-muted);
   color: var(--ink-2);
   border: 1.5px solid transparent;
   cursor: pointer;
   transition: all 150ms;
+  line-height: 1.4;
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: left;
+  white-space: nowrap;
 }
 .filter-chip:hover   { border-color: var(--border-dark); color: var(--ink); }
 .filter-chip.active  { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }

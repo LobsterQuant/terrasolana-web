@@ -545,35 +545,35 @@ function filterHTML() {
     <div class="filter-group">
       <label class="filter-label">City</label>
       <div class="filter-chips">
-        ${cityList.map(c=>`<div class="filter-chip ${state.cities.size===0||state.cities.has(c.val)?'active':''}" data-city="${c.val}">${c.label}</div>`).join('')}
+        ${cityList.map(c=>`<button type="button" class="filter-chip ${state.cities.size===0||state.cities.has(c.val)?'active':''}" data-city="${c.val}">${c.label}</button>`).join('')}
       </div>
     </div>
     <hr class="filter-divider">
     <div class="filter-group">
       <label class="filter-label">Min Gross Yield</label>
       <div class="filter-chips">
-        ${yieldOpts.map(o=>`<div class="filter-chip ${state.minYield===o.v?'active':''}" data-yield="${o.v}">${o.l}</div>`).join('')}
+        ${yieldOpts.map(o=>`<button type="button" class="filter-chip ${state.minYield===o.v?'active':''}" data-yield="${o.v}">${o.l}</button>`).join('')}
       </div>
     </div>
     <hr class="filter-divider">
     <div class="filter-group">
       <label class="filter-label">Max Price</label>
       <div class="filter-chips">
-        ${priceOpts.map(o=>`<div class="filter-chip ${state.maxPrice===o.v?'active':''}" data-price="${o.v}">${o.l}</div>`).join('')}
+        ${priceOpts.map(o=>`<button type="button" class="filter-chip ${state.maxPrice===o.v?'active':''}" data-price="${o.v}">${o.l}</button>`).join('')}
       </div>
     </div>
     <hr class="filter-divider">
     <div class="filter-group">
       <label class="filter-label">Bedrooms</label>
       <div class="filter-chips">
-        ${bedOpts.map(o=>`<div class="filter-chip ${state.minBeds===o.v?'active':''}" data-beds="${o.v}">${o.l}</div>`).join('')}
+        ${bedOpts.map(o=>`<button type="button" class="filter-chip ${state.minBeds===o.v?'active':''}" data-beds="${o.v}">${o.l}</button>`).join('')}
       </div>
     </div>
     <hr class="filter-divider">
     <div class="filter-group">
       <label class="filter-label">Features</label>
       <div class="filter-chips">
-        ${featOpts.map(o=>`<div class="filter-chip ${state.features.has(o.f)?'active':''}" data-feat="${o.f}">${o.l}</div>`).join('')}
+        ${featOpts.map(o=>`<button type="button" class="filter-chip ${state.features.has(o.f)?'active':''}" data-feat="${o.f}">${o.l}</button>`).join('')}
       </div>
     </div>
   `;
@@ -949,12 +949,12 @@ function renderMap() {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       maxZoom: 18,
     }).addTo(mapInstance);
-    // Always set a Spain default view first, then fitBounds will override on desktop
-    mapInstance.setView([40.0, -3.7], window.innerWidth < 768 ? 5 : 6);
+    // Default Spain view — fitBounds overrides this once markers are placed
+    mapInstance.setView([40.4, -3.7], 6);
     // Force resize after container becomes visible (Leaflet needs correct dimensions)
     setTimeout(function() {
       mapInstance.invalidateSize();
-      mapInstance.setView([40.0, -3.7], window.innerWidth < 768 ? 5 : 6);
+      mapInstance.setView([40.4, -3.7], 6);
     }, 300);
   }
 
