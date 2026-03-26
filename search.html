@@ -576,31 +576,35 @@ function applyFilters() {
   renderActivePills();
 }
 
-// ── BUG 1 FIX: Stats reflect the filtered set ─────────
+// ── Stats: investment-grade subset only ───────────────
+// Yield avg: only listings with gross_yield_pct > 0
+// Price avg: only listings ≤ €1M (exclude luxury outliers)
+// Both: only from the current filtered visible set
 function renderStats() {
-  // Only count listings that have yield data for yield stats
-  const withYield = filtered.filter(l => l.gross_yield_pct && l.gross_yield_pct > 0);
-  const withPrice = filtered.filter(l => l.price_eur && l.price_eur > 0);
-  const yields    = withYield.map(l => l.gross_yield_pct);
-  const prices    = withPrice.map(l => l.price_eur);
+  const yieldSet = filtered.filter(l => l.gross_yield_pct > 0);
+  const priceSet = filtered.filter(l => l.price_eur > 0 && l.price_eur <= 1000000);
+  const yields   = yieldSet.map(l => l.gross_yield_pct);
+  const prices   = priceSet.map(l => l.price_eur);
 
   document.getElementById('statCount').textContent = filtered.length.toLocaleString();
 
+  // Yield: mean of positive-yield listings only
   document.getElementById('statAvgYield').textContent =
-    yields.length ? (yields.reduce((a,b)=>a+b,0)/yields.length).toFixed(1)+'%' : '—';
+    yields.length ? (yields.reduce((a,b) => a+b, 0) / yields.length).toFixed(1) + '%' : '—';
 
-  // Median price (not mean — avoids skew from €15M outliers)
+  // Price: median of ≤€1M listings (robust to outliers)
   if (prices.length) {
-    const sorted = [...prices].sort((a,b)=>a-b);
-    const median = sorted[Math.floor(sorted.length/2)];
+    const sorted = [...prices].sort((a,b) => a-b);
+    const median = sorted[Math.floor(sorted.length / 2)];
     document.getElementById('statAvgPrice').textContent =
-      median >= 1000000 ? '€'+(median/1000000).toFixed(1)+'M' : '€'+Math.round(median/1000)+'k';
+      '€' + Math.round(median / 1000) + 'k';
   } else {
     document.getElementById('statAvgPrice').textContent = '—';
   }
 
+  // Top yield: max across all filtered (including high-value)
   document.getElementById('statMaxYield').textContent =
-    yields.length ? Math.max(...yields).toFixed(1)+'%' : '—';
+    yields.length ? Math.max(...yields).toFixed(1) + '%' : '—';
 }
 
 function renderActivePills() {
