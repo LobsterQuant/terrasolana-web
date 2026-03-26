@@ -636,7 +636,7 @@ let listings = [];
 
 async function loadData() {
   try {
-    const res = await fetch('/data/listings.json');
+    const res = await fetch('/data/listings.json?v=2');
     listings = await res.json();
     populateHeroTopPicks();
     populateCities();

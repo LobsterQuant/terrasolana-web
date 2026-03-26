@@ -713,7 +713,7 @@ async function init() {
   const listingId = slugToId(slug);
 
   try {
-    const data = await fetch('/data/listings.json').then(r => r.json());
+    const data = await fetch('/data/listings.json?v=2').then(r => r.json());
     const listing = data.find(l => l.id === listingId);
     if (!listing) { renderNotFound(slug); return; }
     render(listing, data);
