@@ -76,12 +76,14 @@
   </button>
 </nav>
 <div id="mobileNavOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199" onclick="toggleMobileNav()"></div>
-<div id="mobileNavMenu" style="display:none;position:fixed;top:var(--nav-height);left:0;right:0;background:var(--bg-card);border-bottom:1px solid var(--border);z-index:198;padding:16px 20px;flex-direction:column;gap:4px">
-  <a href="/search.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Search</a>
-  <a href="/blog.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Blog</a>
-  <a href="/about.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">About</a>
-  <a href="/newsletter.html" style="padding:10px 12px;font-size:15px;font-weight:500;display:block">Newsletter</a>
-  <a href="/search.html" class="btn-primary" style="margin-top:8px;justify-content:center">Browse Properties →</a>
+<div id="mobileNavMenu" style="display:none;position:fixed;top:var(--nav-height);left:0;right:0;bottom:0;background:var(--bg-card);z-index:198;padding:20px;flex-direction:column;gap:4px;overflow-y:auto">
+  <a href="/search.html" style="padding:14px 16px;font-size:16px;font-weight:600;display:block;border-radius:8px;border-bottom:1px solid var(--border)">🔍 Search Properties</a>
+  <a href="/index.html#cities" style="padding:14px 16px;font-size:16px;font-weight:500;display:block;border-radius:8px;border-bottom:1px solid var(--border)">🏙 Cities</a>
+  <a href="/about.html" style="padding:14px 16px;font-size:16px;font-weight:500;display:block;border-radius:8px;border-bottom:1px solid var(--border)">ℹ️ About</a>
+  <a href="/faq.html" style="padding:14px 16px;font-size:16px;font-weight:500;display:block;border-radius:8px;border-bottom:1px solid var(--border)">❓ FAQ</a>
+  <a href="/blog.html" style="padding:14px 16px;font-size:16px;font-weight:500;display:block;border-radius:8px;border-bottom:1px solid var(--border)">📝 Blog</a>
+  <a href="/newsletter.html" style="padding:14px 16px;font-size:16px;font-weight:500;display:block;border-radius:8px;border-bottom:1px solid var(--border)">📬 Newsletter</a>
+  <a href="/search.html" class="btn-primary" style="margin-top:16px;justify-content:center;width:100%">Browse Properties →</a>
 </div>
 
 <div class="nl-hero">

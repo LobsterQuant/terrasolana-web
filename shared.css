@@ -738,7 +738,8 @@ footer {
   .nav-wordmark { font-size: 16px; }
   /* Hide desktop CTA btn in nav on mobile, hamburger only */
   nav > .btn-primary { display: none; }
-  .mobile-nav-toggle { display: flex; }
+  .mobile-nav-toggle { display: flex; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
+  nav { position: fixed; }
 
   /* Container */
   .container { padding: 0 16px; }
