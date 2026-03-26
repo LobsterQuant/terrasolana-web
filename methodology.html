@@ -153,6 +153,15 @@
     }
     .disclaimer strong { color: var(--ink-2); }
 
+    @media (max-width: 768px) {
+      .score-table-wrap {
+        margin-left: -16px;
+        margin-right: -16px;
+        width: calc(100% + 32px);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
     @media (max-width: 640px) {
       .m-wrap { padding: 48px 20px 60px; }
       .m-section-header { flex-wrap: wrap; }
