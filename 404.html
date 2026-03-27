@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <script>!function(){var t=localStorage.getItem("ts_theme")||((window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light");document.documentElement.setAttribute("data-theme",t)}()</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Page Not Found | Terrasolana</title>
+  <meta name="description" content="This page doesn't exist. Browse Spain investment properties on Terrasolana.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/shared.css">
+  <style>
+    body { padding-top: var(--nav-height); }
+
+    .error-page {
+      min-height: calc(100vh - var(--nav-height));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 40%, rgba(212,98,42,0.06) 0%, transparent 65%),
+        var(--bg);
+    }
+
+    .error-code {
+      font-family: var(--font-mono);
+      font-size: clamp(100px, 20vw, 180px);
+      font-weight: 700;
+      line-height: 1;
+      color: var(--accent);
+      letter-spacing: -0.04em;
+      margin-bottom: 24px;
+      /* Subtle outline effect */
+      -webkit-text-stroke: 2px var(--accent);
+    }
+
+    .error-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(24px, 4vw, 40px);
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .error-subtext {
+      font-size: 17px;
+      color: var(--ink-3);
+      max-width: 440px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .error-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      border: 1.5px solid var(--border-dark);
+      color: var(--ink-2);
+      background: transparent;
+      text-decoration: none;
+      transition: background 150ms, border-color 150ms, color 150ms;
+    }
+    .btn-ghost:hover {
+      background: var(--bg-muted);
+      border-color: var(--ink-3);
+      color: var(--ink);
+    }
+
+    .error-divider {
+      width: 48px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin: 0 auto 32px;
+      opacity: 0.4;
+    }
+
+    @media (max-width: 480px) {
+      .error-actions { flex-direction: column; align-items: stretch; }
+      .error-actions a { justify-content: center; text-align: center; }
+      .btn-ghost { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <a href="/" class="nav-wordmark">Terrasolana</a>
+  <ul class="nav-links">
+    <li><a href="/search">Search</a></li>
+    <li><a href="/blog">Blog</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/newsletter">Newsletter</a></li>
+  </ul>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">☀️</button>
+  <a href="/search" class="btn-primary">Browse Properties →</a>
+  <button class="mobile-nav-toggle" aria-label="Menu" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div id="mobileNavOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199" onclick="toggleMobileNav()"></div>
+<div id="mobileNavMenu" style="display:none;position:fixed;top:var(--nav-height);left:0;right:0;bottom:0;background:var(--bg-card);z-index:198;padding:20px;flex-direction:column;gap:4px;overflow-y:auto">
+  <a href="/search" style="padding:14px 16px;font-size:16px;font-weight:600;display:block;border-radius:8px;border-bottom:1px solid var(--border)">🔍 Search Properties</a>
+  <a href="/#cities" style="padding:14px 16px;font-size:16px;font-weight:500;display:block;border-radius:8px;border-bottom:1px solid var(--border)">🏙 Cities</a>
+  <a href="/about" style="padding:14px 16px;font-size:16px;font-weight:500;display:block;border-radius:8px;border-bottom:1px solid var(--border)">ℹ️ About</a>
+  <a href="/faq" style="padding:14px 16px;font-size:16px;font-weight:500;display:block;border-radius:8px;border-bottom:1px solid var(--border)">❓ FAQ</a>
+  <a href="/blog" style="padding:14px 16px;font-size:16px;font-weight:500;display:block;border-radius:8px;border-bottom:1px solid var(--border)">📝 Blog</a>
+  <a href="/newsletter" style="padding:14px 16px;font-size:16px;font-weight:500;display:block;border-radius:8px;border-bottom:1px solid var(--border)">📬 Newsletter</a>
+  <a href="/search" class="btn-primary" style="margin-top:16px;justify-content:center;width:100%">Browse Properties →</a>
+</div>
+
+<main class="error-page">
+  <div class="error-code">404</div>
+  <div class="error-divider"></div>
+  <h1 class="error-heading">This property doesn't exist</h1>
+  <p class="error-subtext">The listing you're looking for may have been sold or removed.</p>
+  <div class="error-actions">
+    <a href="/search" class="btn-primary">Browse Properties →</a>
+    <a href="/" class="btn-ghost">Back to Home</a>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">Terrasolana</div>
+      <p class="footer-brand-desc">Spain property intelligence for serious buyers.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Explore</div>
+      <ul class="footer-links">
+        <li><a href="/search">Search Properties</a></li>
+        <li><a href="/search?city=valencia">Valencia</a></li>
+        <li><a href="/search?city=madrid">Madrid</a></li>
+        <li><a href="/search?city=malaga">Málaga</a></li>
+        <li><a href="/search?city=alicante">Alicante</a></li>
+        <li><a href="/search?city=almeria">Almería</a></li>
+        <li><a href="/search?city=sevilla">Sevilla</a></li>
+        <li><a href="/search?city=granada">Granada</a></li>
+        <li><a href="/search?city=zaragoza">Zaragoza</a></li>
+        <li><a href="/search?city=murcia">Murcia</a></li>
+        <li><a href="/search?city=palma">Palma de Mallorca</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <ul class="footer-links">
+        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/terms">Terms</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Terrasolana. Not a licensed estate agent. Data sourced from public listings.</span>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
+});
+function toggleMobileNav() {
+  const overlay = document.getElementById('mobileNavOverlay');
+  const menu = document.getElementById('mobileNavMenu');
+  const open = overlay.style.display === 'none';
+  overlay.style.display = open ? 'block' : 'none';
+  menu.style.display = open ? 'flex' : 'none';
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+</script>
+<script src="/theme.js"></script>
+<script src="/consent.js"></script>
+</body>
+</html>
