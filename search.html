@@ -841,9 +841,13 @@ function cardImage(l) {
 }
 
 function buildCard(l) {
+  const isRent = l.operation === 'rent';
   const yc = yieldClass(l.gross_yield_pct);
   const yieldStr  = l.gross_yield_pct ? l.gross_yield_pct.toFixed(1)+'%' : null;
-  const rentStr   = l.estimated_rent_eur ? `€${Math.round(l.estimated_rent_eur).toLocaleString()}/mo` : '—';
+  // For rent listings: price_eur IS the monthly rent; estimated_rent_eur is N/A
+  const rentStr   = isRent
+    ? (l.price_eur ? `€${Math.round(l.price_eur).toLocaleString()}/mo` : '—')
+    : (l.estimated_rent_eur ? `€${Math.round(l.estimated_rent_eur).toLocaleString()}/mo` : '—');
   const score     = l.opportunity_score || 0;
   // price_vs_median_pct: negative = below median (cheap/green), positive = above median (expensive/orange)
   const pvm = l.price_vs_median_pct;
@@ -864,13 +868,13 @@ function buildCard(l) {
   <div class="property-card">
     <div class="card-image" style="${cardImage(l)}">
       <div class="card-image-city" style="display:flex;gap:5px;flex-wrap:wrap">
-        ${yieldStr ? `<span class="badge badge-yield">${yieldStr}</span>` : ''}
+        ${isRent ? `<span class="badge" style="background:var(--sage);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px">For Rent</span>` : (yieldStr ? `<span class="badge badge-yield">${yieldStr}</span>` : '')}
         ${score >= 70 ? `<span class="badge badge-score">Top pick</span>` : ''}
       </div>
     </div>
     <div class="card-body">
       <div>
-        <div class="card-price">${formatPrice(l.price_eur)}</div>
+        <div class="card-price">${isRent ? (l.price_eur ? `€${Math.round(l.price_eur).toLocaleString()}<span style="font-size:14px;font-weight:500;color:var(--ink-3)">/mo</span>` : '—') : formatPrice(l.price_eur)}</div>
         <div class="card-address" style="margin-top:3px">${l.city_display}${l.neighborhood ? ', '+l.neighborhood : ''}</div>
       </div>
       <div class="card-specs">
@@ -882,6 +886,33 @@ function buildCard(l) {
         ${l.has_parking ? `<span class="card-spec">🚗</span>` : ''}
       </div>
       <div class="card-metrics">
+        ${isRent ? `
+        <div>
+          <div class="card-metric-label">Monthly Rent</div>
+          <div class="card-metric-value yield-high">${rentStr}</div>
+        </div>
+        <div>
+          <div class="card-metric-label">Per m²</div>
+          <div class="card-metric-value">${(l.price_eur && l.size_m2) ? `€${(l.price_eur/l.size_m2).toFixed(0)}/m²` : '—'}</div>
+        </div>
+        ${pvmStr ? `
+        <div class="ts-tooltip-wrap" tabindex="0" style="display:flex;flex-direction:column;align-items:flex-start">
+          <div class="card-metric-label" style="display:flex;align-items:center;gap:4px">
+            vs. Market <span style="font-size:10px;color:var(--ink-4);font-weight:400">ⓘ</span>
+          </div>
+          <div class="card-metric-value" style="font-size:12px;color:${pvmColor}">${pvmStr}</div>
+          <div class="ts-tooltip">
+            ${pvmAdj < 0
+              ? `This rental is priced <strong>${Math.abs(pvmAdj).toFixed(0)}% below</strong> the city median rent per m² — good value for tenants.`
+              : `This rental is priced <strong>${pvmAdj.toFixed(0)}% above</strong> the city median rent per m².`
+            }
+          </div>
+        </div>` : '<div></div>'}
+        <div>
+          <div class="card-metric-label">Type</div>
+          <div class="card-metric-value" style="font-size:12px;color:var(--ink-3)">For Rent</div>
+        </div>
+        ` : `
         <div>
           <div class="card-metric-label">Gross Yield</div>
           <div class="card-metric-value ${yc}">${yieldStr || '—'}</div>
@@ -914,6 +945,7 @@ function buildCard(l) {
             <br><a href="/methodology.html" style="margin-top:6px;display:inline-block">Learn more →</a>
           </div>
         </div>
+        `}
       </div>
       ${drops ? `<div style="font-size:12px;color:var(--gold)">📉 ${l.price_drops} price drop${l.price_drops>1?'s':''}</div>` : ''}
     </div>
@@ -1012,13 +1044,13 @@ function renderMap() {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       maxZoom: 18,
     }).addTo(mapInstance);
-    // Default Spain view — fitBounds overrides this once markers are placed
+    // Always start Spain-centered; fitBounds will zoom to pins but never zoom out past zoom 5
     mapInstance.setView([40.4, -3.7], 6);
-    // Force resize after container becomes visible (Leaflet needs correct dimensions)
+    // Force resize after container becomes visible, then re-anchor to Spain before pins render
     setTimeout(function() {
       mapInstance.invalidateSize();
-      mapInstance.setView([40.4, -3.7], 6);
-    }, 300);
+      if (!mapMarkers.length) mapInstance.setView([40.4, -3.7], 6);
+    }, 150);
   }
 
   // Clear old markers
@@ -1033,23 +1065,33 @@ function renderMap() {
     if (!l.lat || !l.lng) return;
 
     const isTop = (l.opportunity_score || 0) >= 70;
-    const priceStr = formatPriceMap(l.price_eur);
+    const isRentPin = l.operation === 'rent';
+    const priceStr = isRentPin
+      ? (l.price_eur ? `€${Math.round(l.price_eur).toLocaleString()}/mo` : '—')
+      : formatPriceMap(l.price_eur);
     const yieldStr = l.gross_yield_pct ? l.gross_yield_pct.toFixed(1) + '%' : '—';
+    const pinLabel = isRentPin
+      ? (l.price_eur ? `€${Math.round(l.price_eur/100)*100 >= 1000 ? Math.round(l.price_eur/100)/10+'k' : Math.round(l.price_eur)}/mo` : '—')
+      : formatPriceMap(l.price_eur);
 
     // Custom div icon: price chip
     const icon = L.divIcon({
       className: '',
-      html: `<div class="ts-pin${isTop ? ' top' : ''}">${priceStr}</div>`,
+      html: `<div class="ts-pin${isTop ? ' top' : ''}">${pinLabel}</div>`,
       iconAnchor: [0, 12],
     });
+
+    const popupSecondLine = isRentPin
+      ? `<div class="ts-popup-yield">🏠 For Rent · ${l.rooms ? l.rooms + ' bed' : ''}</div>`
+      : `<div class="ts-popup-yield">🏦 ${yieldStr} gross yield</div>`;
 
     const marker = L.marker([l.lat, l.lng], { icon })
       .addTo(mapInstance)
       .bindPopup(`
         <div class="ts-popup">
           <div class="ts-popup-price">${priceStr}</div>
-          <div class="ts-popup-yield">🏦 ${yieldStr} gross yield</div>
-          <div class="ts-popup-score">Score: ${l.opportunity_score || 0}/100 · ${l.city_display}${l.neighborhood ? ', ' + l.neighborhood : ''}</div>
+          ${popupSecondLine}
+          <div class="ts-popup-score">${isRentPin ? '' : `Score: ${l.opportunity_score || 0}/100 · `}${l.city_display}${l.neighborhood ? ', ' + l.neighborhood : ''}</div>
           <a class="ts-popup-link" href="/property/${l.city}-${l.id}">View property →</a>
         </div>`, {
         maxWidth: 220,
@@ -1061,7 +1103,7 @@ function renderMap() {
   });
 
   if (bounds.length) {
-    mapInstance.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+    mapInstance.fitBounds(bounds, { padding: [40, 40], maxZoom: 14, minZoom: 5 });
     // Force resize in case container was hidden when map initialised
     setTimeout(() => mapInstance.invalidateSize(), 50);
   }
