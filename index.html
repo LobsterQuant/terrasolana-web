@@ -750,8 +750,8 @@ function populateHeroTopPicks() {
     <div class="hero-listing-row" onclick="openAgentModal('${l.id}','${l.city}',${l.price_eur})">
       <div class="hero-listing-icon">${cityEmoji(l.city)}</div>
       <div class="hero-listing-details">
-        <div class="hero-listing-city">${l.city_display}${l.neighborhood ? ' · '+l.neighborhood : ''} · ${l.rooms||'?'}bed</div>
-        <div class="hero-listing-price">${formatPrice(l.price_eur)} · ${l.size_m2||'?'}m²</div>
+        <div class="hero-listing-city">${l.city_display}${l.neighborhood ? ' · '+l.neighborhood : ''}${l.rooms ? ' · '+l.rooms+'bed' : ''}</div>
+        <div class="hero-listing-price">${formatPrice(l.price_eur)}${l.size_m2 ? ' · '+l.size_m2+'m²' : ''}</div>
       </div>
       <div class="hero-listing-yield">${l.gross_yield_pct ? l.gross_yield_pct.toFixed(1)+'%' : '—'}</div>
     </div>
