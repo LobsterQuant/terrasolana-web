@@ -547,7 +547,7 @@ function render(listing, allListings) {
 
   // Update meta
   const titleStr = `${propType} in ${cityDisplay}${nbhd} — ${formatPrice(listing.price_eur)} — Terrasolana`;
-  const descStr = `${listing.rooms || '?'}-bed ${propType.toLowerCase()} in ${cityDisplay}${nbhd}. ${listing.gross_yield_pct ? listing.gross_yield_pct.toFixed(1) + '% gross yield. ' : ''}Opportunity Score: ${score}/100.`;
+  const descStr = `${listing.rooms ? listing.rooms + '-bed ' : ''}${propType.toLowerCase()} in ${cityDisplay}${nbhd}. ${listing.gross_yield_pct ? listing.gross_yield_pct.toFixed(1) + '% gross yield. ' : ''}Opportunity Score: ${score}/100.`;
   document.getElementById('pageTitle').textContent = titleStr;
   document.getElementById('metaDesc').setAttribute('content', descStr);
   document.getElementById('ogTitle').setAttribute('content', titleStr);

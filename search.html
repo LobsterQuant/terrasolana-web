@@ -1082,7 +1082,7 @@ function renderMap() {
     });
 
     const popupSecondLine = isRentPin
-      ? `<div class="ts-popup-yield">🏠 For Rent · ${l.rooms ? l.rooms + ' bed' : ''}</div>`
+      ? `<div class="ts-popup-yield">🏠 For Rent · ${l.rooms ? l.rooms + ' bed' : '—'}</div>`
       : `<div class="ts-popup-yield">🏦 ${yieldStr} gross yield</div>`;
 
     const marker = L.marker([l.lat, l.lng], { icon })
