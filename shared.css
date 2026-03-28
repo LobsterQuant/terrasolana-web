@@ -770,6 +770,12 @@ footer {
   nav { padding: 0 14px; }
   .nav-logomark { width: 28px; height: 28px; font-size: 14px; }
   .container { padding: 0 14px; }
+  .card-metric-value { font-size: 13px; }
+  .card-metrics { font-size: 12px; gap: 6px; }
+}
+@media (max-width: 390px) {
+  .card-metrics { grid-template-columns: 1fr 1fr; font-size: 12px; }
+  .card-metric-value { font-size: 13px; }
 }
 
 .nl-form { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 480px; }
