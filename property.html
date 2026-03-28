@@ -552,7 +552,7 @@ const CITY_IMAGES = {
 function formatPrice(p) {
   if (!p) return '—';
   if (p >= 1000000) return '€' + (p/1000000).toFixed(2) + 'M';
-  return '€' + Math.round(p).toLocaleString('en-EU');
+  return '€' + Math.round(p).toLocaleString('en-GB');
 }
 
 function yieldColor(y) {
@@ -650,7 +650,7 @@ function render(listing, allListings) {
           ${listing.rooms    ? `<span class="prop-spec">🛏 ${listing.rooms} bed${listing.rooms > 1 ? 's' : ''}</span>` : ''}
           ${listing.bathrooms ? `<span class="prop-spec">🚿 ${listing.bathrooms} bath${listing.bathrooms > 1 ? 's' : ''}</span>` : ''}
           ${listing.size_m2  ? `<span class="prop-spec">📐 ${listing.size_m2}m²</span>` : ''}
-          ${listing.price_per_m2 ? `<span class="prop-spec">€${Math.round(listing.price_per_m2).toLocaleString()}/m²</span>` : ''}
+          ${listing.price_per_m2 ? `<span class="prop-spec">€${Math.round(listing.price_per_m2).toLocaleString('en-GB')}/m²</span>` : ''}
         </div>
 
         <div class="prop-metrics">
@@ -666,7 +666,7 @@ function render(listing, allListings) {
           </div>
           <div class="prop-metric">
             <div class="prop-metric-label">Est. Rent</div>
-            <div class="prop-metric-value">${listing.estimated_rent_eur ? '€' + Math.round(listing.estimated_rent_eur).toLocaleString() + '/mo' : '—'}</div>
+            <div class="prop-metric-value">${listing.estimated_rent_eur ? '€' + Math.round(listing.estimated_rent_eur).toLocaleString('en-GB') + '/mo' : '—'}</div>
             <div class="prop-metric-sub">Monthly estimate</div>
           </div>
           <div class="prop-metric">
@@ -676,8 +676,8 @@ function render(listing, allListings) {
           </div>
           <div class="prop-metric">
             <div class="prop-metric-label">Price per m²</div>
-            <div class="prop-metric-value" style="font-size:18px">${listing.price_per_m2 ? '€' + Math.round(listing.price_per_m2).toLocaleString() : '—'}</div>
-            <div class="prop-metric-sub">City median: €${listing.city_median_m2 ? Math.round(listing.city_median_m2).toLocaleString() : '—'}</div>
+            <div class="prop-metric-value" style="font-size:18px">${listing.price_per_m2 ? '€' + Math.round(listing.price_per_m2).toLocaleString('en-GB') : '—'}</div>
+            <div class="prop-metric-sub">City median: €${listing.city_median_m2 ? Math.round(listing.city_median_m2).toLocaleString('en-GB') : '—'}</div>
           </div>
           <div class="prop-metric">
             <div class="prop-metric-label">Opportunity Score</div>
@@ -699,7 +699,7 @@ function render(listing, allListings) {
           </div>
           <div class="prop-data-row">
             <span class="prop-data-key">Annual gross rent</span>
-            <span class="prop-data-val">${listing.estimated_rent_eur ? '€' + Math.round(listing.estimated_rent_eur * 12).toLocaleString() : '—'}</span>
+            <span class="prop-data-val">${listing.estimated_rent_eur ? '€' + Math.round(listing.estimated_rent_eur * 12).toLocaleString('en-GB') : '—'}</span>
           </div>
           <div class="prop-data-row">
             <span class="prop-data-key">Gross yield</span>

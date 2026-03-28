@@ -743,7 +743,7 @@ function renderStats() {
   const priceSet = filtered.filter(l => l.price_eur > 0 && l.price_eur <= 1500000)
                            .map(l => l.price_eur).sort((a,b) => a-b);
 
-  document.getElementById('statCount').textContent = filtered.length.toLocaleString();
+  document.getElementById('statCount').textContent = filtered.length.toLocaleString('en-GB');
 
   document.getElementById('statAvgYield').textContent =
     yieldSet.length
@@ -788,7 +788,7 @@ function renderActivePills() {
 function renderResults() {
   const slice = filtered.slice(0, (page+1)*PAGE_SIZE);
   const total = filtered.length;
-  document.getElementById('resultsCount').innerHTML = `Showing <strong>${Math.min(slice.length, total).toLocaleString()}</strong> of <strong>${total.toLocaleString()}</strong> properties`;
+  document.getElementById('resultsCount').innerHTML = `Showing <strong>${Math.min(slice.length, total).toLocaleString('en-GB')}</strong> of <strong>${total.toLocaleString('en-GB')}</strong> properties`;
 
   if (!total) {
     document.getElementById('resultsGrid').innerHTML = `
@@ -846,8 +846,8 @@ function buildCard(l) {
   const yieldStr  = l.gross_yield_pct ? l.gross_yield_pct.toFixed(1)+'%' : null;
   // For rent listings: price_eur IS the monthly rent; estimated_rent_eur is N/A
   const rentStr   = isRent
-    ? (l.price_eur ? `€${Math.round(l.price_eur).toLocaleString()}/mo` : '—')
-    : (l.estimated_rent_eur ? `€${Math.round(l.estimated_rent_eur).toLocaleString()}/mo` : '—');
+    ? (l.price_eur ? `€${Math.round(l.price_eur).toLocaleString('en-GB')}/mo` : '—')
+    : (l.estimated_rent_eur ? `€${Math.round(l.estimated_rent_eur).toLocaleString('en-GB')}/mo` : '—');
   const score     = l.opportunity_score || 0;
   // price_vs_median_pct: negative = below median (cheap/green), positive = above median (expensive/orange)
   const pvm = l.price_vs_median_pct;
@@ -874,7 +874,7 @@ function buildCard(l) {
     </div>
     <div class="card-body">
       <div>
-        <div class="card-price">${isRent ? (l.price_eur ? `€${Math.round(l.price_eur).toLocaleString()}<span style="font-size:14px;font-weight:500;color:var(--ink-3)">/mo</span>` : '—') : formatPrice(l.price_eur)}</div>
+        <div class="card-price">${isRent ? (l.price_eur ? `€${Math.round(l.price_eur).toLocaleString('en-GB')}<span style="font-size:14px;font-weight:500;color:var(--ink-3)">/mo</span>` : '—') : formatPrice(l.price_eur)}</div>
         <div class="card-address" style="margin-top:3px">${l.city_display}${l.neighborhood ? ', '+l.neighborhood : ''}</div>
       </div>
       <div class="card-specs">
@@ -1067,7 +1067,7 @@ function renderMap() {
     const isTop = (l.opportunity_score || 0) >= 70;
     const isRentPin = l.operation === 'rent';
     const priceStr = isRentPin
-      ? (l.price_eur ? `€${Math.round(l.price_eur).toLocaleString()}/mo` : '—')
+      ? (l.price_eur ? `€${Math.round(l.price_eur).toLocaleString('en-GB')}/mo` : '—')
       : formatPriceMap(l.price_eur);
     const yieldStr = l.gross_yield_pct ? l.gross_yield_pct.toFixed(1) + '%' : '—';
     const pinLabel = isRentPin

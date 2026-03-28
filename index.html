@@ -860,7 +860,7 @@ function populateCities() {
 function buildPropertyCard(l) {
   const yc = yieldClass(l.gross_yield_pct);
   const yieldStr = l.gross_yield_pct ? l.gross_yield_pct.toFixed(1)+'%' : '—';
-  const rentStr = l.estimated_rent_eur ? `€${Math.round(l.estimated_rent_eur).toLocaleString()}/mo` : '—';
+  const rentStr = l.estimated_rent_eur ? `€${Math.round(l.estimated_rent_eur).toLocaleString('en-GB')}/mo` : '—';
   const score = l.opportunity_score || 0;
   const scoreClass = score >= 70 ? 'yield-high' : score >= 55 ? 'yield-mid' : 'yield-low';
 
