@@ -306,13 +306,11 @@
       display: flex;
       gap: 6px;
       padding: 8px 12px;
-      background: rgba(0,0,0,0.55);
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      background: #111;
       overflow-x: auto;
       scrollbar-width: none;
+      width: 100%;
+      box-sizing: border-box;
     }
     .gallery-thumbs::-webkit-scrollbar { display: none; }
     .gallery-thumb {
@@ -898,42 +896,39 @@ function buildGallery(photos) {
 
   let current = 0;
 
-  function setPhoto(idx) {
+  function setPhotoWithCount(idx) {
     current = idx;
     heroImg.style.backgroundImage = `url('${photos[idx]}')`;
-    // Update thumb active state
+    countBadge.textContent = `${idx + 1} / ${photos.length}`;
     document.querySelectorAll('.gallery-thumb').forEach((t, i) => {
       t.classList.toggle('active', i === idx);
     });
   }
 
-  // Arrow buttons
+  // Arrow buttons — appended inside hero (within its bounds, overflow:hidden is fine)
   const prevBtn = document.createElement('button');
   prevBtn.className = 'gallery-arrow prev';
   prevBtn.innerHTML = '&#8249;';
   prevBtn.setAttribute('aria-label', 'Previous photo');
-  prevBtn.onclick = () => setPhoto((current - 1 + photos.length) % photos.length);
+  prevBtn.onclick = () => setPhotoWithCount((current - 1 + photos.length) % photos.length);
 
   const nextBtn = document.createElement('button');
   nextBtn.className = 'gallery-arrow next';
   nextBtn.innerHTML = '&#8250;';
   nextBtn.setAttribute('aria-label', 'Next photo');
-  nextBtn.onclick = () => setPhoto((current + 1) % photos.length);
+  nextBtn.onclick = () => setPhotoWithCount((current + 1) % photos.length);
 
-  // Photo count badge
+  // Photo count badge — inside hero
   const countBadge = document.createElement('div');
   countBadge.className = 'gallery-count';
   countBadge.textContent = `1 / ${photos.length}`;
-  // Update count on change
-  const origSet = setPhoto;
-  function setPhotoWithCount(idx) {
-    origSet(idx);
-    countBadge.textContent = `${idx + 1} / ${photos.length}`;
-  }
-  prevBtn.onclick = () => setPhotoWithCount((current - 1 + photos.length) % photos.length);
-  nextBtn.onclick = () => setPhotoWithCount((current + 1) % photos.length);
 
-  // Thumbnail strip
+  hero.appendChild(prevBtn);
+  hero.appendChild(nextBtn);
+  hero.appendChild(countBadge);
+
+  // Thumbnail strip — injected OUTSIDE the hero as a sibling
+  // (hero has overflow:hidden which would clip children that extend beyond its bounds)
   const thumbStrip = document.createElement('div');
   thumbStrip.className = 'gallery-thumbs';
   photos.forEach((url, i) => {
@@ -944,16 +939,8 @@ function buildGallery(photos) {
     thumbStrip.appendChild(thumb);
   });
 
-  hero.appendChild(prevBtn);
-  hero.appendChild(nextBtn);
-  hero.appendChild(countBadge);
-  hero.appendChild(thumbStrip);
-
-  // Adjust hero height to accommodate thumb strip
-  hero.style.paddingBottom = '64px';
-  hero.style.height = 'auto';
-  hero.style.minHeight = '340px';
-  heroImg.style.bottom = '64px'; // don't cover thumbs
+  // Insert thumbstrip immediately after the hero div
+  hero.insertAdjacentElement('afterend', thumbStrip);
 }
 
 function renderNotFound(slug) {
