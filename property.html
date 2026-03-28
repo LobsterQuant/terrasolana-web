@@ -394,6 +394,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta id="twitterImage" name="twitter:image" content="https://terrasolana.com/og-image.jpg">
+  <script type="application/ld+json" id="structuredData">{}</script>
 </head>
 <body>
 
@@ -844,6 +845,34 @@ function render(listing, allListings) {
   `;
 
   document.getElementById('propContent').innerHTML = html;
+
+  // ── Structured Data (RealEstateListing) ─────────────────
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    "name": titleStr,
+    "description": descStr,
+    "url": `https://terrasolana.com/property/${makeSlug(listing)}`,
+    "datePosted": new Date().toISOString().split('T')[0],
+    "price": listing.price_eur,
+    "priceCurrency": "EUR",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": cityDisplay,
+      "addressRegion": listing.neighborhood || cityDisplay,
+      "addressCountry": "ES"
+    }
+  };
+  if (listing.size_m2) {
+    schema.floorSize = { "@type": "QuantitativeValue", "value": listing.size_m2, "unitCode": "MTK" };
+  }
+  if (listing.rooms) schema.numberOfRooms = listing.rooms;
+  if (listing.photo_url) schema.image = listing.photo_url;
+  if (isRent) {
+    schema.leaseLength = { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" };
+  }
+  const sdEl = document.getElementById('structuredData');
+  if (sdEl) sdEl.textContent = JSON.stringify(schema);
 
   // ── Gallery ─────────────────────────────────────────────
   // Only attempt for pisos.com listings with a real photo URL
