@@ -776,6 +776,14 @@ footer {
 @media (max-width: 390px) {
   .card-metrics { grid-template-columns: 1fr 1fr; font-size: 12px; }
   .card-metric-value { font-size: 13px; }
+  .card-cta, .btn-agent {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  .card-footer { flex-wrap: wrap; gap: 8px; }
+  .card-footer .btn-ghost { width: 100%; justify-content: center; }
 }
 
 .nl-form { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 480px; }
