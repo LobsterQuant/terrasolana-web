@@ -767,7 +767,7 @@ function render(listing, allListings) {
             </div>
           </div>
           <div class="prop-cta-label">Free agent introduction</div>
-          <div class="prop-cta-heading">Speak with a<br>${cityDisplay} specialist</div>
+          <div class="prop-cta-heading">Speak with a<br>${/^[AEIOUaeiou]/.test(cityDisplay) ? 'n ' : ' '}${cityDisplay} specialist</div>
           <div class="prop-cta-body">We'll introduce you to a vetted, English-speaking buyer's agent who knows this market. No obligation, no fees.</div>
           <button class="btn-primary" onclick="openAgentModal('${listing.id}','${listing.city}',${listing.price_eur})">Get agent intro →</button>
           ${listing.url ? `<a href="${listing.url}" target="_blank" rel="noopener" class="btn-secondary">View on Idealista →</a>` : ''}
