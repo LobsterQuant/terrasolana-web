@@ -49,6 +49,48 @@
       .city-stats { grid-template-columns: 1fr; }
     }
   </style>
+
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://terrasolana.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Search",
+          "item": "https://terrasolana.com/search"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Valencia",
+          "item": "https://terrasolana.com/cities/valencia"
+        }
+      ]
+    },
+    {
+      "@type": "Place",
+      "name": "Valencia, Spain",
+      "description": "Valencia property investment guide. Up to 7.8% gross yield with strong rental demand from students and expats. Data-driven listings across Ruzafa, El Carmen, Benicalap and more.",
+      "url": "https://terrasolana.com/cities/valencia",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Valencia",
+        "addressCountry": "ES"
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 

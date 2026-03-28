@@ -875,8 +875,24 @@ function render(listing, allListings) {
   if (isRent) {
     schema.leaseLength = { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" };
   }
+  // BreadcrumbList
+  const citySlug = listing.city ? listing.city.toLowerCase().replace(/\s+/g,'-') : '';
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@graph": [
+      schema,
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Search", "item": "https://terrasolana.com/search"},
+          {"@type": "ListItem", "position": 2, "name": cityDisplay, "item": `https://terrasolana.com/cities/${citySlug}`},
+          {"@type": "ListItem", "position": 3, "name": listing.neighborhood || propType}
+        ]
+      }
+    ]
+  };
   const sdEl = document.getElementById('structuredData');
-  if (sdEl) sdEl.textContent = JSON.stringify(schema);
+  if (sdEl) sdEl.textContent = JSON.stringify(breadcrumb);
 
   // ── Gallery ─────────────────────────────────────────────
   // Only attempt for pisos.com listings with a real photo URL

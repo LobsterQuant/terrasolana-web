@@ -49,6 +49,48 @@
       .city-stats { grid-template-columns: 1fr; }
     }
   </style>
+
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://terrasolana.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Search",
+          "item": "https://terrasolana.com/search"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Zaragoza",
+          "item": "https://terrasolana.com/cities/zaragoza"
+        }
+      ]
+    },
+    {
+      "@type": "Place",
+      "name": "Zaragoza, Spain",
+      "description": "Zaragoza property investment guide. Up to 8.3% gross yield. Underrated Spanish city with low entry prices, solid rental yields, and improving infrastructure.",
+      "url": "https://terrasolana.com/cities/zaragoza",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Zaragoza",
+        "addressCountry": "ES"
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 

@@ -49,6 +49,48 @@
       .city-stats { grid-template-columns: 1fr; }
     }
   </style>
+
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://terrasolana.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Search",
+          "item": "https://terrasolana.com/search"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Palma de Mallorca",
+          "item": "https://terrasolana.com/cities/palma"
+        }
+      ]
+    },
+    {
+      "@type": "Place",
+      "name": "Palma de Mallorca, Spain",
+      "description": "Palma de Mallorca property investment guide. Up to 7.4% gross yield on the Balearic Islands. Premium location with high-season rental uplift.",
+      "url": "https://terrasolana.com/cities/palma",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Palma de Mallorca",
+        "addressCountry": "ES"
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 

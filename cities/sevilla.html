@@ -49,6 +49,48 @@
       .city-stats { grid-template-columns: 1fr; }
     }
   </style>
+
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://terrasolana.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Search",
+          "item": "https://terrasolana.com/search"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Sevilla",
+          "item": "https://terrasolana.com/cities/sevilla"
+        }
+      ]
+    },
+    {
+      "@type": "Place",
+      "name": "Sevilla, Spain",
+      "description": "Sevilla property investment guide. Up to 7.9% gross yield in Andalusia's capital. Strong short-term and long-term rental market driven by tourism and students.",
+      "url": "https://terrasolana.com/cities/sevilla",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Sevilla",
+        "addressCountry": "ES"
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 

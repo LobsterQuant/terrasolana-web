@@ -49,6 +49,48 @@
       .city-stats { grid-template-columns: 1fr; }
     }
   </style>
+
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://terrasolana.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Search",
+          "item": "https://terrasolana.com/search"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Madrid",
+          "item": "https://terrasolana.com/cities/madrid"
+        }
+      ]
+    },
+    {
+      "@type": "Place",
+      "name": "Madrid, Spain",
+      "description": "Madrid property investment guide. Up to 11.1% gross yield in districts like Carabanchel, Usera and Vallecas. Data-driven buy-to-let analysis for international buyers.",
+      "url": "https://terrasolana.com/cities/madrid",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Madrid",
+        "addressCountry": "ES"
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 

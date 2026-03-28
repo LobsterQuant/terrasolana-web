@@ -49,6 +49,48 @@
       .city-stats { grid-template-columns: 1fr; }
     }
   </style>
+
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://terrasolana.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Search",
+          "item": "https://terrasolana.com/search"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Granada",
+          "item": "https://terrasolana.com/cities/granada"
+        }
+      ]
+    },
+    {
+      "@type": "Place",
+      "name": "Granada, Spain",
+      "description": "Granada property investment guide. Up to 8.3% gross yield. Affordable Andalusian city with a large student population and growing international visitor numbers.",
+      "url": "https://terrasolana.com/cities/granada",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Granada",
+        "addressCountry": "ES"
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 

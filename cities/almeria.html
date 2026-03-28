@@ -49,6 +49,48 @@
       .city-stats { grid-template-columns: 1fr; }
     }
   </style>
+
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://terrasolana.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Search",
+          "item": "https://terrasolana.com/search"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Almería",
+          "item": "https://terrasolana.com/cities/almeria"
+        }
+      ]
+    },
+    {
+      "@type": "Place",
+      "name": "Almería, Spain",
+      "description": "Almería property investment guide. Up to 13.5% gross yield — one of the highest in Spain. Low prices, growing demand, and minimal competition from investors.",
+      "url": "https://terrasolana.com/cities/almeria",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Almería",
+        "addressCountry": "ES"
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 

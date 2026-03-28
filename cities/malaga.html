@@ -49,6 +49,48 @@
       .city-stats { grid-template-columns: 1fr; }
     }
   </style>
+
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://terrasolana.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Search",
+          "item": "https://terrasolana.com/search"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Málaga",
+          "item": "https://terrasolana.com/cities/malaga"
+        }
+      ]
+    },
+    {
+      "@type": "Place",
+      "name": "Málaga, Spain",
+      "description": "Málaga property investment guide. Up to 7.4% gross yield driven by tourism and digital nomad demand on the Costa del Sol.",
+      "url": "https://terrasolana.com/cities/malaga",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Málaga",
+        "addressCountry": "ES"
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 
