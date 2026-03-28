@@ -955,7 +955,7 @@ function buildPropertyCard(l) {
 
 function populateFeaturedPicks() {
   const picks = listings
-    .filter(l => l.gross_yield_pct >= 6)
+    .filter(l => l.gross_yield_pct >= 6 && (l.price_vs_median_pct == null || l.price_vs_median_pct > -80))
     .sort((a,b) => (b.opportunity_score||0) - (a.opportunity_score||0))
     .slice(0, 6);
 
