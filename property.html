@@ -301,6 +301,70 @@
       padding: 40px 24px;
     }
 
+    /* ── Gallery ───────────────────────────────────────── */
+    .gallery-thumbs {
+      display: flex;
+      gap: 6px;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.55);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .gallery-thumbs::-webkit-scrollbar { display: none; }
+    .gallery-thumb {
+      width: 68px;
+      height: 48px;
+      flex-shrink: 0;
+      border-radius: 4px;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 120ms, outline 120ms;
+      outline: 2px solid transparent;
+    }
+    .gallery-thumb.active {
+      opacity: 1;
+      outline: 2px solid var(--accent);
+    }
+    .gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 120ms;
+      z-index: 10;
+    }
+    .gallery-arrow:hover { background: rgba(0,0,0,0.7); }
+    .gallery-arrow.prev { left: 12px; }
+    .gallery-arrow.next { right: 12px; }
+    .gallery-count {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 20px;
+      padding: 3px 10px;
+      z-index: 10;
+    }
+
     /* ── Mobile ────────────────────────────────────────── */
     @media (max-width: 900px) {
       .prop-wrap { grid-template-columns: 1fr; gap: 0; padding: 0 16px 60px; width: 100%; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
@@ -559,8 +623,8 @@ function render(listing, allListings) {
   document.getElementById('canonical').setAttribute('href', `https://terrasolana.com/property/${makeSlug(listing)}`);
 
   const html = `
-    <div class="prop-hero">
-      <div class="prop-hero-img" style="background-image:url('${img}')"></div>
+    <div class="prop-hero" id="propHero">
+      <div class="prop-hero-img" id="heroImg" style="background-image:url('${img}')"></div>
       <div class="prop-hero-overlay"></div>
       <div class="prop-hero-badges">
         ${listing.gross_yield_pct ? `<span class="badge badge-yield">${listing.gross_yield_pct.toFixed(1)}% yield</span>` : ''}
@@ -714,6 +778,87 @@ function render(listing, allListings) {
   `;
 
   document.getElementById('propContent').innerHTML = html;
+
+  // ── Gallery ─────────────────────────────────────────────
+  // Only attempt for pisos.com listings with a real photo URL
+  if (listing.source === 'pisos.com' && listing.url && listing.photo_url && !listing.photo_url.includes('unsplash')) {
+    initGallery(listing.url, listing.photo_url);
+  }
+}
+
+function initGallery(listingUrl, heroPhotoUrl) {
+  fetch('/api/photos?url=' + encodeURIComponent(listingUrl))
+    .then(r => r.ok ? r.json() : { photos: [] })
+    .then(({ photos }) => {
+      if (!photos || photos.length < 2) return; // nothing to show for single photo
+      buildGallery(photos);
+    })
+    .catch(() => {});
+}
+
+function buildGallery(photos) {
+  const hero = document.getElementById('propHero');
+  const heroImg = document.getElementById('heroImg');
+  if (!hero || !heroImg) return;
+
+  let current = 0;
+
+  function setPhoto(idx) {
+    current = idx;
+    heroImg.style.backgroundImage = `url('${photos[idx]}')`;
+    // Update thumb active state
+    document.querySelectorAll('.gallery-thumb').forEach((t, i) => {
+      t.classList.toggle('active', i === idx);
+    });
+  }
+
+  // Arrow buttons
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'gallery-arrow prev';
+  prevBtn.innerHTML = '&#8249;';
+  prevBtn.setAttribute('aria-label', 'Previous photo');
+  prevBtn.onclick = () => setPhoto((current - 1 + photos.length) % photos.length);
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'gallery-arrow next';
+  nextBtn.innerHTML = '&#8250;';
+  nextBtn.setAttribute('aria-label', 'Next photo');
+  nextBtn.onclick = () => setPhoto((current + 1) % photos.length);
+
+  // Photo count badge
+  const countBadge = document.createElement('div');
+  countBadge.className = 'gallery-count';
+  countBadge.textContent = `1 / ${photos.length}`;
+  // Update count on change
+  const origSet = setPhoto;
+  function setPhotoWithCount(idx) {
+    origSet(idx);
+    countBadge.textContent = `${idx + 1} / ${photos.length}`;
+  }
+  prevBtn.onclick = () => setPhotoWithCount((current - 1 + photos.length) % photos.length);
+  nextBtn.onclick = () => setPhotoWithCount((current + 1) % photos.length);
+
+  // Thumbnail strip
+  const thumbStrip = document.createElement('div');
+  thumbStrip.className = 'gallery-thumbs';
+  photos.forEach((url, i) => {
+    const thumb = document.createElement('div');
+    thumb.className = 'gallery-thumb' + (i === 0 ? ' active' : '');
+    thumb.style.backgroundImage = `url('${url}')`;
+    thumb.onclick = () => setPhotoWithCount(i);
+    thumbStrip.appendChild(thumb);
+  });
+
+  hero.appendChild(prevBtn);
+  hero.appendChild(nextBtn);
+  hero.appendChild(countBadge);
+  hero.appendChild(thumbStrip);
+
+  // Adjust hero height to accommodate thumb strip
+  hero.style.paddingBottom = '64px';
+  hero.style.height = 'auto';
+  hero.style.minHeight = '340px';
+  heroImg.style.bottom = '64px'; // don't cover thumbs
 }
 
 function renderNotFound(slug) {
