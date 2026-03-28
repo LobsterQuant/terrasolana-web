@@ -635,7 +635,17 @@ function render(listing, allListings) {
     document.getElementById('ogImage').setAttribute('content', listing.photo_url);
     document.getElementById('twitterImage').setAttribute('content', listing.photo_url);
   }
-  document.getElementById('canonical').setAttribute('href', `https://terrasolana.com/property/${makeSlug(listing)}`);
+  const canonicalUrl = `https://terrasolana.com/property/${makeSlug(listing)}`;
+  document.getElementById('canonical').setAttribute('href', canonicalUrl);
+  // hreflang — inject dynamically (property pages are JS-rendered)
+  ['en', 'en-GB', 'en-US', 'x-default'].forEach(lang => {
+    const existing = document.querySelector(`link[hreflang="${lang}"]`);
+    const el = existing || document.createElement('link');
+    el.rel = 'alternate';
+    el.setAttribute('hreflang', lang);
+    el.setAttribute('href', canonicalUrl);
+    if (!existing) document.head.appendChild(el);
+  });
 
   const html = `
     <div class="prop-hero" id="propHero">
