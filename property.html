@@ -581,6 +581,7 @@ function makeSlug(listing) {
 }
 
 function render(listing, allListings) {
+  const isRent = listing.operation === 'rent';
   // Use real property photo if available, fall back to city photo
   const img = listing.photo_url || CITY_IMAGES[listing.city] || '';
   const score = listing.opportunity_score || 0;
@@ -597,9 +598,9 @@ function render(listing, allListings) {
   if (listing.has_terrace)  features.push('🌿 Terrace');
   if (listing.has_pool)     features.push('🏊 Pool');
 
-  // Similar: same city, different id, sorted by score, top 3
+  // Similar listings — for rent pages show similar rentals; for sale show sale
   const similar = allListings
-    .filter(l => l.city === listing.city && l.id !== listing.id && l.gross_yield_pct >= 3)
+    .filter(l => l.city === listing.city && l.id !== listing.id && l.operation === listing.operation && (isRent || l.gross_yield_pct >= 3))
     .sort((a, b) => (b.opportunity_score || 0) - (a.opportunity_score || 0))
     .slice(0, 3);
 
@@ -609,9 +610,18 @@ function render(listing, allListings) {
     ? listing.property_type.charAt(0).toUpperCase() + listing.property_type.slice(1)
     : 'Property';
 
+  // Rental-specific computed values
+  const rentPerM2 = (isRent && listing.price_eur && listing.size_m2)
+    ? (listing.price_eur / listing.size_m2).toFixed(1) : null;
+  const depositEst = (isRent && listing.price_eur)
+    ? '€' + Math.round(listing.price_eur * 2).toLocaleString('en-GB') : null;
+
   // Update meta
-  const titleStr = `${propType} in ${cityDisplay}${nbhd} — ${formatPrice(listing.price_eur)} — Terrasolana`;
-  const descStr = `${listing.rooms ? listing.rooms + '-bed ' : ''}${propType.toLowerCase()} in ${cityDisplay}${nbhd}. ${listing.gross_yield_pct ? listing.gross_yield_pct.toFixed(1) + '% gross yield. ' : ''}Opportunity Score: ${score}/100.`;
+  const priceLabel = isRent ? `€${Math.round(listing.price_eur).toLocaleString('en-GB')}/mo` : formatPrice(listing.price_eur);
+  const titleStr = `${propType} to ${isRent ? 'rent' : 'buy'} in ${cityDisplay}${nbhd} — ${priceLabel} — Terrasolana`;
+  const descStr = isRent
+    ? `${listing.rooms ? listing.rooms + '-bed ' : ''}${propType.toLowerCase()} for rent in ${cityDisplay}${nbhd}. €${Math.round(listing.price_eur).toLocaleString('en-GB')}/month.`
+    : `${listing.rooms ? listing.rooms + '-bed ' : ''}${propType.toLowerCase()} in ${cityDisplay}${nbhd}. ${listing.gross_yield_pct ? listing.gross_yield_pct.toFixed(1) + '% gross yield. ' : ''}Opportunity Score: ${score}/100.`;
   document.getElementById('pageTitle').textContent = titleStr;
   document.getElementById('metaDesc').setAttribute('content', descStr);
   document.getElementById('ogTitle').setAttribute('content', titleStr);
@@ -627,9 +637,9 @@ function render(listing, allListings) {
       <div class="prop-hero-img" id="heroImg" style="background-image:url('${img}')"></div>
       <div class="prop-hero-overlay"></div>
       <div class="prop-hero-badges">
-        ${listing.gross_yield_pct ? `<span class="badge badge-yield">${listing.gross_yield_pct.toFixed(1)}% yield</span>` : ''}
-        ${score >= 70 ? '<span class="badge badge-score">Top pick</span>' : ''}
-        ${listing.price_drops > 0 ? `<span class="badge badge-muted">↓ ${listing.price_drops} price drop${listing.price_drops > 1 ? 's' : ''}</span>` : ''}
+        ${isRent ? '<span class="badge badge-muted">For rent</span>' : (listing.gross_yield_pct ? `<span class="badge badge-yield">${listing.gross_yield_pct.toFixed(1)}% yield</span>` : '')}
+        ${!isRent && score >= 70 ? '<span class="badge badge-score">Top pick</span>' : ''}
+        ${!isRent && listing.price_drops > 0 ? `<span class="badge badge-muted">↓ ${listing.price_drops} price drop${listing.price_drops > 1 ? 's' : ''}</span>` : ''}
       </div>
     </div>
 
@@ -643,16 +653,36 @@ function render(listing, allListings) {
           <span>${listing.neighborhood || propType}</span>
         </div>
 
-        <div class="prop-price">${formatPrice(listing.price_eur)}</div>
-        <div class="prop-address">${propType} · ${cityDisplay}${nbhd}</div>
+        <div class="prop-price">${isRent ? `€${Math.round(listing.price_eur).toLocaleString('en-GB')}<span style="font-size:18px;font-weight:500;color:var(--ink-3)">/month</span>` : formatPrice(listing.price_eur)}</div>
+        <div class="prop-address">${propType} ${isRent ? 'to rent' : 'for sale'} · ${cityDisplay}${nbhd}</div>
 
         <div class="prop-specs">
           ${listing.rooms    ? `<span class="prop-spec">🛏 ${listing.rooms} bed${listing.rooms > 1 ? 's' : ''}</span>` : ''}
           ${listing.bathrooms ? `<span class="prop-spec">🚿 ${listing.bathrooms} bath${listing.bathrooms > 1 ? 's' : ''}</span>` : ''}
           ${listing.size_m2  ? `<span class="prop-spec">📐 ${listing.size_m2}m²</span>` : ''}
-          ${listing.price_per_m2 ? `<span class="prop-spec">€${Math.round(listing.price_per_m2).toLocaleString('en-GB')}/m²</span>` : ''}
+          ${!isRent && listing.price_per_m2 ? `<span class="prop-spec">€${Math.round(listing.price_per_m2).toLocaleString('en-GB')}/m²</span>` : ''}
+          ${isRent && rentPerM2 ? `<span class="prop-spec">€${rentPerM2}/m²/mo</span>` : ''}
         </div>
 
+        ${isRent ? `
+        <div class="prop-metrics">
+          <div class="prop-metric">
+            <div class="prop-metric-label">Monthly Rent</div>
+            <div class="prop-metric-value green">€${Math.round(listing.price_eur).toLocaleString('en-GB')}</div>
+            <div class="prop-metric-sub">Per month</div>
+          </div>
+          ${rentPerM2 ? `<div class="prop-metric">
+            <div class="prop-metric-label">Rent per m²</div>
+            <div class="prop-metric-value">€${rentPerM2}</div>
+            <div class="prop-metric-sub">Per month</div>
+          </div>` : ''}
+          ${depositEst ? `<div class="prop-metric">
+            <div class="prop-metric-label">Deposit (est.)</div>
+            <div class="prop-metric-value" style="font-size:18px">${depositEst}</div>
+            <div class="prop-metric-sub">Typically 2 months</div>
+          </div>` : ''}
+        </div>
+        ` : `
         <div class="prop-metrics">
           <div class="prop-metric">
             <div class="prop-metric-label">Gross Yield</div>
@@ -685,6 +715,7 @@ function render(listing, allListings) {
             <div class="prop-metric-sub">${score >= 70 ? 'Top pick' : score >= 55 ? 'Good opportunity' : 'Average'}</div>
           </div>
         </div>
+        `}
 
         ${features.length ? `
         <div class="prop-features">
@@ -692,6 +723,31 @@ function render(listing, allListings) {
         </div>` : ''}
 
         <div class="prop-data-table">
+          ${isRent ? `
+          <h3>Rental details</h3>
+          <div class="prop-data-row">
+            <span class="prop-data-key">Monthly rent</span>
+            <span class="prop-data-val">€${Math.round(listing.price_eur).toLocaleString('en-GB')}/mo</span>
+          </div>
+          ${rentPerM2 ? `<div class="prop-data-row">
+            <span class="prop-data-key">Rent per m²</span>
+            <span class="prop-data-val">€${rentPerM2}/m²/mo</span>
+          </div>` : ''}
+          ${depositEst ? `<div class="prop-data-row">
+            <span class="prop-data-key">Deposit (estimated)</span>
+            <span class="prop-data-val">${depositEst} (2 months typical)</span>
+          </div>` : ''}
+          <div class="prop-data-row">
+            <span class="prop-data-key">Bills included</span>
+            <span class="prop-data-val">Check listing — not confirmed</span>
+          </div>
+          <div class="prop-data-row">
+            <span class="prop-data-key">Listing source</span>
+            <span class="prop-data-val" style="font-family:var(--font-sans)">
+              ${listing.url ? `<a href="${listing.url}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;font-size:13px">View on ${listing.source === 'pisos.com' ? 'Pisos.com' : 'Idealista'} →</a>` : (listing.source || 'Idealista')}
+            </span>
+          </div>
+          ` : `
           <h3>Investment data</h3>
           <div class="prop-data-row">
             <span class="prop-data-key">Purchase price</span>
@@ -728,17 +784,17 @@ function render(listing, allListings) {
               ${listing.url ? `<a href="${listing.url}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;font-size:13px">View on ${listing.source === 'pisos.com' ? 'Pisos.com' : 'Idealista'} →</a>` : (listing.source || 'Idealista')}
             </span>
           </div>
+          `}
         </div>
 
         <p style="font-size:12px;color:var(--ink-4);line-height:1.6;margin-bottom:40px">
-          Yield calculations and market comparisons are estimates based on city-level rental benchmarks. 
-          Always verify with a local agent and solicitor before purchasing. 
+          ${isRent ? 'Deposit estimates and bills-included status are not confirmed — always verify directly with the landlord or agent.' : 'Yield calculations and market comparisons are estimates based on city-level rental benchmarks. Always verify with a local agent and solicitor before purchasing.'}
           <a href="/methodology.html" style="color:var(--accent)">How we calculate →</a>
         </p>
 
         ${similar.length ? `
         <div class="similar-section">
-          <h2>Similar properties in ${cityDisplay}</h2>
+          <h2>Similar ${isRent ? 'rentals' : 'properties'} in ${cityDisplay}</h2>
           <div class="similar-grid">
             ${similar.map(s => `
             <a href="/property/${makeSlug(s)}" class="similar-card">
@@ -746,7 +802,7 @@ function render(listing, allListings) {
                 <div style="height:100%;background:linear-gradient(to bottom,rgba(0,0,0,0.05),rgba(0,0,0,0.4))"></div>
               </div>
               <div class="similar-body">
-                <div class="similar-price">${formatPrice(s.price_eur)}</div>
+                <div class="similar-price">${s.operation === 'rent' ? `€${Math.round(s.price_eur).toLocaleString('en-GB')}/mo` : formatPrice(s.price_eur)}</div>
                 <div class="similar-addr">${s.neighborhood || cityDisplay}${s.rooms ? ` · ${s.rooms} bed` : ''}${s.size_m2 ? ` · ${s.size_m2}m²` : ''}</div>
                 <div class="similar-yield">${s.gross_yield_pct ? s.gross_yield_pct.toFixed(1) + '% yield' : ''}</div>
               </div>
@@ -757,6 +813,15 @@ function render(listing, allListings) {
 
       <div class="prop-sidebar">
         <div class="prop-cta-card">
+          ${isRent ? `
+          <div style="text-align:center;margin-bottom:20px;font-size:40px">🏠</div>
+          <div class="prop-cta-label">Find your next rental</div>
+          <div class="prop-cta-heading">Browse similar<br>rentals in ${cityDisplay}</div>
+          <div class="prop-cta-body">Looking for more options? See all available rentals in ${cityDisplay} with photos, size, and monthly rent.</div>
+          <a href="/search.html?city=${listing.city}&operation=rent" class="btn-primary">Find similar rentals →</a>
+          ${listing.url ? `<a href="${listing.url}" target="_blank" rel="noopener" class="btn-secondary">View on ${listing.source === 'pisos.com' ? 'Pisos.com' : 'Idealista'} →</a>` : ''}
+          <div class="prop-cta-trust">✓ Free · Updated daily · No account needed</div>
+          ` : `
           <div style="text-align:center;margin-bottom:20px">
             <div class="score-ring ${sc}">
               <div class="score-ring-num">${score}</div>
@@ -772,6 +837,7 @@ function render(listing, allListings) {
           <button class="btn-primary" onclick="openAgentModal('${listing.id}','${listing.city}',${listing.price_eur})">Get agent intro →</button>
           ${listing.url ? `<a href="${listing.url}" target="_blank" rel="noopener" class="btn-secondary">View on ${listing.source === 'pisos.com' ? 'Pisos.com' : 'Idealista'} →</a>` : ''}
           <div class="prop-cta-trust">✓ Free · No obligation · Response within 24h</div>
+          `}
         </div>
       </div>
     </div>
